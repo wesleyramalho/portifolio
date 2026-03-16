@@ -1,0 +1,9 @@
+export const SIMULATION_RESOLUTION = 128
+export const DYE_RESOLUTION = 512
+export const DENSITY_DISSIPATION = 0.93
+export const VELOCITY_DISSIPATION = 0.9
+export const PRESSURE_DISSIPATION = 0.8
+export const CURL_STRENGTH = 20
+export const SPLAT_RADIUS = 0.3
+export const PRESSURE_ITERATIONS = 3
+export const MOBILE_BREAKPOINT = 768
