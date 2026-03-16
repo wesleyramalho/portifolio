@@ -7,6 +7,8 @@ export default function VideoBackground() {
       muted
       loop
       playsInline
+      aria-hidden="true"
+      title="Decorative background video"
       className="absolute inset-0 w-full h-full object-cover"
     >
       <source src="/video.webm" type="video/webm" />

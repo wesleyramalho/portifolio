@@ -2,9 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { useSectionContext } from '@/contexts/SectionContext'
 
 const experiences = [
   {
@@ -29,54 +27,76 @@ const experiences = [
 
 export default function Experiences() {
   const sectionRef = useRef<HTMLElement>(null)
+  const { isActive } = useSectionContext()
+  const hasAnimated = useRef(false)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.experience-item', {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        stagger: 0.15,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-        },
-      })
-    }, sectionRef)
+    if (!isActive || hasAnimated.current) return
+    hasAnimated.current = true
 
-    return () => ctx.revert()
-  }, [])
+    gsap.from('.experience-item', {
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out',
+      stagger: 0.15,
+      delay: 0.2,
+    })
+  }, [isActive])
 
   return (
     <section
       id="experiences"
       ref={sectionRef}
-      className="bg-background py-24 px-8 md:px-16"
+      className="h-svh flex items-center bg-background px-8 md:px-16 overflow-y-auto"
+      role="region"
+      aria-label="Experiences"
+      aria-roledescription="slide"
     >
-      <div className="max-w-5xl mx-auto">
-        <h2 className="font-sans font-bold text-lg md:text-xl text-white/40 uppercase tracking-widest mb-12">
+      <div className="max-w-5xl mx-auto w-full py-16">
+        <h2
+          className="font-sans font-bold text-white/40 uppercase tracking-widest mb-12"
+          style={{ fontSize: 'var(--text-label)' }}
+        >
           Experiences
         </h2>
 
-        <div className="flex flex-col divide-y divide-white/10">
+        <div className="flex flex-col divide-y divide-white/10" role="list">
           {experiences.map((exp, i) => (
-            <div key={i} className="experience-item py-8 flex flex-col md:flex-row md:items-start gap-4 md:gap-12">
+            <article
+              key={i}
+              className="experience-item py-8 flex flex-col md:flex-row md:items-start gap-4 md:gap-12"
+              role="listitem"
+            >
               <div className="md:w-48 shrink-0">
-                <p className="font-mono text-xs text-white/40 tracking-widest uppercase">
+                <p
+                  className="font-mono text-white/40 tracking-widest uppercase"
+                  style={{ fontSize: 'var(--text-label)' }}
+                >
                   {exp.period}
                 </p>
               </div>
               <div className="flex-1">
-                <h3 className="font-sans font-semibold text-white text-lg mb-1">
+                <h3
+                  className="font-sans font-semibold text-white mb-1"
+                  style={{ fontSize: 'var(--text-body)' }}
+                >
                   {exp.company}
                 </h3>
-                <p className="font-mono text-xs tracking-widest uppercase text-white/50 mb-3">
+                <p
+                  className="font-mono tracking-widest uppercase text-white/50 mb-3"
+                  style={{ fontSize: 'var(--text-label)' }}
+                >
                   {exp.role}
                 </p>
-                <p className="text-white/50 text-sm leading-relaxed">{exp.description}</p>
+                <p
+                  className="text-white/50 leading-relaxed"
+                  style={{ fontSize: 'var(--text-body)' }}
+                >
+                  {exp.description}
+                </p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
