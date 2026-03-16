@@ -47,13 +47,13 @@ export default function Education() {
     >
       <div className="max-w-5xl mx-auto w-full py-16">
         <h2
-          className="font-sans font-bold text-white/40 uppercase tracking-widest mb-12"
-          style={{ fontSize: 'var(--text-label)' }}
+          className="font-sans font-bold uppercase tracking-widest mb-12"
+          style={{ fontSize: 'var(--text-label)', color: '#A1A1AA' }}
         >
           Education
         </h2>
 
-        <div className="flex flex-col divide-y divide-white/10" role="list">
+        <div className="flex flex-col divide-y" style={{ borderColor: '#27272A' }} role="list">
           {education.map((edu, i) => (
             <article
               key={i}
@@ -62,22 +62,22 @@ export default function Education() {
             >
               <div className="md:w-48 shrink-0">
                 <p
-                  className="font-mono text-white/40 tracking-widest uppercase"
-                  style={{ fontSize: 'var(--text-label)' }}
+                  className="font-mono tracking-widest uppercase"
+                  style={{ fontSize: 'var(--text-label)', color: '#71717A' }}
                 >
                   {edu.period}
                 </p>
               </div>
               <div className="flex-1">
                 <h3
-                  className="font-sans font-semibold text-white mb-1"
-                  style={{ fontSize: 'var(--text-body)' }}
+                  className="font-sans font-semibold mb-1"
+                  style={{ fontSize: 'var(--text-body)', color: '#F4F4F5' }}
                 >
                   {edu.institution}
                 </h3>
                 <p
-                  className="font-mono tracking-widest uppercase text-white/50"
-                  style={{ fontSize: 'var(--text-label)' }}
+                  className="font-mono tracking-widest uppercase"
+                  style={{ fontSize: 'var(--text-label)', color: '#A1A1AA' }}
                 >
                   {edu.degree}
                 </p>

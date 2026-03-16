@@ -1,23 +1,26 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FluidSimulationOGL } from './FluidSimulationOGL'
+import { FluidContext } from '@/contexts/FluidContext'
 import { MOBILE_BREAKPOINT } from '@/lib/constants'
 
 export default function FluidCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [sim, setSim] = useState<FluidSimulationOGL | null>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     if (window.innerWidth < MOBILE_BREAKPOINT) return
 
-    const sim = new FluidSimulationOGL(canvas)
-    sim.resize(window.innerWidth, window.innerHeight)
+    const simInstance = new FluidSimulationOGL(canvas)
+    simInstance.resize(window.innerWidth, window.innerHeight)
+    setSim(simInstance)
 
     let rafId: number
     const loop = () => {
-      sim.update()
+      simInstance.update()
       rafId = requestAnimationFrame(loop)
     }
     rafId = requestAnimationFrame(loop)
@@ -55,21 +58,21 @@ export default function FluidCanvas() {
       const x = clientX / window.innerWidth
       const y = 1 - clientY / window.innerHeight
 
-      // Multiply here — identical to original Canvas.js updateMouse
-      sim.addSplat(x, y, dx * 5, dy * -5)
+      simInstance.addSplat(x, y, dx * 5, dy * -5)
     }
 
     window.addEventListener('mousemove', onMove)
     window.addEventListener('touchmove', onMove, { passive: true })
 
     const onResize = () => {
-      sim.resize(window.innerWidth, window.innerHeight)
+      simInstance.resize(window.innerWidth, window.innerHeight)
     }
     window.addEventListener('resize', onResize)
 
     return () => {
+      setSim(null)
       cancelAnimationFrame(rafId)
-      sim.destroy()
+      simInstance.destroy()
       window.removeEventListener('mousemove', onMove)
       window.removeEventListener('touchmove', onMove)
       window.removeEventListener('resize', onResize)
@@ -77,17 +80,19 @@ export default function FluidCanvas() {
   }, [])
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: 50,
-        mixBlendMode: 'screen',
-      }}
-    />
+    <FluidContext.Provider value={sim}>
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 50,
+          mixBlendMode: 'screen',
+        }}
+      />
+    </FluidContext.Provider>
   )
 }

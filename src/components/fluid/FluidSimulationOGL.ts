@@ -1,6 +1,8 @@
-import { Color, Geometry, Mesh, OGLRenderingContext, Program, RenderTarget, Renderer, Vec2 } from 'ogl'
+import { Color, Geometry, Mesh, OGLRenderingContext, Program, RenderTarget, Renderer, Texture, Vec2 } from 'ogl'
 
 import baseVertex from './shaders/base.vert.glsl'
+import sceneVert from './shaders/scene.vert.glsl'
+import sceneFrag from './shaders/scene.frag.glsl'
 import splatFrag from './shaders/splat.frag.glsl'
 import advectionFrag from './shaders/advection.frag.glsl'
 import advectionManualFrag from './shaders/advection-manual.frag.glsl'
@@ -10,7 +12,7 @@ import divergenceFrag from './shaders/divergence.frag.glsl'
 import pressureFrag from './shaders/pressure.frag.glsl'
 import gradientSubtractFrag from './shaders/gradient-subtract.frag.glsl'
 import clearFrag from './shaders/clear.frag.glsl'
-import displayFrag from './shaders/display.frag.glsl'
+import postFrag from './shaders/post.frag.glsl'
 
 import {
   SIMULATION_RESOLUTION,
@@ -89,14 +91,16 @@ function createDoubleFBO(gl: OGLRenderingContext, options: Partial<ConstructorPa
 
 export class FluidSimulationOGL {
   private renderer: Renderer
-  private gl: OGLRenderingContext
+  public gl: OGLRenderingContext
   private triangle: Geometry
+  private sceneQuad: Geometry
 
   private density!: DoubleFBO
   private velocity!: DoubleFBO
   private pressure!: DoubleFBO
   private divergence!: RenderTarget
   private curl!: RenderTarget
+  private sceneFBO!: RenderTarget
 
   private clearProgram!: Mesh
   private splatProgram!: Mesh
@@ -106,10 +110,13 @@ export class FluidSimulationOGL {
   private vorticityProgram!: Mesh
   private pressureProgram!: Mesh
   private gradientSubtractProgram!: Mesh
-  private displayProgram!: Mesh
+  private postProgram!: Mesh
 
+  private sceneItems = new Map<string, Mesh>()
   private splats: Splat[] = []
   private lastTime = Date.now()
+  private width = 1
+  private height = 1
 
   constructor(canvas: HTMLCanvasElement) {
     this.renderer = new Renderer({ canvas, alpha: true, dpr: 1 })
@@ -119,6 +126,13 @@ export class FluidSimulationOGL {
     this.triangle = new Geometry(this.gl, {
       position: { size: 2, data: new Float32Array([-1, -1, 3, -1, -1, 3]) },
       uv: { size: 2, data: new Float32Array([0, 0, 2, 0, 0, 2]) },
+    })
+
+    // Quad geometry for scene items — Y-flipped UVs (canvas Y=0 is top)
+    this.sceneQuad = new Geometry(this.gl, {
+      position: { size: 2, data: new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]) },
+      uv: { size: 2, data: new Float32Array([0, 1, 1, 1, 0, 0, 1, 0]) },
+      index: { data: new Uint16Array([0, 1, 2, 1, 3, 2]) },
     })
 
     this._initFBOs()
@@ -202,6 +216,13 @@ export class FluidSimulationOGL {
       minFilter: gl.NEAREST,
       depth: false,
     })
+
+    // Scene FBO — RGBA8, canvas resolution, rebuilt on resize
+    this.sceneFBO = new RenderTarget(gl, {
+      width: this.width,
+      height: this.height,
+      depth: false,
+    })
   }
 
   private _mesh(frag: string, uniforms: Record<string, { value: unknown }>): Mesh {
@@ -282,7 +303,8 @@ export class FluidSimulationOGL {
       uVelocity: { value: null },
     })
 
-    this.displayProgram = this._mesh(displayFrag, {
+    this.postProgram = this._mesh(postFrag, {
+      tMap: { value: null },
       tFluid: { value: null },
       texelSize: { value: dyeTexel },
     })
@@ -306,6 +328,52 @@ export class FluidSimulationOGL {
     this._render(this.splatProgram, this.density.write)
     this.density.swap()
   }
+
+  // ─── Scene item registry ────────────────────────────────────────────────────
+
+  private _domRectToNDC(rect: DOMRect): Float32Array {
+    const x = (rect.left / this.width) * 2 - 1
+    const y = 1 - (rect.bottom / this.height) * 2
+    const w = (rect.width / this.width) * 2
+    const h = (rect.height / this.height) * 2
+    return new Float32Array([x, y, w, h])
+  }
+
+  registerSceneItem(id: string, texture: Texture, rect: DOMRect) {
+    const uRect = this._domRectToNDC(rect)
+    const mesh = new Mesh(this.gl, {
+      geometry: this.sceneQuad,
+      program: new Program(this.gl, {
+        vertex: sceneVert,
+        fragment: sceneFrag,
+        uniforms: {
+          tMap: { value: texture },
+          uRect: { value: uRect },
+        },
+        depthTest: false,
+        depthWrite: false,
+        transparent: true,
+      }),
+    })
+    this.sceneItems.set(id, mesh)
+  }
+
+  unregisterSceneItem(id: string) {
+    this.sceneItems.delete(id)
+  }
+
+  clearSceneItems() {
+    this.sceneItems.clear()
+  }
+
+  updateSceneItemRect(id: string, rect: DOMRect) {
+    const mesh = this.sceneItems.get(id)
+    if (!mesh) return
+    const uRect = this._domRectToNDC(rect)
+    mesh.program.uniforms.uRect.value = uRect
+  }
+
+  // ─── Public API ─────────────────────────────────────────────────────────────
 
   addSplat(x: number, y: number, dx: number, dy: number) {
     this.splats.push({ x, y, dx, dy })
@@ -375,18 +443,43 @@ export class FluidSimulationOGL {
     this._render(this.advectionProgram, this.density.write)
     this.density.swap()
 
-    // Display to canvas
-    this.renderer.autoClear = true
+    // ── Scene pass: render registered items into sceneFBO ──────────────────
     const gl = this.gl
+
+    // Clear sceneFBO to transparent black
+    const sceneBuf = (this.sceneFBO as unknown as { buffer: WebGLFramebuffer | null }).buffer
+    if (sceneBuf !== undefined) {
+      gl.bindFramebuffer(gl.FRAMEBUFFER, sceneBuf)
+      gl.clearColor(0, 0, 0, 0)
+      gl.clear(gl.COLOR_BUFFER_BIT)
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null)
+    }
+
+    if (this.sceneItems.size > 0) {
+      gl.enable(gl.BLEND)
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
+      this.sceneItems.forEach(mesh => {
+        this._render(mesh, this.sceneFBO)
+      })
+      gl.disable(gl.BLEND)
+    }
+
+    // ── Post pass: displace sceneFBO + fluid trails → screen ──────────────
+    this.renderer.autoClear = true
     gl.enable(gl.BLEND)
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
-    this.displayProgram.program.uniforms.tFluid.value = this.density.read.texture
-    this.renderer.render({ scene: this.displayProgram, sort: false, update: false })
+    this.postProgram.program.uniforms.tMap.value = this.sceneFBO.texture
+    this.postProgram.program.uniforms.tFluid.value = this.density.read.texture
+    this.renderer.render({ scene: this.postProgram, sort: false, update: false })
     gl.disable(gl.BLEND)
   }
 
   resize(width: number, height: number) {
+    this.width = width
+    this.height = height
     this.renderer.setSize(width, height)
+    // Recreate sceneFBO at new dimensions
+    this.sceneFBO = new RenderTarget(this.gl, { width, height, depth: false })
   }
 
   destroy() {

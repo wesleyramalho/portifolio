@@ -11,7 +11,6 @@ export default function About() {
   const { isActive } = useSectionContext()
   const hasAnimated = useRef(false)
 
-  // Set hidden initial state on mount (before first render)
   useEffect(() => {
     if (imgRef.current) {
       gsap.set(imgRef.current, { clipPath: 'inset(100% 0% 0% 0%)' })
@@ -22,7 +21,6 @@ export default function About() {
     if (!isActive || hasAnimated.current) return
     hasAnimated.current = true
 
-    // Draw-path reveal: wipe avatar from top downwards (no revert — keep final state)
     gsap.to(imgRef.current, {
       clipPath: 'inset(0% 0% 0% 0%)',
       duration: 1.2,
@@ -55,8 +53,8 @@ export default function About() {
             <Image
               src="/pixel-me.svg"
               alt="Pixel art portrait of Wesley Ramalho"
-              width={280}
-              height={280}
+              width={400}
+              height={400}
               className="grayscale opacity-90"
             />
           </div>
@@ -65,8 +63,8 @@ export default function About() {
         {/* Text content */}
         <div className="about-content flex flex-col gap-5">
           <h2
-            className="font-sans font-bold text-foreground"
-            style={{ fontSize: 'var(--text-heading)' }}
+            className="font-sans font-bold"
+            style={{ fontSize: 'var(--text-heading)', color: '#F4F4F5' }}
           >
             Senior Software Engineer
           </h2>
@@ -74,23 +72,23 @@ export default function About() {
           <div className="flex flex-wrap gap-3" role="list" aria-label="Specialisations">
             <span
               role="listitem"
-              className="font-mono tracking-widest uppercase border border-white/20 px-3 py-1 text-white/60"
-              style={{ fontSize: 'var(--text-label)' }}
+              className="font-mono tracking-widest uppercase px-3 py-1 border"
+              style={{ fontSize: 'var(--text-label)', color: '#A1A1AA', borderColor: '#27272A' }}
             >
               AI Specialist
             </span>
             <span
               role="listitem"
-              className="font-mono tracking-widest uppercase border border-white/20 px-3 py-1 text-white/60"
-              style={{ fontSize: 'var(--text-label)' }}
+              className="font-mono tracking-widest uppercase px-3 py-1 border"
+              style={{ fontSize: 'var(--text-label)', color: '#A1A1AA', borderColor: '#27272A' }}
             >
               Frontend
             </span>
           </div>
 
           <p
-            className="text-white/60 leading-relaxed font-sans"
-            style={{ fontSize: 'var(--text-body)' }}
+            className="leading-relaxed font-sans"
+            style={{ fontSize: 'var(--text-body)', color: '#9CA3AF' }}
           >
             I&apos;m a software engineer focused on front-end technologies and web
             applications (single-page applications with JS, HTML and CSS). I have

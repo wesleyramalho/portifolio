@@ -4,6 +4,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { SectionContext } from '@/contexts/SectionContext'
 import CircleProgress from '@/components/ui/CircleProgress'
+import Nav from '@/components/ui/Nav'
+import PersistentHeader from '@/components/ui/PersistentHeader'
 
 const ROUTES = ['/', '/about', '/experiences', '/education']
 
@@ -23,7 +25,6 @@ export default function SectionsContainer({ children }: SectionsContainerProps) 
     if (index > 0) {
       currentRef.current = index
       setCurrent(index)
-      // Panels may not be mounted yet — set styles once they are
       requestAnimationFrame(() => {
         panelsRef.current.forEach((p, i) => {
           if (!p) return
@@ -36,34 +37,34 @@ export default function SectionsContainer({ children }: SectionsContainerProps) 
   }, [])
 
   const gotoSection = useCallback((index: number) => {
-    if (animating.current || index < 0 || index >= ROUTES.length) return
-    const prev = currentRef.current
-    if (index === prev) return
+    // Clamp to valid range
+    const target = ((index % ROUTES.length) + ROUTES.length) % ROUTES.length
+    if (animating.current || target === currentRef.current) return
 
     animating.current = true
-    const direction = index > prev ? 1 : -1
+    const prev = currentRef.current
+    const direction = target > prev ? 1 : -1
     const panels = panelsRef.current
 
-    // Bring incoming panel above outgoing
-    panels[index].style.zIndex = '2'
+    panels[target].style.zIndex = '2'
     panels[prev].style.zIndex = '1'
 
-    gsap.set(panels[index], { opacity: 0, y: direction * 60 })
+    gsap.set(panels[target], { opacity: 0, y: direction * 60 })
 
     const tl = gsap.timeline({
       onComplete: () => {
         panels[prev].style.zIndex = '0'
-        panels[index].style.zIndex = '1'
+        panels[target].style.zIndex = '1'
         animating.current = false
       },
     })
 
     tl.to(panels[prev], { opacity: 0, y: direction * -40, duration: 0.5, ease: 'power2.inOut' }, 0)
-    tl.to(panels[index], { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.1)
+    tl.to(panels[target], { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.1)
 
-    window.history.replaceState(null, '', ROUTES[index])
-    currentRef.current = index
-    setCurrent(index)
+    window.history.replaceState(null, '', ROUTES[target])
+    currentRef.current = target
+    setCurrent(target)
   }, [])
 
   // Expose for Nav buttons
@@ -74,8 +75,8 @@ export default function SectionsContainer({ children }: SectionsContainerProps) 
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
-      if (e.deltaY > 10) gotoSection(currentRef.current + 1)
-      else if (e.deltaY < -10) gotoSection(currentRef.current - 1)
+      if (e.deltaY > 10) gotoSection((currentRef.current + 1) % ROUTES.length)
+      else if (e.deltaY < -10) gotoSection((currentRef.current - 1 + ROUTES.length) % ROUTES.length)
     }
 
     let touchStartY = 0
@@ -84,13 +85,15 @@ export default function SectionsContainer({ children }: SectionsContainerProps) 
     }
     const onTouchEnd = (e: TouchEvent) => {
       const delta = touchStartY - e.changedTouches[0].clientY
-      if (delta > 30) gotoSection(currentRef.current + 1)
-      else if (delta < -30) gotoSection(currentRef.current - 1)
+      if (delta > 30) gotoSection((currentRef.current + 1) % ROUTES.length)
+      else if (delta < -30) gotoSection((currentRef.current - 1 + ROUTES.length) % ROUTES.length)
     }
 
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowDown' || e.key === 'PageDown') gotoSection(currentRef.current + 1)
-      if (e.key === 'ArrowUp' || e.key === 'PageUp') gotoSection(currentRef.current - 1)
+      if (e.key === 'ArrowDown' || e.key === 'PageDown')
+        gotoSection((currentRef.current + 1) % ROUTES.length)
+      if (e.key === 'ArrowUp' || e.key === 'PageUp')
+        gotoSection((currentRef.current - 1 + ROUTES.length) % ROUTES.length)
     }
 
     window.addEventListener('wheel', onWheel, { passive: false })
@@ -127,6 +130,8 @@ export default function SectionsContainer({ children }: SectionsContainerProps) 
           </div>
         </SectionContext.Provider>
       ))}
+      <Nav current={current} gotoSection={gotoSection} />
+      <PersistentHeader current={current} />
       <CircleProgress current={current} total={ROUTES.length} />
     </div>
   )
