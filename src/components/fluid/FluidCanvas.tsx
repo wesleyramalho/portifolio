@@ -14,9 +14,15 @@ export default function FluidCanvas() {
     if (!canvas) return
     if (window.innerWidth < MOBILE_BREAKPOINT) return
 
-    const simInstance = new FluidSimulationOGL(canvas)
-    simInstance.resize(window.innerWidth, window.innerHeight)
-    setSim(simInstance)
+    let simInstance: FluidSimulationOGL
+    try {
+      simInstance = new FluidSimulationOGL(canvas)
+      simInstance.resize(window.innerWidth, window.innerHeight)
+      setSim(simInstance)
+    } catch {
+      // WebGL unavailable — skip fluid simulation gracefully
+      return
+    }
 
     let rafId: number
     const loop = () => {
