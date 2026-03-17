@@ -4,12 +4,20 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import Image from 'next/image'
 import { useSectionContext } from '@/contexts/SectionContext'
+import GlassCard from '@/components/ui/GlassCard'
+
+const CAREER_START = new Date(2017, 2, 1) // March 2017
+
+function getYearsOfExperience() {
+  return Math.floor((Date.now() - CAREER_START.getTime()) / (1000 * 60 * 60 * 24 * 365.25))
+}
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null)
   const imgRef = useRef<HTMLDivElement>(null)
   const { isActive } = useSectionContext()
   const hasAnimated = useRef(false)
+  const yearsOfExperience = getYearsOfExperience()
 
   useEffect(() => {
     if (imgRef.current) {
@@ -41,12 +49,12 @@ export default function About() {
   return (
     <section
       ref={sectionRef}
-      className="h-svh flex items-center bg-background px-8 md:px-16"
+      className="h-svh overflow-y-auto bg-background px-8 md:px-16 md:flex md:items-center"
       role="region"
       aria-label="About"
       aria-roledescription="slide"
     >
-      <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center pt-20 pb-28 md:pt-0 md:pb-0">
         {/* Avatar — clip-path reveal */}
         <div className="flex justify-center md:justify-start">
           <div ref={imgRef}>
@@ -55,12 +63,13 @@ export default function About() {
               alt="Pixel art portrait of Wesley Ramalho"
               width={400}
               height={400}
-              className="grayscale opacity-90"
+              className="grayscale opacity-90 w-48 h-48 md:w-[400px] md:h-[400px]"
             />
           </div>
         </div>
 
         {/* Text content */}
+        <GlassCard className="p-6">
         <div className="about-content flex flex-col gap-5">
           <h2
             className="font-sans font-bold"
@@ -68,6 +77,13 @@ export default function About() {
           >
             Senior Software Engineer
           </h2>
+
+          <p
+            className="font-mono tracking-widest uppercase flex items-center gap-2"
+            style={{ fontSize: 'var(--text-label)', color: '#71717A' }}
+          >
+            <span>📍</span> São Paulo, BR
+          </p>
 
           <div className="flex flex-wrap gap-3" role="list" aria-label="Specialisations">
             <span
@@ -92,13 +108,14 @@ export default function About() {
           >
             I&apos;m a software engineer focused on front-end technologies and web
             applications (single-page applications with JS, HTML and CSS). I have
-            over 9+ years of experience using JavaScript and ReactJS on real
+            over {yearsOfExperience}+ years of experience using JavaScript and ReactJS on real
             projects, and I&apos;m always learning more about data structures and
             algorithms, unit and integration tests. I also have some knowledge in
             UX/UI design processes and can help to plan and validate RESTful APIs
             and software requirements applied with agile methodologies.
           </p>
         </div>
+        </GlassCard>
       </div>
     </section>
   )

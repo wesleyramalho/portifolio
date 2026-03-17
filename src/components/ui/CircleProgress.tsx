@@ -14,7 +14,7 @@ export default function CircleProgress({ current, total }: CircleProgressProps) 
 
   return (
     <div
-      className="fixed bottom-8 right-8 z-30 pointer-events-none"
+      className="fixed bottom-8 right-8 z-30 pointer-events-none hidden md:block"
       role="progressbar"
       aria-valuenow={current + 1}
       aria-valuemin={1}

@@ -15,7 +15,7 @@ export default function Nav({ current, gotoSection }: NavProps) {
   return (
     <nav
       aria-label="Main navigation"
-      className="fixed top-6 right-8 z-[60] flex flex-col items-end gap-2"
+      className="fixed top-6 right-8 z-[60] hidden md:flex flex-col items-end gap-2 bg-black/20 backdrop-blur-md rounded-lg px-3 py-2"
     >
       {NAV_ITEMS.map(({ label, index }) => (
         <button
