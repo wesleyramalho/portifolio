@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 import { useSectionContext } from "@/contexts/SectionContext";
 import GlassCard from "@/components/ui/GlassCard";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 
 const experiences: {
   company: string;
@@ -57,7 +57,7 @@ const experiences: {
     company: "X-Team",
     role: "Senior Front-end Engineer",
     period: "Sep 2021 – Sep 2023",
-    location: "🇦🇺 Australia",
+    location: "🇦🇺 Australia (Remote)",
     description: [
       "Developed code complying with company standards and best practices.",
       "Proactively identified opportunities to improve code and app performance.",
@@ -121,7 +121,61 @@ export default function Experiences() {
   const sectionRef = useRef<HTMLElement>(null);
   const { isActive } = useSectionContext();
 
-  useEntranceAnimation(".experience-item", isActive);
+  useEffect(() => {
+    if (!isActive) return;
+
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const items = Array.from(
+      section.querySelectorAll<HTMLElement>(".experience-item"),
+    );
+    const animatedItems = new Set<HTMLElement>();
+    let animatedCount = 0;
+
+    // Only hide opacity — no y-transform so DOM positions stay accurate for visibility checks
+    gsap.set(items, { opacity: 0 });
+
+    const animateItem = (item: HTMLElement) => {
+      if (animatedItems.has(item)) return;
+      animatedItems.add(item);
+
+      const delay = animatedCount < 2 ? animatedCount * 0.12 : 0;
+      animatedCount++;
+
+      gsap.fromTo(
+        item,
+        { opacity: 0, y: 40, clipPath: "inset(0 0 100% 0)" },
+        {
+          opacity: 1,
+          y: 0,
+          clipPath: "inset(0 0 0% 0)",
+          duration: 0.75,
+          delay,
+          ease: "power3.out",
+          clearProps: "clipPath",
+        },
+      );
+    };
+
+    const checkVisibility = () => {
+      const containerRect = section.getBoundingClientRect();
+      items.forEach((item) => {
+        if (animatedItems.has(item)) return;
+        const itemRect = item.getBoundingClientRect();
+        // Trigger when top of item is within the section's visible height
+        if (itemRect.top - containerRect.top < section.clientHeight - 40) {
+          animateItem(item);
+        }
+      });
+    };
+
+    // Check immediately after layout settles, then on every scroll
+    requestAnimationFrame(checkVisibility);
+    section.addEventListener("scroll", checkVisibility, { passive: true });
+
+    return () => section.removeEventListener("scroll", checkVisibility);
+  }, [isActive]);
 
   return (
     <section
@@ -137,7 +191,11 @@ export default function Experiences() {
 
         <div className="flex flex-col gap-3" role="list">
           {experiences.map((experience, index) => (
-            <GlassCard key={index} className="experience-item p-6" role="listitem">
+            <GlassCard
+              key={index}
+              className="experience-item p-6"
+              role="listitem"
+            >
               <article className="flex flex-col md:flex-row md:items-start gap-4 md:gap-12">
                 <div className="md:w-48 shrink-0">
                   <p

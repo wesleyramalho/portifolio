@@ -136,7 +136,7 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
           aria-label={isOpen ? 'Close menu' : 'Open navigation menu'}
           aria-expanded={isOpen}
         >
-          <svg width={52} height={52} viewBox="0 0 44 44" aria-hidden="true">
+          <svg width={52} height={52} viewBox="-2 -2 48 48" aria-hidden="true">
             {/* Track ring */}
             <circle
               cx={22} cy={22} r={CIRCLE_RADIUS}
