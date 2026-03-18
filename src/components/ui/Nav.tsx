@@ -1,14 +1,10 @@
 'use client'
 
-const NAV_ITEMS = [
-  { label: 'about', index: 1 },
-  { label: 'experiences', index: 2 },
-  { label: 'education', index: 3 },
-]
+import { NAV_ITEMS } from '@/lib/navigation'
 
 interface NavProps {
   current: number
-  gotoSection: (i: number) => void
+  gotoSection: (index: number) => void
 }
 
 export default function Nav({ current, gotoSection }: NavProps) {

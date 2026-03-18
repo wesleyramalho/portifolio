@@ -24,12 +24,12 @@ export default function FluidCanvas() {
       return
     }
 
-    let rafId: number
+    let animationFrameId: number
     const loop = () => {
       simInstance.update()
-      rafId = requestAnimationFrame(loop)
+      animationFrameId = requestAnimationFrame(loop)
     }
-    rafId = requestAnimationFrame(loop)
+    animationFrameId = requestAnimationFrame(loop)
 
     const lastMouse = { x: 0, y: 0, init: false }
 
@@ -52,19 +52,19 @@ export default function FluidCanvas() {
         return
       }
 
-      const dx = clientX - lastMouse.x
-      const dy = clientY - lastMouse.y
+      const deltaX = clientX - lastMouse.x
+      const deltaY = clientY - lastMouse.y
 
       lastMouse.x = clientX
       lastMouse.y = clientY
 
-      if (!Math.abs(dx) && !Math.abs(dy)) return
+      if (!Math.abs(deltaX) && !Math.abs(deltaY)) return
 
       // UV position (y flipped to match texture space)
-      const x = clientX / window.innerWidth
-      const y = 1 - clientY / window.innerHeight
+      const uvX = clientX / window.innerWidth
+      const uvY = 1 - clientY / window.innerHeight
 
-      simInstance.addSplat(x, y, dx * 5, dy * -5)
+      simInstance.addSplat(uvX, uvY, deltaX * 5, deltaY * -5)
     }
 
     window.addEventListener('mousemove', onMove)
@@ -77,7 +77,7 @@ export default function FluidCanvas() {
 
     return () => {
       setSim(null)
-      cancelAnimationFrame(rafId)
+      cancelAnimationFrame(animationFrameId)
       simInstance.destroy()
       window.removeEventListener('mousemove', onMove)
       window.removeEventListener('touchmove', onMove)

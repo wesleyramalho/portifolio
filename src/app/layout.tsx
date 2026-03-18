@@ -15,16 +15,18 @@ const orbitron = Orbitron({
   variable: "--font-orbitron",
 });
 
-const siteUrl = "https://wesleyramalho.com";
+const SITE_URL = "https://wesleyramalho.com";
+const SITE_TITLE = "Wesley Ramalho — Senior Software Engineer & AI Specialist";
+const SITE_DESCRIPTION =
+  "Portfolio of Wesley Ramalho — Senior Software Engineer with 9+ years in React, JavaScript, and AI-powered web applications. Frontend specialist & AI consultant.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Wesley Ramalho — Senior Software Engineer & AI Specialist",
+    default: SITE_TITLE,
     template: "%s | Wesley Ramalho",
   },
-  description:
-    "Portfolio of Wesley Ramalho — Senior Software Engineer with 9+ years in React, JavaScript, and AI-powered web applications. Frontend specialist & AI consultant.",
+  description: SITE_DESCRIPTION,
   keywords: [
     "Wesley Ramalho",
     "Senior Software Engineer",
@@ -35,18 +37,18 @@ export const metadata: Metadata = {
     "TypeScript",
     "Next.js",
   ],
-  authors: [{ name: "Wesley Ramalho", url: siteUrl }],
+  authors: [{ name: "Wesley Ramalho", url: SITE_URL }],
   creator: "Wesley Ramalho",
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true },
   },
-  alternates: { canonical: siteUrl },
+  alternates: { canonical: SITE_URL },
   openGraph: {
     type: "website",
-    url: siteUrl,
-    title: "Wesley Ramalho — Senior Software Engineer & AI Specialist",
+    url: SITE_URL,
+    title: SITE_TITLE,
     description:
       "Frontend specialist with 9+ years building scalable web applications with React, TypeScript, and AI-powered tools.",
     siteName: "Wesley Ramalho Portfolio",
@@ -62,7 +64,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wesley Ramalho — Senior Software Engineer & AI Specialist",
+    title: SITE_TITLE,
     description:
       "Frontend specialist with 9+ years building scalable web applications.",
     images: ["/opengraph-image"],
@@ -87,7 +89,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Wesley Ramalho",
-              url: siteUrl,
+              url: SITE_URL,
               jobTitle: "Senior Software Engineer",
               description:
                 "Senior Software Engineer & AI Specialist with 9+ years of experience in React, JavaScript, and web applications.",

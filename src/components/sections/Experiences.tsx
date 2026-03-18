@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
+import { useRef } from "react";
 import { useSectionContext } from "@/contexts/SectionContext";
 import GlassCard from "@/components/ui/GlassCard";
+import SectionHeading from "@/components/ui/SectionHeading";
+import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 
 const experiences: {
   company: string;
@@ -119,21 +120,8 @@ const experiences: {
 export default function Experiences() {
   const sectionRef = useRef<HTMLElement>(null);
   const { isActive } = useSectionContext();
-  const hasAnimated = useRef(false);
 
-  useEffect(() => {
-    if (!isActive || hasAnimated.current) return;
-    hasAnimated.current = true;
-
-    gsap.from(".experience-item", {
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out",
-      stagger: 0.15,
-      delay: 0.2,
-    });
-  }, [isActive]);
+  useEntranceAnimation(".experience-item", isActive);
 
   return (
     <section
@@ -145,29 +133,24 @@ export default function Experiences() {
       aria-roledescription="slide"
     >
       <div className="max-w-5xl mx-auto w-full pt-24 pb-28 md:pt-28 md:pb-16">
-        <h2
-          className="font-sans font-bold uppercase tracking-widest mb-12"
-          style={{ fontSize: "var(--text-label)", color: "#A1A1AA" }}
-        >
-          Experiences
-        </h2>
+        <SectionHeading>Experiences</SectionHeading>
 
         <div className="flex flex-col gap-3" role="list">
-          {experiences.map((exp, i) => (
-            <GlassCard key={i} className="experience-item p-6" role="listitem">
+          {experiences.map((experience, index) => (
+            <GlassCard key={index} className="experience-item p-6" role="listitem">
               <article className="flex flex-col md:flex-row md:items-start gap-4 md:gap-12">
                 <div className="md:w-48 shrink-0">
                   <p
                     className="font-mono tracking-widest uppercase"
                     style={{ fontSize: "var(--text-label)", color: "#71717A" }}
                   >
-                    {exp.period}
+                    {experience.period}
                   </p>
                   <p
                     className="font-mono tracking-widest uppercase mt-1"
                     style={{ fontSize: "var(--text-label)", color: "#52525B" }}
                   >
-                    {exp.location}
+                    {experience.location}
                   </p>
                 </div>
                 <div className="flex-1">
@@ -175,30 +158,30 @@ export default function Experiences() {
                     className="font-sans font-semibold mb-1"
                     style={{ fontSize: "var(--text-body)", color: "#F4F4F5" }}
                   >
-                    {exp.link ? (
+                    {experience.link ? (
                       <a
-                        href={exp.link}
+                        href={experience.link}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ color: "#F4F4F5" }}
                         className="hover:underline"
                       >
-                        {exp.company}
+                        {experience.company}
                       </a>
                     ) : (
-                      exp.company
+                      experience.company
                     )}
                   </h3>
                   <p
                     className="font-mono tracking-widest uppercase mb-3"
                     style={{ fontSize: "var(--text-label)", color: "#A1A1AA" }}
                   >
-                    {exp.role}
+                    {experience.role}
                   </p>
                   <ul className="list-disc list-outside pl-4 flex flex-col gap-1">
-                    {exp.description.map((item, j) => (
+                    {experience.description.map((item, descriptionIndex) => (
                       <li
-                        key={j}
+                        key={descriptionIndex}
                         className="leading-relaxed"
                         style={{
                           fontSize: "var(--text-body)",

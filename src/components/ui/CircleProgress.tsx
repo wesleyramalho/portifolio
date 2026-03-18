@@ -1,7 +1,7 @@
 'use client'
 
-const R = 28
-const C = 2 * Math.PI * R // ≈ 175.9
+const CIRCLE_RADIUS = 28
+const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS
 
 interface CircleProgressProps {
   current: number
@@ -10,7 +10,7 @@ interface CircleProgressProps {
 
 export default function CircleProgress({ current, total }: CircleProgressProps) {
   const progress = total > 1 ? current / (total - 1) : 0
-  const offset = C * (1 - progress)
+  const offset = CIRCLE_CIRCUMFERENCE * (1 - progress)
 
   return (
     <div
@@ -26,7 +26,7 @@ export default function CircleProgress({ current, total }: CircleProgressProps) 
         <circle
           cx={36}
           cy={36}
-          r={R}
+          r={CIRCLE_RADIUS}
           stroke="rgba(255,255,255,0.15)"
           strokeWidth={2}
           fill="none"
@@ -35,11 +35,11 @@ export default function CircleProgress({ current, total }: CircleProgressProps) 
         <circle
           cx={36}
           cy={36}
-          r={R}
+          r={CIRCLE_RADIUS}
           stroke="rgba(255,255,255,0.75)"
           strokeWidth={2}
           fill="none"
-          strokeDasharray={C}
+          strokeDasharray={CIRCLE_CIRCUMFERENCE}
           strokeDashoffset={offset}
           strokeLinecap="round"
           transform="rotate(-90 36 36)"

@@ -2,20 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { NAV_ITEMS } from '@/lib/navigation'
 
-const NAV_ITEMS = [
-  { label: 'about', index: 1 },
-  { label: 'experiences', index: 2 },
-  { label: 'education', index: 3 },
-]
-
-const R = 22
-const C = 2 * Math.PI * R
+const CIRCLE_RADIUS = 22
+const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS
 
 interface Props {
   current: number
   total: number
-  gotoSection: (i: number) => void
+  gotoSection: (index: number) => void
 }
 
 export default function PersistentHeader({ current, total, gotoSection }: Props) {
@@ -25,7 +20,7 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
   const animating = useRef(false)
 
   const progress = total > 1 ? current / (total - 1) : 0
-  const offset = C * (1 - progress)
+  const offset = CIRCLE_CIRCUMFERENCE * (1 - progress)
 
   // Collapse menu container to zero height on mount so it takes no space
   useEffect(() => {
@@ -59,21 +54,21 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
     gsap.set(rows ?? [], { scaleX: 0, opacity: 0, transformOrigin: 'right center' })
     gsap.set(contents ?? [], { y: 12, opacity: 0 })
 
-    const tl = gsap.timeline({ onComplete: () => { animating.current = false } })
+    const timeline = gsap.timeline({ onComplete: () => { animating.current = false } })
 
     // Expand container height first
-    tl.to(menuRef.current, { height: 'auto', duration: 0.3, ease: 'power2.out' })
+    timeline.to(menuRef.current, { height: 'auto', duration: 0.3, ease: 'power2.out' })
 
-    tl.to(rows ?? [], {
+    timeline.to(rows ?? [], {
       scaleX: 1, opacity: 1, duration: 0.35, stagger: 0.1, ease: 'power3.out',
     }, '-=0.1')
-    tl.to(contents ?? [], {
+    timeline.to(contents ?? [], {
       y: 0, opacity: 1, duration: 0.25, stagger: 0.1, ease: 'power2.out',
     }, '-=0.3')
 
     // Hamburger → ×
-    tl.to('.circle-bar-top', { rotation: 45, y: 4, duration: 0.25, transformOrigin: '50% 50%', ease: 'power2.inOut' }, 0)
-    tl.to('.circle-bar-bot', { rotation: -45, y: -4, duration: 0.25, transformOrigin: '50% 50%', ease: 'power2.inOut' }, 0)
+    timeline.to('.circle-bar-top', { rotation: 45, y: 4, duration: 0.25, transformOrigin: '50% 50%', ease: 'power2.inOut' }, 0)
+    timeline.to('.circle-bar-bot', { rotation: -45, y: -4, duration: 0.25, transformOrigin: '50% 50%', ease: 'power2.inOut' }, 0)
   }
 
   const closeMenu = () => {
@@ -82,24 +77,24 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
 
     const rows = menuRef.current?.querySelectorAll('.mobile-nav-row')
 
-    const tl = gsap.timeline({
+    const timeline = gsap.timeline({
       onComplete: () => {
         setIsOpen(false)
         animating.current = false
       },
     })
 
-    tl.to(rows ?? [], {
+    timeline.to(rows ?? [], {
       scaleX: 0, opacity: 0, transformOrigin: 'right center',
       duration: 0.25, stagger: { amount: 0.2, from: 'end' }, ease: 'power2.in',
     })
 
     // Collapse container height after rows disappear
-    tl.to(menuRef.current, { height: 0, duration: 0.2, ease: 'power2.in' })
+    timeline.to(menuRef.current, { height: 0, duration: 0.2, ease: 'power2.in' })
 
     // × → hamburger
-    tl.to('.circle-bar-top', { rotation: 0, y: 0, duration: 0.2, transformOrigin: '50% 50%', ease: 'power2.inOut' }, 0)
-    tl.to('.circle-bar-bot', { rotation: 0, y: 0, duration: 0.2, transformOrigin: '50% 50%', ease: 'power2.inOut' }, 0)
+    timeline.to('.circle-bar-top', { rotation: 0, y: 0, duration: 0.2, transformOrigin: '50% 50%', ease: 'power2.inOut' }, 0)
+    timeline.to('.circle-bar-bot', { rotation: 0, y: 0, duration: 0.2, transformOrigin: '50% 50%', ease: 'power2.inOut' }, 0)
   }
 
   const handleNavClick = (index: number) => {
@@ -144,14 +139,14 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
           <svg width={52} height={52} viewBox="0 0 44 44" aria-hidden="true">
             {/* Track ring */}
             <circle
-              cx={22} cy={22} r={R}
+              cx={22} cy={22} r={CIRCLE_RADIUS}
               stroke="rgba(255,255,255,0.15)" strokeWidth={1.5} fill="none"
             />
             {/* Progress arc */}
             <circle
-              cx={22} cy={22} r={R}
+              cx={22} cy={22} r={CIRCLE_RADIUS}
               stroke="rgba(255,255,255,0.7)" strokeWidth={1.5} fill="none"
-              strokeDasharray={C}
+              strokeDasharray={CIRCLE_CIRCUMFERENCE}
               strokeDashoffset={offset}
               strokeLinecap="round"
               transform="rotate(-90 22 22)"

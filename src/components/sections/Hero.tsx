@@ -7,8 +7,8 @@ import { useSectionContext } from "@/contexts/SectionContext";
 
 const NAME = "wesley ramalho";
 
-const RADIUS = 140;
-const STRENGTH = 38;
+const REPEL_RADIUS = 140;
+const REPEL_STRENGTH = 38;
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -44,7 +44,7 @@ export default function Hero() {
     );
   }, [isActive]);
 
-  // Interaction: desktop mouse-repel / mobile auto-wave
+  // Desktop mouse-repel interaction
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -53,38 +53,36 @@ export default function Hero() {
     if (prefersReduced) return;
 
     const isHoverDevice = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
     if (!isHoverDevice) return;
 
-    // ── Desktop: mouse-repel ──────────────────────────────────────────────
     const onMove = (e: MouseEvent) => {
-      charRefs.current.forEach((char) => {
-        const rect = char.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dx = e.clientX - cx;
-        const dy = e.clientY - cy;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+      charRefs.current.forEach((charElement) => {
+        const rect = charElement.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const deltaX = e.clientX - centerX;
+        const deltaY = e.clientY - centerY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if (dist < RADIUS) {
-          const force = Math.pow(1 - dist / RADIUS, 1.5);
-          const angle = Math.atan2(dy, dx);
-          gsap.to(char, {
-            x: -Math.cos(angle) * force * STRENGTH,
-            y: -Math.sin(angle) * force * STRENGTH,
+        if (distance < REPEL_RADIUS) {
+          const force = Math.pow(1 - distance / REPEL_RADIUS, 1.5);
+          const angle = Math.atan2(deltaY, deltaX);
+          gsap.to(charElement, {
+            x: -Math.cos(angle) * force * REPEL_STRENGTH,
+            y: -Math.sin(angle) * force * REPEL_STRENGTH,
             duration: 0.35,
             ease: "power3.out",
             overwrite: "auto",
           });
         } else {
-          gsap.to(char, { x: 0, y: 0, duration: 0.5, ease: "power3.out", overwrite: "auto" });
+          gsap.to(charElement, { x: 0, y: 0, duration: 0.5, ease: "power3.out", overwrite: "auto" });
         }
       });
     };
 
     const onLeave = () => {
-      charRefs.current.forEach((el) => {
-        gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.4)" });
+      charRefs.current.forEach((charElement) => {
+        gsap.to(charElement, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.4)" });
       });
     };
 
@@ -114,26 +112,26 @@ export default function Hero() {
           style={{ fontSize: "var(--text-hero)", perspective: "600px" }}
           aria-label={NAME}
         >
-          {NAME.split(" ").map((word, wi, arr) => (
-            <React.Fragment key={wi}>
+          {NAME.split(" ").map((word, wordIndex, wordArray) => (
+            <React.Fragment key={wordIndex}>
               <span className="inline-block whitespace-nowrap">
-                {word.split("").map((char, ci) => (
+                {word.split("").map((char, charIndex) => (
                   <span
-                    key={ci}
+                    key={charIndex}
                     className="hero-char inline-block"
-                    ref={(el) => { if (el) charRefs.current.push(el); }}
+                    ref={(spanElement) => { if (spanElement) charRefs.current.push(spanElement); }}
                     aria-hidden="true"
                   >
                     {char}
                   </span>
                 ))}
               </span>
-              {wi < arr.length - 1 && (
+              {wordIndex < wordArray.length - 1 && (
                 <>
                   <br className="md:hidden" aria-hidden="true" />
                   <span
                     className="hero-char hidden md:inline-block"
-                    ref={(el) => { if (el) charRefs.current.push(el); }}
+                    ref={(spanElement) => { if (spanElement) charRefs.current.push(spanElement); }}
                     aria-hidden="true"
                   >
                     &nbsp;

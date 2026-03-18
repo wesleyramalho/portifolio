@@ -28,10 +28,10 @@ export default function SectionsContainer({
       currentRef.current = index;
       setCurrent(index);
       requestAnimationFrame(() => {
-        panelsRef.current.forEach((p, i) => {
-          if (!p) return;
-          p.style.opacity = i === index ? "1" : "0";
-          p.style.zIndex = i === index ? "1" : "0";
+        panelsRef.current.forEach((panel, panelIndex) => {
+          if (!panel) return;
+          panel.style.opacity = panelIndex === index ? "1" : "0";
+          panel.style.zIndex = panelIndex === index ? "1" : "0";
         });
       });
     }
@@ -44,32 +44,32 @@ export default function SectionsContainer({
     if (animating.current || target === currentRef.current) return;
 
     animating.current = true;
-    const prev = currentRef.current;
-    const direction = target > prev ? 1 : -1;
+    const previousIndex = currentRef.current;
+    const direction = target > previousIndex ? 1 : -1;
     const panels = panelsRef.current;
 
     panels[target].style.zIndex = "2";
-    panels[prev].style.zIndex = "1";
+    panels[previousIndex].style.zIndex = "1";
 
     const targetSection = panels[target].querySelector("section") as HTMLElement | null;
     if (targetSection) targetSection.scrollTop = 0;
 
     gsap.set(panels[target], { opacity: 0, y: direction * 60 });
 
-    const tl = gsap.timeline({
+    const timeline = gsap.timeline({
       onComplete: () => {
-        panels[prev].style.zIndex = "0";
+        panels[previousIndex].style.zIndex = "0";
         panels[target].style.zIndex = "1";
         animating.current = false;
       },
     });
 
-    tl.to(
-      panels[prev],
+    timeline.to(
+      panels[previousIndex],
       { opacity: 0, y: direction * -40, duration: 0.5, ease: "power2.inOut" },
       0,
     );
-    tl.to(
+    timeline.to(
       panels[target],
       { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
       0.1,
@@ -82,7 +82,7 @@ export default function SectionsContainer({
 
   // Expose for Nav buttons
   useEffect(() => {
-    (window as Window & { gotoSection?: (i: number) => void }).gotoSection =
+    (window as Window & { gotoSection?: (index: number) => void }).gotoSection =
       gotoSection;
   }, [gotoSection]);
 
@@ -160,18 +160,18 @@ export default function SectionsContainer({
 
   return (
     <div className="relative w-full h-svh overflow-hidden">
-      {childArray.map((child, i) => (
+      {childArray.map((child, index) => (
         <SectionContext.Provider
-          key={i}
-          value={{ isActive: i === current, index: i, gotoSection }}
+          key={index}
+          value={{ isActive: index === current, index, gotoSection }}
         >
           <div
-            ref={(el) => {
-              if (el) panelsRef.current[i] = el;
+            ref={(sectionElement) => {
+              if (sectionElement) panelsRef.current[index] = sectionElement;
             }}
             className="absolute inset-0 h-svh"
-            style={{ opacity: i === 0 ? 1 : 0, zIndex: i === 0 ? 1 : 0 }}
-            aria-hidden={i !== current}
+            style={{ opacity: index === 0 ? 1 : 0, zIndex: index === 0 ? 1 : 0 }}
+            aria-hidden={index !== current}
           >
             {child}
           </div>
