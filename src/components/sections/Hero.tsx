@@ -147,8 +147,7 @@ export default function Hero() {
 
       <div className="relative z-20 flex flex-col justify-end flex-1 px-8 pb-16 md:px-16">
         <h1
-          className="font-sans font-bold text-white lowercase leading-none tracking-tight"
-          style={{ fontSize: "var(--text-hero)", perspective: "600px" }}
+          className="font-sans font-bold text-white lowercase leading-none tracking-tight text-hero [perspective:600px]"
           aria-label={NAME}
         >
           {NAME.split(" ").map((word, wordIndex, wordArray) => (
@@ -186,8 +185,7 @@ export default function Hero() {
         </h1>
 
         <p
-          className="hero-title font-mono text-white/80 tracking-widest uppercase mt-4 md:ml-3 lg:ml-3"
-          style={{ fontSize: "var(--text-label)" }}
+          className="hero-title font-mono text-white/80 tracking-widest uppercase mt-4 md:ml-3 lg:ml-3 text-label"
           aria-label={t("jobTitle")}
         >
           {t("jobTitle")

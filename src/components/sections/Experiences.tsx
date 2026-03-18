@@ -144,30 +144,26 @@ export default function Experiences() {
                 <article className="flex flex-col md:flex-row md:items-start gap-4 md:gap-12">
                   <div className="md:w-48 shrink-0">
                     <p
-                      className="font-mono tracking-widest uppercase"
-                      style={{ fontSize: "var(--text-label)", color: "#71717A" }}
+                      className="font-mono tracking-widest uppercase text-label text-zinc-500"
                     >
                       {staticData.period}
                     </p>
                     <p
-                      className="font-mono tracking-widest uppercase mt-1"
-                      style={{ fontSize: "var(--text-label)", color: "#52525B" }}
+                      className="font-mono tracking-widest uppercase mt-1 text-label text-zinc-600"
                     >
                       {staticData.location}
                     </p>
                   </div>
                   <div className="flex-1">
                     <h3
-                      className="font-sans font-semibold mb-1"
-                      style={{ fontSize: "var(--text-body)", color: "#F4F4F5" }}
+                      className="font-sans font-semibold mb-1 text-body text-zinc-100"
                     >
                       {staticData.link ? (
                         <a
                           href={staticData.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ color: "#F4F4F5" }}
-                          className="hover:underline"
+                          className="hover:underline text-zinc-100"
                         >
                           {staticData.company}
                         </a>
@@ -176,8 +172,7 @@ export default function Experiences() {
                       )}
                     </h3>
                     <p
-                      className="font-mono tracking-widest uppercase mb-3"
-                      style={{ fontSize: "var(--text-label)", color: "#A1A1AA" }}
+                      className="font-mono tracking-widest uppercase mb-3 text-label text-zinc-400"
                     >
                       {translated.role}
                     </p>
@@ -185,11 +180,7 @@ export default function Experiences() {
                       {translated.description.map((item, descriptionIndex) => (
                         <li
                           key={descriptionIndex}
-                          className="leading-relaxed"
-                          style={{
-                            fontSize: "var(--text-body)",
-                            color: "#9CA3AF",
-                          }}
+                          className="leading-relaxed text-body text-gray-400"
                         >
                           {item}
                         </li>

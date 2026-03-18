@@ -89,15 +89,7 @@ export default function FluidCanvas() {
     <FluidContext.Provider value={sim}>
       <canvas
         ref={canvasRef}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
-          zIndex: 50,
-          mixBlendMode: 'screen',
-        }}
+        className="canvas-fluid"
       />
     </FluidContext.Provider>
   )

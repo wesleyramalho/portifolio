@@ -16,6 +16,12 @@ const config: Config = {
         sans: ["var(--font-montserrat-alt)", "sans-serif"],
         mono: ["var(--font-orbitron)", "monospace"],
       },
+      fontSize: {
+        'hero':    'var(--text-hero)',
+        'heading': 'var(--text-heading)',
+        'label':   'var(--text-label)',
+        'body':    'var(--text-body)',
+      },
     },
   },
   plugins: [],

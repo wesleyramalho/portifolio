@@ -169,8 +169,7 @@ export default function SectionsContainer({
             ref={(sectionElement) => {
               if (sectionElement) panelsRef.current[index] = sectionElement;
             }}
-            className="absolute inset-0 h-svh"
-            style={{ opacity: index === 0 ? 1 : 0, zIndex: index === 0 ? 1 : 0 }}
+            className={`absolute inset-0 h-svh ${index === 0 ? 'opacity-100 z-[1]' : 'opacity-0 z-[0]'}`}
             aria-hidden={index !== current}
           >
             {child}

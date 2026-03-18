@@ -22,10 +22,9 @@ export default function Nav({ current, gotoSection }: NavProps) {
           onClick={() => gotoSection(index)}
           aria-current={current === index ? 'page' : undefined}
           className={[
-            'font-mono tracking-widest uppercase transition-colors bg-transparent border-0 p-0 cursor-pointer',
+            'font-mono tracking-widest uppercase transition-colors bg-transparent border-0 p-0 cursor-pointer text-label',
             current === index ? 'text-white' : 'text-white/50 hover:text-white/80',
           ].join(' ')}
-          style={{ fontSize: 'var(--text-label)' }}
         >
           {t(key)}
         </button>

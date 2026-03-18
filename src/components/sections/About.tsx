@@ -74,15 +74,13 @@ export default function About() {
         <GlassCard className="p-6">
         <div className="about-content flex flex-col gap-5">
           <h2
-            className="font-sans font-bold"
-            style={{ fontSize: 'var(--text-heading)', color: '#F4F4F5' }}
+            className="font-sans font-bold text-heading text-zinc-100"
           >
             {t('jobTitle')}
           </h2>
 
           <p
-            className="font-mono tracking-widest uppercase flex items-center gap-2"
-            style={{ fontSize: 'var(--text-label)', color: '#71717A' }}
+            className="font-mono tracking-widest uppercase flex items-center gap-2 text-label text-zinc-500"
           >
             <span>📍</span> {t('location')}
           </p>
@@ -90,23 +88,20 @@ export default function About() {
           <div className="flex flex-wrap gap-3" role="list" aria-label="Specialisations">
             <span
               role="listitem"
-              className="font-mono tracking-widest uppercase px-3 py-1 border"
-              style={{ fontSize: 'var(--text-label)', color: '#A1A1AA', borderColor: '#27272A' }}
+              className="font-mono tracking-widest uppercase px-3 py-1 border text-label text-zinc-400 border-zinc-800"
             >
               {t('aiSpecialist')}
             </span>
             <span
               role="listitem"
-              className="font-mono tracking-widest uppercase px-3 py-1 border"
-              style={{ fontSize: 'var(--text-label)', color: '#A1A1AA', borderColor: '#27272A' }}
+              className="font-mono tracking-widest uppercase px-3 py-1 border text-label text-zinc-400 border-zinc-800"
             >
               {t('frontend')}
             </span>
           </div>
 
           <p
-            className="leading-relaxed font-sans"
-            style={{ fontSize: 'var(--text-body)', color: '#9CA3AF' }}
+            className="leading-relaxed font-sans text-body text-gray-400"
           >
             {t('bio', { years: yearsOfExperience })}
           </p>

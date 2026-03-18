@@ -41,22 +41,19 @@ export default function Education() {
               <article className="flex flex-col md:flex-row md:items-start gap-4 md:gap-12">
                 <div className="md:w-48 shrink-0">
                   <p
-                    className="font-mono tracking-widest uppercase"
-                    style={{ fontSize: "var(--text-label)", color: "#71717A" }}
+                    className="font-mono tracking-widest uppercase text-label text-zinc-500"
                   >
                     {staticData.period}
                   </p>
                 </div>
                 <div className="flex-1">
                   <h3
-                    className="font-sans font-semibold mb-1"
-                    style={{ fontSize: "var(--text-body)", color: "#F4F4F5" }}
+                    className="font-sans font-semibold mb-1 text-body text-zinc-100"
                   >
                     {staticData.institution}
                   </h3>
                   <p
-                    className="font-mono tracking-widest uppercase"
-                    style={{ fontSize: "var(--text-label)", color: "#A1A1AA" }}
+                    className="font-mono tracking-widest uppercase text-label text-zinc-400"
                   >
                     {translatedItems[index].degree}
                   </p>

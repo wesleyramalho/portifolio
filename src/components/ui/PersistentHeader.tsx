@@ -114,20 +114,17 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
     >
       {/* Header row */}
       <div
-        className="flex items-center justify-between px-4 pb-2 md:px-3 md:py-2 md:gap-12"
-        style={{ paddingTop: 'max(0.5rem, env(safe-area-inset-top))' }}
+        className="flex items-center justify-between px-4 pb-2 md:px-3 md:py-2 md:gap-12 pt-safe"
       >
         {/* Text — pointer-events-none */}
         <div className="pointer-events-none">
           <p
-            className="font-sans font-bold text-white lowercase leading-none"
-            style={{ fontSize: 'clamp(0.85rem, 1.2vw, 1.1rem)' }}
+            className="font-sans font-bold text-white lowercase leading-none text-[clamp(0.85rem,1.2vw,1.1rem)]"
           >
             wesley ramalho
           </p>
           <p
-            className="font-mono text-[#71717A] tracking-widest uppercase mt-0.5"
-            style={{ fontSize: 'var(--text-label)' }}
+            className="font-mono text-zinc-500 tracking-widest uppercase mt-0.5 text-label"
           >
             {tHeader('jobTitle')}
           </p>
@@ -157,7 +154,7 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
                 strokeDashoffset={offset}
                 strokeLinecap="round"
                 transform="rotate(-90 22 22)"
-                style={{ transition: 'stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1)' }}
+                className="stroke-progress"
               />
               {/* Hamburger / × icon */}
               <line
@@ -180,8 +177,7 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
         {NAV_ITEMS.map(({ key, index }) => (
           <button
             key={key}
-            className="mobile-nav-row w-full flex items-center justify-between px-4 py-3 border-t cursor-pointer bg-transparent"
-            style={{ borderColor: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}
+            className="mobile-nav-row w-full flex items-center justify-between px-4 py-3 border-t cursor-pointer bg-transparent border-white/[0.08] overflow-hidden"
             onClick={() => handleNavClick(index)}
             tabIndex={isOpen ? 0 : -1}
           >
@@ -192,8 +188,7 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
               {tNav(key)}
             </span>
             <span
-              className="mobile-nav-row-content font-mono tracking-widest"
-              style={{ fontSize: 'var(--text-label)', color: current === index ? '#fff' : '#71717A' }}
+              className={`mobile-nav-row-content font-mono tracking-widest text-label ${current === index ? 'text-white' : 'text-zinc-500'}`}
             >
               {String(index + 1).padStart(2, '0')}
             </span>

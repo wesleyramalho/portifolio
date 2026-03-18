@@ -43,7 +43,7 @@ export default function CircleProgress({ current, total }: CircleProgressProps) 
           strokeDashoffset={offset}
           strokeLinecap="round"
           transform="rotate(-90 36 36)"
-          style={{ transition: 'stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1)' }}
+          className="stroke-progress"
         />
         {/* Section counter */}
         <text
