@@ -1,20 +1,27 @@
 import type { Metadata } from "next";
-import { Montserrat_Alternates, Orbitron } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import FluidCanvas from "@/components/fluid/FluidCanvas";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import IntlProvider from "@/components/IntlProvider";
 
-const montserratAlternates = Montserrat_Alternates({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
+const montserratAlternates = localFont({
+  src: [
+    { path: "../../public/fonts/montserrat-alternates-400.woff2", weight: "400" },
+    { path: "../../public/fonts/montserrat-alternates-600.woff2", weight: "600" },
+    { path: "../../public/fonts/montserrat-alternates-700.woff2", weight: "700" },
+  ],
   variable: "--font-montserrat-alt",
+  display: "swap",
 });
 
-const orbitron = Orbitron({
-  subsets: ["latin"],
-  weight: ["400", "700"],
+const orbitron = localFont({
+  src: [
+    { path: "../../public/fonts/orbitron-400-700.woff2", weight: "400" },
+    { path: "../../public/fonts/orbitron-400-700.woff2", weight: "700" },
+  ],
   variable: "--font-orbitron",
+  display: "swap",
 });
 
 const SITE_URL = "https://wesleyramalho.com";

@@ -10,7 +10,7 @@ export default function IntlProvider({ children }: { children: React.ReactNode }
   const messages = locale === 'pt' ? ptMessages : enMessages
 
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
+    <NextIntlClientProvider locale={locale} messages={messages} timeZone="UTC">
       {children}
     </NextIntlClientProvider>
   )
