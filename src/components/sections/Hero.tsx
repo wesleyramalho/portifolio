@@ -9,7 +9,6 @@ import { useSectionContext } from "@/contexts/SectionContext";
 
 const NAME = "wesley ramalho";
 
-const SCROLL_HINT_DELAY = 1.8;
 const REPEL_RADIUS = 140;
 const REPEL_STRENGTH = 38;
 const TITLE_REPEL_RADIUS = 110;
@@ -19,10 +18,9 @@ export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const charRefs = useRef<HTMLSpanElement[]>([]);
   const titleCharRefs = useRef<HTMLSpanElement[]>([]);
-  const scrollHintRef = useRef<HTMLDivElement>(null);
   const { isActive } = useSectionContext();
   const hasAnimated = useRef(false);
-  const t = useTranslations('hero');
+  const t = useTranslations("hero");
 
   // Entrance animation (runs once when section becomes active)
   useEffect(() => {
@@ -51,27 +49,6 @@ export default function Hero() {
         clearProps: "clipPath",
       },
     );
-
-    gsap.fromTo(
-      scrollHintRef.current,
-      { opacity: 0, y: 10 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power2.out",
-        delay: SCROLL_HINT_DELAY,
-        onComplete: () => {
-          gsap.to(scrollHintRef.current, {
-            y: 8,
-            repeat: -1,
-            yoyo: true,
-            duration: 1.1,
-            ease: "sine.inOut",
-          });
-        },
-      },
-    );
   }, [isActive]);
 
   // Desktop mouse-repel interaction
@@ -79,10 +56,14 @@ export default function Hero() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (prefersReduced) return;
 
-    const isHoverDevice = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const isHoverDevice = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    ).matches;
     if (!isHoverDevice) return;
 
     const repelElement = (
@@ -110,13 +91,29 @@ export default function Hero() {
           overwrite: "auto",
         });
       } else {
-        gsap.to(element, { x: 0, y: 0, duration: 0.5, ease: "power3.out", overwrite: "auto" });
+        gsap.to(element, {
+          x: 0,
+          y: 0,
+          duration: 0.5,
+          ease: "power3.out",
+          overwrite: "auto",
+        });
       }
     };
 
     const onMove = (e: MouseEvent) => {
-      charRefs.current.forEach((el) => repelElement(el, e.clientX, e.clientY, REPEL_RADIUS, REPEL_STRENGTH));
-      titleCharRefs.current.forEach((el) => repelElement(el, e.clientX, e.clientY, TITLE_REPEL_RADIUS, TITLE_REPEL_STRENGTH));
+      charRefs.current.forEach((el) =>
+        repelElement(el, e.clientX, e.clientY, REPEL_RADIUS, REPEL_STRENGTH),
+      );
+      titleCharRefs.current.forEach((el) =>
+        repelElement(
+          el,
+          e.clientX,
+          e.clientY,
+          TITLE_REPEL_RADIUS,
+          TITLE_REPEL_STRENGTH,
+        ),
+      );
     };
 
     const onLeave = () => {
@@ -161,7 +158,9 @@ export default function Hero() {
                   <span
                     key={charIndex}
                     className="hero-char inline-block"
-                    ref={(el) => { if (el) charRefs.current.push(el); }}
+                    ref={(el) => {
+                      if (el) charRefs.current.push(el);
+                    }}
                     aria-hidden="true"
                   >
                     {char}
@@ -173,7 +172,9 @@ export default function Hero() {
                   <br className="md:hidden" aria-hidden="true" />
                   <span
                     className="hero-char hidden md:inline-block"
-                    ref={(el) => { if (el) charRefs.current.push(el); }}
+                    ref={(el) => {
+                      if (el) charRefs.current.push(el);
+                    }}
                     aria-hidden="true"
                   >
                     &nbsp;
@@ -187,52 +188,44 @@ export default function Hero() {
         <p
           className="hero-title font-mono text-white/80 tracking-widest uppercase mt-4 md:ml-3 lg:ml-3"
           style={{ fontSize: "var(--text-label)" }}
-          aria-label={t('jobTitle')}
+          aria-label={t("jobTitle")}
         >
-          {t('jobTitle').split(' ').map((word, wordIndex, wordArray) => (
-            <React.Fragment key={wordIndex}>
-              <span className="inline-block whitespace-nowrap">
-                {word.split('').map((char, charIndex) => (
+          {t("jobTitle")
+            .split(" ")
+            .map((word, wordIndex, wordArray) => (
+              <React.Fragment key={wordIndex}>
+                <span className="inline-block whitespace-nowrap">
+                  {word.split("").map((char, charIndex) => (
+                    <span
+                      key={charIndex}
+                      className="inline-block"
+                      ref={(el) => {
+                        if (el) titleCharRefs.current.push(el);
+                      }}
+                      aria-hidden="true"
+                    >
+                      {char}
+                    </span>
+                  ))}
+                </span>
+                {wordIndex < wordArray.length - 1 && (
                   <span
-                    key={charIndex}
                     className="inline-block"
-                    ref={(el) => { if (el) titleCharRefs.current.push(el); }}
+                    ref={(el) => {
+                      if (el) titleCharRefs.current.push(el);
+                    }}
                     aria-hidden="true"
                   >
-                    {char}
+                    &nbsp;
                   </span>
-                ))}
-              </span>
-              {wordIndex < wordArray.length - 1 && (
-                <span
-                  className="inline-block"
-                  ref={(el) => { if (el) titleCharRefs.current.push(el); }}
-                  aria-hidden="true"
-                >
-                  &nbsp;
-                </span>
-              )}
-            </React.Fragment>
-          ))}
+                )}
+              </React.Fragment>
+            ))}
         </p>
 
         <div className="mt-3 md:ml-3 lg:ml-3">
           <LanguageSwitcher />
         </div>
-      </div>
-
-      <div
-        ref={scrollHintRef}
-        data-testid="scroll-hint"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1 opacity-0"
-        aria-hidden="true"
-      >
-        <span className="font-mono tracking-widest uppercase text-white/50" style={{ fontSize: "var(--text-label)" }}>
-          {t('scroll')}
-        </span>
-        <svg width="16" height="24" viewBox="0 0 16 24" fill="none" className="text-white/40">
-          <path d="M8 4v16M8 20l-4-4M8 20l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
       </div>
     </section>
   );
