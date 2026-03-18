@@ -4,16 +4,20 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useTranslations } from "next-intl";
 import VideoBackground from "@/components/ui/VideoBackground";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import { useSectionContext } from "@/contexts/SectionContext";
 
 const NAME = "wesley ramalho";
 
 const REPEL_RADIUS = 140;
 const REPEL_STRENGTH = 38;
+const TITLE_REPEL_RADIUS = 110;
+const TITLE_REPEL_STRENGTH = 18;
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const charRefs = useRef<HTMLSpanElement[]>([]);
+  const titleCharRefs = useRef<HTMLSpanElement[]>([]);
   const { isActive } = useSectionContext();
   const hasAnimated = useRef(false);
   const t = useTranslations('hero');
@@ -42,6 +46,7 @@ export default function Hero() {
         duration: 0.9,
         ease: "power2.inOut",
         delay: 0.75,
+        clearProps: "clipPath",
       },
     );
   }, [isActive]);
@@ -57,34 +62,46 @@ export default function Hero() {
     const isHoverDevice = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (!isHoverDevice) return;
 
-    const onMove = (e: MouseEvent) => {
-      charRefs.current.forEach((charElement) => {
-        const rect = charElement.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const deltaX = e.clientX - centerX;
-        const deltaY = e.clientY - centerY;
-        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const repelElement = (
+      element: HTMLElement,
+      mouseX: number,
+      mouseY: number,
+      radius: number,
+      strength: number,
+    ) => {
+      const rect = element.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const deltaX = mouseX - centerX;
+      const deltaY = mouseY - centerY;
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if (distance < REPEL_RADIUS) {
-          const force = Math.pow(1 - distance / REPEL_RADIUS, 1.5);
-          const angle = Math.atan2(deltaY, deltaX);
-          gsap.to(charElement, {
-            x: -Math.cos(angle) * force * REPEL_STRENGTH,
-            y: -Math.sin(angle) * force * REPEL_STRENGTH,
-            duration: 0.35,
-            ease: "power3.out",
-            overwrite: "auto",
-          });
-        } else {
-          gsap.to(charElement, { x: 0, y: 0, duration: 0.5, ease: "power3.out", overwrite: "auto" });
-        }
-      });
+      if (distance < radius) {
+        const force = Math.pow(1 - distance / radius, 1.5);
+        const angle = Math.atan2(deltaY, deltaX);
+        gsap.to(element, {
+          x: -Math.cos(angle) * force * strength,
+          y: -Math.sin(angle) * force * strength,
+          duration: 0.35,
+          ease: "power3.out",
+          overwrite: "auto",
+        });
+      } else {
+        gsap.to(element, { x: 0, y: 0, duration: 0.5, ease: "power3.out", overwrite: "auto" });
+      }
+    };
+
+    const onMove = (e: MouseEvent) => {
+      charRefs.current.forEach((el) => repelElement(el, e.clientX, e.clientY, REPEL_RADIUS, REPEL_STRENGTH));
+      titleCharRefs.current.forEach((el) => repelElement(el, e.clientX, e.clientY, TITLE_REPEL_RADIUS, TITLE_REPEL_STRENGTH));
     };
 
     const onLeave = () => {
-      charRefs.current.forEach((charElement) => {
-        gsap.to(charElement, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.4)" });
+      charRefs.current.forEach((el) => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.4)" });
+      });
+      titleCharRefs.current.forEach((el) => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.4)" });
       });
     };
 
@@ -99,7 +116,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-svh flex flex-col overflow-hidden"
+      className="relative h-svh flex flex-col"
       role="region"
       aria-label="Hero"
       aria-roledescription="slide"
@@ -121,7 +138,7 @@ export default function Hero() {
                   <span
                     key={charIndex}
                     className="hero-char inline-block"
-                    ref={(spanElement) => { if (spanElement) charRefs.current.push(spanElement); }}
+                    ref={(el) => { if (el) charRefs.current.push(el); }}
                     aria-hidden="true"
                   >
                     {char}
@@ -133,7 +150,7 @@ export default function Hero() {
                   <br className="md:hidden" aria-hidden="true" />
                   <span
                     className="hero-char hidden md:inline-block"
-                    ref={(spanElement) => { if (spanElement) charRefs.current.push(spanElement); }}
+                    ref={(el) => { if (el) charRefs.current.push(el); }}
                     aria-hidden="true"
                   >
                     &nbsp;
@@ -143,12 +160,42 @@ export default function Hero() {
             </React.Fragment>
           ))}
         </h1>
+
         <p
           className="hero-title font-mono text-white/80 tracking-widest uppercase mt-4 md:ml-3 lg:ml-3"
           style={{ fontSize: "var(--text-label)" }}
+          aria-label={t('jobTitle')}
         >
-          {t('jobTitle')}
+          {t('jobTitle').split(' ').map((word, wordIndex, wordArray) => (
+            <React.Fragment key={wordIndex}>
+              <span className="inline-block whitespace-nowrap">
+                {word.split('').map((char, charIndex) => (
+                  <span
+                    key={charIndex}
+                    className="inline-block"
+                    ref={(el) => { if (el) titleCharRefs.current.push(el); }}
+                    aria-hidden="true"
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+              {wordIndex < wordArray.length - 1 && (
+                <span
+                  className="inline-block"
+                  ref={(el) => { if (el) titleCharRefs.current.push(el); }}
+                  aria-hidden="true"
+                >
+                  &nbsp;
+                </span>
+              )}
+            </React.Fragment>
+          ))}
         </p>
+
+        <div className="mt-3 md:ml-3 lg:ml-3">
+          <LanguageSwitcher />
+        </div>
       </div>
     </section>
   );
