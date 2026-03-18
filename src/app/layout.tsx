@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Montserrat_Alternates, Orbitron } from "next/font/google";
 import "./globals.css";
 import FluidCanvas from "@/components/fluid/FluidCanvas";
+import { LocaleProvider } from "@/contexts/LocaleContext";
+import IntlProvider from "@/components/IntlProvider";
 
 const montserratAlternates = Montserrat_Alternates({
   subsets: ["latin"],
@@ -114,8 +116,12 @@ export default function RootLayout({
             }),
           }}
         />
-        <FluidCanvas />
-        <main id="main-content">{children}</main>
+        <LocaleProvider>
+          <IntlProvider>
+            <FluidCanvas />
+            <main id="main-content">{children}</main>
+          </IntlProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

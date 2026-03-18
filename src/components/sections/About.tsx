@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { useSectionContext } from '@/contexts/SectionContext'
 import GlassCard from '@/components/ui/GlassCard'
 
@@ -18,6 +19,7 @@ export default function About() {
   const { isActive } = useSectionContext()
   const hasAnimated = useRef(false)
   const yearsOfExperience = getYearsOfExperience()
+  const t = useTranslations('about')
 
   useEffect(() => {
     if (imgRef.current) {
@@ -75,14 +77,14 @@ export default function About() {
             className="font-sans font-bold"
             style={{ fontSize: 'var(--text-heading)', color: '#F4F4F5' }}
           >
-            Senior Software Engineer
+            {t('jobTitle')}
           </h2>
 
           <p
             className="font-mono tracking-widest uppercase flex items-center gap-2"
             style={{ fontSize: 'var(--text-label)', color: '#71717A' }}
           >
-            <span>📍</span> São Paulo, BR
+            <span>📍</span> {t('location')}
           </p>
 
           <div className="flex flex-wrap gap-3" role="list" aria-label="Specialisations">
@@ -91,14 +93,14 @@ export default function About() {
               className="font-mono tracking-widest uppercase px-3 py-1 border"
               style={{ fontSize: 'var(--text-label)', color: '#A1A1AA', borderColor: '#27272A' }}
             >
-              AI Specialist
+              {t('aiSpecialist')}
             </span>
             <span
               role="listitem"
               className="font-mono tracking-widest uppercase px-3 py-1 border"
               style={{ fontSize: 'var(--text-label)', color: '#A1A1AA', borderColor: '#27272A' }}
             >
-              Frontend
+              {t('frontend')}
             </span>
           </div>
 
@@ -106,13 +108,7 @@ export default function About() {
             className="leading-relaxed font-sans"
             style={{ fontSize: 'var(--text-body)', color: '#9CA3AF' }}
           >
-            I&apos;m a software engineer focused on front-end technologies and web
-            applications (single-page applications with JS, HTML and CSS). I have
-            over {yearsOfExperience}+ years of experience using JavaScript and ReactJS on real
-            projects, and I&apos;m always learning more about data structures and
-            algorithms, unit and integration tests. I also have some knowledge in
-            UX/UI design processes and can help to plan and validate RESTful APIs
-            and software requirements applied with agile methodologies.
+            {t('bio', { years: yearsOfExperience })}
           </p>
         </div>
         </GlassCard>

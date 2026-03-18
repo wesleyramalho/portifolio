@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { useTranslations } from "next-intl";
 import VideoBackground from "@/components/ui/VideoBackground";
 import { useSectionContext } from "@/contexts/SectionContext";
 
@@ -15,6 +16,7 @@ export default function Hero() {
   const charRefs = useRef<HTMLSpanElement[]>([]);
   const { isActive } = useSectionContext();
   const hasAnimated = useRef(false);
+  const t = useTranslations('hero');
 
   // Entrance animation (runs once when section becomes active)
   useEffect(() => {
@@ -145,7 +147,7 @@ export default function Hero() {
           className="hero-title font-mono text-white/80 tracking-widest uppercase mt-4 md:ml-3 lg:ml-3"
           style={{ fontSize: "var(--text-label)" }}
         >
-          Senior Software Engineer
+          {t('jobTitle')}
         </p>
       </div>
     </section>

@@ -1,0 +1,113 @@
+{
+  "nav": {
+    "aboutMe": "sobre mim",
+    "experiences": "experiências",
+    "education": "formação"
+  },
+  "header": {
+    "jobTitle": "Engenheiro de Software Sênior",
+    "openMenu": "Abrir menu de navegação",
+    "closeMenu": "Fechar menu"
+  },
+  "hero": {
+    "jobTitle": "Engenheiro de Software Sênior"
+  },
+  "about": {
+    "jobTitle": "Engenheiro de Software Sênior",
+    "location": "São Paulo, BR",
+    "aiSpecialist": "Especialista em IA",
+    "frontend": "Frontend",
+    "bio": "Sou um engenheiro de software focado em tecnologias front-end e aplicações web (single-page applications com JS, HTML e CSS). Tenho mais de {years}+ anos de experiência utilizando JavaScript e ReactJS em projetos reais, e estou sempre aprendendo mais sobre estruturas de dados e algoritmos, testes unitários e de integração. Também tenho conhecimento em processos de UX/UI design e posso ajudar a planejar e validar APIs RESTful e requisitos de software aplicados com metodologias ágeis."
+  },
+  "experiences": {
+    "title": "Experiências",
+    "items": [
+      {
+        "role": "Engenheiro de Software Sênior (foco em Front-end)",
+        "description": [
+          "Reduzi o bundle do cliente em ~5,1MB, melhorando significativamente o desempenho de carregamento e a experiência do usuário.",
+          "Migrei componentes principais do Material-UI para o design system interno, utilizando Tailwind para maior consistência e manutenibilidade.",
+          "Resolvi múltiplos problemas de alta prioridade em produção, aumentando a estabilidade e confiabilidade da aplicação."
+        ]
+      },
+      {
+        "role": "Engenheiro de Software Sênior (foco em Front-end)",
+        "description": [
+          "Liderei melhorias de funcionalidades para a iniciativa Marty no Zappos, aumentando o engajamento de usuários em mais de 18 milhões de visitantes mensais.",
+          "Implementei recomendações personalizadas de produtos, módulos de conteúdo dinâmico e fluxos de UI otimizados.",
+          "Desenvolvi serviços de back-end e APIs com Node.js, Express e AWS Lambda integrados ao catálogo de produtos, estoque em tempo real e rastreamento de comportamento do usuário do Zappos.",
+          "Construí um dashboard de analytics em tempo real visualizando sessões, pageviews, taxa de rejeição (~41,5%) e tendências de KPIs.",
+          "Colaborei de forma interfuncional em testes A/B (busca preditiva, filtros inteligentes, módulos de upsell) resultando em +8–12% de aumento na duração da sessão (média ~3m45s) e ~5,6 páginas a mais por visita.",
+          "Otimizei cache CDN (CloudFront / Akamai), lazy loading e compressão de imagens para melhorar os tempos de carregamento sob alto tráfego."
+        ]
+      },
+      {
+        "role": "Engenheiro Front-end Sênior",
+        "description": [
+          "Integrei NFTs com a API da Amazon para viabilizar transações comerciais para o Cryptoys.",
+          "Desenvolvi páginas temáticas para grandes clientes como Disney e Mattel.",
+          "Implementei soluções de autenticação usando Magic Link, Next.js e React.",
+          "Conduzi revisões de código detalhadas para garantir qualidade e boas práticas.",
+          "Tecnologias: Next.js, React, Storybook, Jest, Cypress, Magic Link API, Amazon API, Docker, CSS Animations."
+        ]
+      },
+      {
+        "role": "Engenheiro Front-end Sênior",
+        "description": [
+          "Desenvolvi código seguindo os padrões e boas práticas da empresa.",
+          "Identifiquei proativamente oportunidades para melhorar o código e o desempenho da aplicação.",
+          "Participei de revisões de código em pares e comuniquei o progresso ao Tech Lead.",
+          "Participei de reuniões com clientes e projetos, contribuindo para a cultura do time."
+        ]
+      },
+      {
+        "role": "Desenvolvedor Front-end Sênior",
+        "description": [
+          "Desenvolvi uma aplicação web de NFTs baseada em blockchain com mais de 1.100 usuários ativos mensais.",
+          "Mantive a funcionalidade de nuvem do Firebase para autorização e autenticação.",
+          "Integrei aplicações web embarcadas com plataformas de redes sociais.",
+          "Criei custom hooks em React para processamento de dados entre o Firebase e as aplicações web.",
+          "Tecnologias: JavaScript, React, Next.js, TypeScript, Firebase, Blockchain, CSS."
+        ]
+      },
+      {
+        "role": "Desenvolvedor Front-end",
+        "description": [
+          "Implementei componentes reutilizáveis de micro front-end para as 4 páginas mais acessadas, reduzindo retrabalho e complexidade.",
+          "Lancei uma aplicação web com mais de 12 milhões de acessos únicos mensais.",
+          "Iniciei um UI kit interno para React baseado em um design system para novos produtos.",
+          "Melhorei métricas de acessibilidade e SEO utilizando o Lighthouse."
+        ]
+      },
+      {
+        "role": "Desenvolvedor Front-end",
+        "description": [
+          "Implementei 3 projetos para clientes externos de ponta a ponta (eficiência energética, gestão escolar e agronegócio).",
+          "Desenvolvi aplicações web com ReactJS e AngularJS para diferentes setores econômicos.",
+          "Prototipei e planejei requisitos de sistema com ferramentas Adobe e metodologias ágeis em 4+ projetos.",
+          "Mentoreei 3+ estagiários por meio de revisão de código, pair programming e suporte a dúvidas."
+        ]
+      },
+      {
+        "role": "Estagiário de Desenvolvimento de Software",
+        "description": [
+          "Atuei principalmente com desenvolvimento front-end utilizando React.",
+          "Modelei bancos de dados relacionais e implementei APIs RESTful com ASP.NET e SQL Server.",
+          "Implementei funcionalidades em aplicativos mobile usando React Native."
+        ]
+      }
+    ]
+  },
+  "education": {
+    "title": "Formação",
+    "items": [
+      {
+        "degree": "Pós-Graduação – Inteligência Artificial e Machine Learning"
+      },
+      { "degree": "Análise e Desenvolvimento de Sistemas" },
+      { "degree": "Desenvolvimento Multiplataforma (Web e Mobile)" },
+      { "degree": "Técnico em Administração e Marketing" },
+      { "degree": "Ensino Médio" }
+    ]
+  }
+}

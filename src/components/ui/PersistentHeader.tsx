@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { useTranslations } from 'next-intl'
 import { NAV_ITEMS } from '@/lib/navigation'
+import LanguageSwitcher from '@/components/ui/LanguageSwitcher'
 
 const CIRCLE_RADIUS = 22
 const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS
@@ -18,6 +20,8 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
   const menuRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const animating = useRef(false)
+  const tNav = useTranslations('nav')
+  const tHeader = useTranslations('header')
 
   const progress = total > 1 ? current / (total - 1) : 0
   const offset = CIRCLE_CIRCUMFERENCE * (1 - progress)
@@ -110,10 +114,10 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
     >
       {/* Header row */}
       <div
-        className="flex items-center justify-between px-4 pb-2 md:px-3 md:py-2"
+        className="flex items-center justify-between px-4 pb-2 md:px-3 md:py-2 md:gap-12"
         style={{ paddingTop: 'max(0.5rem, env(safe-area-inset-top))' }}
       >
-        {/* Text — pointer-events-none on desktop */}
+        {/* Text — pointer-events-none */}
         <div className="pointer-events-none">
           <p
             className="font-sans font-bold text-white lowercase leading-none"
@@ -125,53 +129,57 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
             className="font-mono text-[#71717A] tracking-widest uppercase mt-0.5"
             style={{ fontSize: 'var(--text-label)' }}
           >
-            Senior Software Engineer
+            {tHeader('jobTitle')}
           </p>
         </div>
 
-        {/* Circle menu button — mobile only */}
-        <button
-          className="md:hidden shrink-0 ml-4 cursor-pointer"
-          onClick={isOpen ? closeMenu : openMenu}
-          aria-label={isOpen ? 'Close menu' : 'Open navigation menu'}
-          aria-expanded={isOpen}
-        >
-          <svg width={52} height={52} viewBox="-2 -2 48 48" aria-hidden="true">
-            {/* Track ring */}
-            <circle
-              cx={22} cy={22} r={CIRCLE_RADIUS}
-              stroke="rgba(255,255,255,0.15)" strokeWidth={1.5} fill="none"
-            />
-            {/* Progress arc */}
-            <circle
-              cx={22} cy={22} r={CIRCLE_RADIUS}
-              stroke="rgba(255,255,255,0.7)" strokeWidth={1.5} fill="none"
-              strokeDasharray={CIRCLE_CIRCUMFERENCE}
-              strokeDashoffset={offset}
-              strokeLinecap="round"
-              transform="rotate(-90 22 22)"
-              style={{ transition: 'stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1)' }}
-            />
-            {/* Hamburger / × icon */}
-            <line
-              className="circle-bar-top"
-              x1="15" y1="18" x2="29" y2="18"
-              stroke="rgba(255,255,255,0.7)" strokeWidth={1.5} strokeLinecap="round"
-            />
-            <line
-              className="circle-bar-bot"
-              x1="15" y1="26" x2="29" y2="26"
-              stroke="rgba(255,255,255,0.7)" strokeWidth={1.5} strokeLinecap="round"
-            />
-          </svg>
-        </button>
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+
+          {/* Circle menu button — mobile only */}
+          <button
+            className="md:hidden shrink-0 cursor-pointer"
+            onClick={isOpen ? closeMenu : openMenu}
+            aria-label={isOpen ? tHeader('closeMenu') : tHeader('openMenu')}
+            aria-expanded={isOpen}
+          >
+            <svg width={52} height={52} viewBox="-2 -2 48 48" aria-hidden="true">
+              {/* Track ring */}
+              <circle
+                cx={22} cy={22} r={CIRCLE_RADIUS}
+                stroke="rgba(255,255,255,0.15)" strokeWidth={1.5} fill="none"
+              />
+              {/* Progress arc */}
+              <circle
+                cx={22} cy={22} r={CIRCLE_RADIUS}
+                stroke="rgba(255,255,255,0.7)" strokeWidth={1.5} fill="none"
+                strokeDasharray={CIRCLE_CIRCUMFERENCE}
+                strokeDashoffset={offset}
+                strokeLinecap="round"
+                transform="rotate(-90 22 22)"
+                style={{ transition: 'stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1)' }}
+              />
+              {/* Hamburger / × icon */}
+              <line
+                className="circle-bar-top"
+                x1="15" y1="18" x2="29" y2="18"
+                stroke="rgba(255,255,255,0.7)" strokeWidth={1.5} strokeLinecap="round"
+              />
+              <line
+                className="circle-bar-bot"
+                x1="15" y1="26" x2="29" y2="26"
+                stroke="rgba(255,255,255,0.7)" strokeWidth={1.5} strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Nav menu rows — mobile only, always in DOM for GSAP */}
       <div ref={menuRef} className="md:hidden" aria-hidden={!isOpen}>
-        {NAV_ITEMS.map(({ label, index }) => (
+        {NAV_ITEMS.map(({ key, index }) => (
           <button
-            key={label}
+            key={key}
             className="mobile-nav-row w-full flex items-center justify-between px-4 py-3 border-t cursor-pointer bg-transparent"
             style={{ borderColor: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}
             onClick={() => handleNavClick(index)}
@@ -181,7 +189,7 @@ export default function PersistentHeader({ current, total, gotoSection }: Props)
               className="mobile-nav-row-content font-sans font-bold text-white lowercase"
               style={{ fontSize: 'clamp(1.1rem, 4vw, 1.4rem)' }}
             >
-              {label}
+              {tNav(key)}
             </span>
             <span
               className="mobile-nav-row-content font-mono tracking-widest"

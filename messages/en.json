@@ -1,0 +1,113 @@
+{
+  "nav": {
+    "aboutMe": "about me",
+    "experiences": "experiences",
+    "education": "education"
+  },
+  "header": {
+    "jobTitle": "Senior Software Engineer",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "jobTitle": "Senior Software Engineer"
+  },
+  "about": {
+    "jobTitle": "Senior Software Engineer",
+    "location": "São Paulo, BR",
+    "aiSpecialist": "AI Specialist",
+    "frontend": "Frontend",
+    "bio": "I'm a software engineer focused on front-end technologies and web applications (single-page applications with JS, HTML and CSS). I have over {years}+ years of experience using JavaScript and ReactJS on real projects, and I'm always learning more about data structures and algorithms, unit and integration tests. I also have some knowledge in UX/UI design processes and can help to plan and validate RESTful APIs and software requirements applied with agile methodologies."
+  },
+  "experiences": {
+    "title": "Experiences",
+    "items": [
+      {
+        "role": "Senior Software Engineer (Front-end focused)",
+        "description": [
+          "Reduced client bundle size by ~5.1MB, significantly improving load performance and user experience.",
+          "Migrated key components from Material-UI to the in-house design system, leveraging Tailwind for improved consistency and maintainability.",
+          "Resolved multiple high-priority production issues, increasing application stability and reliability."
+        ]
+      },
+      {
+        "role": "Senior Software Engineer (Front-end focused)",
+        "description": [
+          "Led feature enhancements for the Marty initiative at Zappos, improving user engagement across > 18M monthly visitors.",
+          "Implemented personalized product recommendations, dynamic content modules, and optimized UI flows.",
+          "Engineered back-end services and APIs using Node.js, Express, and AWS Lambda integrated with Zappos's product catalog, real-time inventory, and user behavior tracking.",
+          "Built a real-time analytics dashboard visualizing sessions, pageviews, bounce rate (~41.5%) and KPI trends.",
+          "Collaborated cross-functionally on A/B tests (predictive search, smart filtering, upsell modules) resulting in +8–12% uplift in session duration (avg ~3m45s) and ~5.6 more pages per visit.",
+          "Optimized CDN caching (CloudFront / Akamai), lazy loading, and image compression to improve load times under high traffic."
+        ]
+      },
+      {
+        "role": "Senior Front-end Engineer",
+        "description": [
+          "Integrated NFTs with Amazon API to enable commercial transactions for Cryptoys.",
+          "Developed thematic web pages for major clients including Disney and Mattel.",
+          "Implemented authentication solutions using Magic Link, Next.js, and React.",
+          "Conducted thorough code reviews to ensure code quality and best practices.",
+          "Technologies: Next.js, React, Storybook, Jest, Cypress, Magic Link API, Amazon API, Docker, CSS Animations."
+        ]
+      },
+      {
+        "role": "Senior Front-end Engineer",
+        "description": [
+          "Developed code complying with company standards and best practices.",
+          "Proactively identified opportunities to improve code and app performance.",
+          "Participated in peer code reviews and communicated progress to Technical Lead.",
+          "Attended client and project meetings and contributed to team culture."
+        ]
+      },
+      {
+        "role": "Senior Front-end Developer",
+        "description": [
+          "Developed a blockchain-based NFT web application with over 1,100 active monthly users.",
+          "Maintained Firebase cloud functionality for authorization and authentication.",
+          "Integrated embedded web applications with social media platforms.",
+          "Created custom React hooks for data processing between Firebase and web applications.",
+          "Technologies: JavaScript, React, Next.js, TypeScript, Firebase, Blockchain, CSS."
+        ]
+      },
+      {
+        "role": "Front-end Developer",
+        "description": [
+          "Implemented reusable micro front-end components for the 4 most accessed pages, reducing rework and time complexity.",
+          "Released a web app with 12M+ unique monthly accesses.",
+          "Started an internal UI kit for React based on a design system for new products.",
+          "Improved accessibility and SEO metrics using Lighthouse."
+        ]
+      },
+      {
+        "role": "Front-end Developer",
+        "description": [
+          "Implemented 3 projects for external clients end-to-end (energy efficiency, school management, and farm industry).",
+          "Developed web apps using ReactJS and AngularJS for different economic sectors.",
+          "Prototyped and planned system requirements using Adobe tools and agile methodologies for 4+ projects.",
+          "Mentored 3+ interns through code review, pair programming, and doubt support."
+        ]
+      },
+      {
+        "role": "Software Development Intern",
+        "description": [
+          "Worked primarily with front-end development using React.",
+          "Modelled relational databases and implemented RESTful APIs with ASP.NET and SQL Server.",
+          "Implemented features in mobile apps using React Native."
+        ]
+      }
+    ]
+  },
+  "education": {
+    "title": "Education",
+    "items": [
+      {
+        "degree": "Postgraduate Degree – Artificial Intelligence and Machine Learning"
+      },
+      { "degree": "System Analysis and Development" },
+      { "degree": "Multi-platform Development (Web and Mobile)" },
+      { "degree": "Technical Degree in Administration, Marketing" },
+      { "degree": "High School" }
+    ]
+  }
+}
