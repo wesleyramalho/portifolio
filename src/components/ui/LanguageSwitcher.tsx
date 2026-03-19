@@ -11,7 +11,7 @@ export default function LanguageSwitcher({ className }: { className?: string }) 
         onClick={() => setLocale("en")}
         aria-pressed={locale === "en"}
         className={[
-          "font-mono tracking-widest uppercase cursor-pointer bg-transparent border-0 p-3 transition-colors text-base md:text-xl",
+          "font-mono tracking-widest uppercase cursor-pointer bg-transparent border-0 p-3 transition-colors text-xl md:text-2xl",
           locale === "en" ? "text-white" : "text-white/40 hover:text-white/70",
         ].join(" ")}
       >
@@ -22,7 +22,7 @@ export default function LanguageSwitcher({ className }: { className?: string }) 
         onClick={() => setLocale("pt")}
         aria-pressed={locale === "pt"}
         className={[
-          "font-mono tracking-widest uppercase cursor-pointer bg-transparent border-0 p-3 transition-colors text-base md:text-xl",
+          "font-mono tracking-widest uppercase cursor-pointer bg-transparent border-0 p-3 transition-colors text-xl md:text-2xl",
           locale === "pt" ? "text-white" : "text-white/40 hover:text-white/70",
         ].join(" ")}
       >

@@ -145,7 +145,7 @@ export default function Hero() {
 
       <div className="absolute inset-0 bg-black/55 z-10" aria-hidden="true" />
 
-      <div className="relative z-20 flex flex-col justify-end flex-1 px-8 pb-16 md:px-16">
+      <div className="relative z-20 flex flex-col justify-end flex-1 px-8 pb-8 md:px-16">
         <h1
           className="font-sans font-bold text-white lowercase leading-none tracking-tight text-hero [perspective:600px]"
           aria-label={NAME}
@@ -222,7 +222,7 @@ export default function Hero() {
         </p>
 
         <div className="mt-3">
-          <LanguageSwitcher className="-ml-3.5" />
+          <LanguageSwitcher className="-ml-3" />
         </div>
       </div>
     </section>
