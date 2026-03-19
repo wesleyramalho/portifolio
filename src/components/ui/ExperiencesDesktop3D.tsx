@@ -159,12 +159,6 @@ export default function ExperiencesDesktop3D() {
       aria-label="Experiences"
       aria-roledescription="slide"
     >
-      <div className="absolute top-8 left-8 md:left-16 z-10 pt-16">
-        <h2 className="font-sans font-bold uppercase tracking-widest text-label text-zinc-400">
-          {t("title")}
-        </h2>
-      </div>
-
       <div
         className="absolute inset-0 flex items-center justify-center px-3 sm:px-0"
         style={{ perspective: `${perspective}px` }}

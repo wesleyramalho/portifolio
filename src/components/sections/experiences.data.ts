@@ -34,7 +34,7 @@ export const EXPERIENCE_STATIC: ExperienceItem[] = [
     link: "https://br.topps.com",
   },
   {
-    company: "iCarros",
+    company: "iCarros (Itaú)",
     period: "Mar 2020 – May 2021",
     location: "🇧🇷 Brazil",
     link: "http://icarros.com.br/",
