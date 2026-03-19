@@ -2,11 +2,11 @@
 
 import { useLocale } from "@/contexts/LocaleContext";
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ className }: { className?: string }) {
   const { locale, setLocale } = useLocale();
 
   return (
-    <div className="flex items-center gap-1 ml-1 md:ml-0" aria-label="Language selector">
+    <div className={`flex items-center gap-1 ml-1 md:ml-0 ${className ?? ""}`} aria-label="Language selector">
       <button
         onClick={() => setLocale("en")}
         aria-pressed={locale === "en"}

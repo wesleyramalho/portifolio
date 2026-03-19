@@ -223,8 +223,8 @@ export default function Hero() {
         </span>
         </p>
 
-        <div className="mt-3 md:ml-3 lg:ml-3">
-          <LanguageSwitcher />
+        <div className="mt-3">
+          <LanguageSwitcher className="-ml-3" />
         </div>
       </div>
     </section>
