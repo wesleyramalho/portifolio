@@ -28,7 +28,7 @@ export default function Hero() {
     hasAnimated.current = true;
 
     gsap.from(".hero-char", {
-      opacity: 0,
+      opacity: 0.01,
       y: 40,
       rotateX: -90,
       duration: 0.45,
@@ -40,13 +40,13 @@ export default function Hero() {
 
     gsap.fromTo(
       ".hero-title",
-      { clipPath: "inset(0 100% 0 0)" },
+      { x: "-100%" },
       {
-        clipPath: "inset(0 0% 0 0)",
+        x: "0%",
         duration: 0.9,
         ease: "power2.inOut",
         delay: 0.75,
-        clearProps: "clipPath",
+        clearProps: "x",
       },
     );
   }, [isActive]);
@@ -185,9 +185,10 @@ export default function Hero() {
         </h1>
 
         <p
-          className="hero-title font-mono text-white/80 tracking-widest uppercase mt-4 md:ml-3 lg:ml-3 text-label"
+          className="overflow-hidden font-mono text-white/80 tracking-widest uppercase mt-4 md:ml-3 lg:ml-3 text-label"
           aria-label={t("jobTitle")}
         >
+        <span className="hero-title inline-block">
           {t("jobTitle")
             .split(" ")
             .map((word, wordIndex, wordArray) => (
@@ -219,6 +220,7 @@ export default function Hero() {
                 )}
               </React.Fragment>
             ))}
+        </span>
         </p>
 
         <div className="mt-3 md:ml-3 lg:ml-3">

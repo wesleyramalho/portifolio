@@ -40,15 +40,13 @@ export default function ExperiencesMobileList() {
 
       gsap.fromTo(
         item,
-        { opacity: 0, y: 40, clipPath: "inset(0 0 100% 0)" },
+        { opacity: 0, y: 40 },
         {
           opacity: 1,
           y: 0,
-          clipPath: "inset(0 0 0% 0)",
           duration: 0.75,
           delay,
           ease: "power3.out",
-          clearProps: "clipPath",
         },
       );
     };
@@ -102,7 +100,7 @@ export default function ExperiencesMobileList() {
                     <p className="font-mono tracking-widest uppercase text-label text-zinc-500">
                       {staticData.period}
                     </p>
-                    <p className="font-mono tracking-widest uppercase mt-1 text-label text-zinc-600">
+                    <p className="font-mono tracking-widest uppercase mt-1 text-label text-zinc-500">
                       {staticData.location}
                     </p>
                   </div>

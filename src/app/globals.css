@@ -19,6 +19,12 @@ body {
   overflow: hidden; /* full-page scroll managed by SectionsContainer */
 }
 
+/* Explicit h1 font-size to suppress UA stylesheet deprecation warning
+   (Chrome warns when h1 inside section/article has no explicit font-size) */
+h1 {
+  font-size: var(--text-hero);
+}
+
 * {
   cursor: none;
 }
@@ -50,6 +56,15 @@ body {
   /* Mobile safe-area top padding */
   .pt-safe {
     padding-top: max(0.5rem, env(safe-area-inset-top));
+  }
+
+  /* Hide scrollbar while keeping scroll functionality */
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }
 

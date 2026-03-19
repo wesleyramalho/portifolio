@@ -15,31 +15,24 @@ const SNAP_DELAY = 450;
 
 function calcDesktopDims() {
   if (typeof window === "undefined") {
-    return {
-      faceW: 540,
-      faceH: 440,
-      radius: 400,
-      perspective: 1400,
-    };
+    return { faceW: 540, radius: 400, perspective: 1400 };
   }
 
   const vw = window.innerWidth;
 
   if (vw < 1024) {
-    return {
-      faceW: 480,
-      faceH: 410,
-      radius: 300,
-      perspective: 1500,
-    };
+    return { faceW: 480, radius: 300, perspective: 1500 };
   }
 
-  return {
-    faceW: 540,
-    faceH: 440,
-    radius: 400,
-    perspective: 1400,
-  };
+  if (vw >= 1920) {
+    return { faceW: Math.min(600, vw * 0.30), radius: 480, perspective: 1800 };
+  }
+
+  if (vw >= 1440) {
+    return { faceW: Math.min(560, vw * 0.34), radius: 420, perspective: 1600 };
+  }
+
+  return { faceW: Math.min(500, vw * 0.40), radius: 360, perspective: 1400 };
 }
 
 export default function ExperiencesDesktop3D() {
@@ -52,7 +45,7 @@ export default function ExperiencesDesktop3D() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [dims, setDims] = useState(calcDesktopDims);
 
-  const { faceW, faceH, radius, perspective } = dims;
+  const { faceW, radius, perspective } = dims;
 
   const { isActive, index: sectionIndex, gotoSection } = useSectionContext();
   const t = useTranslations("experiences");
@@ -187,17 +180,15 @@ export default function ExperiencesDesktop3D() {
                 style={{
                   position: "absolute",
                   width: faceW,
-                  height: faceH,
                   marginLeft: -faceW / 2,
-                  marginTop: -faceH / 2,
-                  transform: `rotateY(${DEG_PER_ITEM * i}deg) translateZ(${radius}px)`,
+                  transform: `rotateY(${DEG_PER_ITEM * i}deg) translateZ(${radius}px) translateY(-50%)`,
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
                 }}
               >
                 <GlassCard
                   className={[
-                    "h-full flex flex-col overflow-hidden transition-[filter,opacity,transform] duration-500",
+                    "flex flex-col overflow-hidden transition-[filter,opacity,transform] duration-500",
                     "p-5 gap-3",
                     isThisFaceActive ? "opacity-100" : "opacity-25 blur-sm",
                   ].join(" ")}
@@ -207,19 +198,19 @@ export default function ExperiencesDesktop3D() {
                       <p className="font-mono tracking-widest uppercase text-[10px] text-zinc-500">
                         {staticData.period}
                       </p>
-                      <p className="font-mono tracking-widest uppercase text-[10px] mt-0.5 text-zinc-600">
+                      <p className="font-mono tracking-widest uppercase text-[10px] mt-0.5 text-zinc-500">
                         {staticData.location}
                       </p>
                     </div>
 
-                    <span className="font-mono text-[10px] tracking-widest text-zinc-600 tabular-nums shrink-0">
+                    <span className="font-mono text-[10px] tracking-widest text-zinc-500 tabular-nums shrink-0">
                       {String(i + 1).padStart(2, "0")} /{" "}
                       {String(EXPERIENCE_STATIC.length).padStart(2, "0")}
                     </span>
                   </div>
 
                   <div className="shrink-0 border-t border-white/5 pt-3">
-                    <h3 className="font-sans font-semibold text-sm sm:text-base text-zinc-100 leading-snug">
+                    <h3 className="font-sans font-semibold text-sm text-zinc-100 leading-snug">
                       {staticData.link ? (
                         <a
                           href={staticData.link}
@@ -239,13 +230,13 @@ export default function ExperiencesDesktop3D() {
                     </p>
                   </div>
 
-                  <ul className="flex flex-col gap-1.5 overflow-hidden flex-1">
+                  <ul className="flex flex-col gap-1.5 scrollbar-none">
                     {translated.description.map((item, di) => (
                       <li
                         key={di}
-                        className="flex gap-2 text-[12px] leading-relaxed text-gray-400"
+                        className="flex gap-2 text-xs leading-relaxed text-gray-400"
                       >
-                        <span className="text-zinc-600 shrink-0 mt-0.5">•</span>
+                        <span className="text-zinc-500 shrink-0 mt-0.5">•</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -270,19 +261,6 @@ export default function ExperiencesDesktop3D() {
         companies={companies}
         onSelect={snapTo}
       />
-
-      <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none z-10"
-        style={{
-          opacity: activeIndex === 0 ? 1 : 0,
-          transition: "opacity 0.4s ease",
-        }}
-      >
-        <p className="font-mono text-[10px] tracking-widest uppercase text-zinc-600">
-          scroll to navigate
-        </p>
-        <div className="w-px h-6 bg-gradient-to-b from-zinc-600 to-transparent" />
-      </div>
     </section>
   );
 }

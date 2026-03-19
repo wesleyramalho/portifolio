@@ -33,7 +33,7 @@ export default function ExperienceProgress({
                 onClick={() => onSelect?.(i)}
                 aria-label={`Go to experience ${i + 1}: ${companies[i]}`}
                 aria-current={isCurrent ? "true" : undefined}
-                className="pointer-events-auto p-2 -m-2"
+                className="pointer-events-auto p-3 -m-3"
               >
                 <div
                   style={{
@@ -81,7 +81,7 @@ export default function ExperienceProgress({
               onClick={() => onSelect?.(i)}
               aria-label={`Go to experience ${i + 1}: ${companies[i]}`}
               aria-current={isCurrent ? "true" : undefined}
-              className="pointer-events-auto"
+              className="pointer-events-auto p-5 flex items-center justify-center"
             >
               <div
                 style={{
