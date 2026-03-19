@@ -19,10 +19,10 @@ body {
   overflow: hidden; /* full-page scroll managed by SectionsContainer */
 }
 
-/* Explicit h1 font-size to suppress UA stylesheet deprecation warning
-   (Chrome warns when h1 inside section/article has no explicit font-size) */
+/* Explicit h1 font-size — concrete value (not a var()) so Chrome's UA-deprecation
+   checker can see it directly. Must match --text-hero. */
 h1 {
-  font-size: var(--text-hero);
+  font-size: clamp(3rem, 8vw, 14rem);
 }
 
 * {
