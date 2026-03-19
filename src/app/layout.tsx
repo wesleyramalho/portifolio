@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { headers } from "next/headers";
 import "./globals.css";
 import FluidCanvas from "@/components/fluid/FluidCanvas";
 import { LocaleProvider } from "@/contexts/LocaleContext";
@@ -80,11 +81,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const nonce = (await headers()).get("x-nonce") ?? "";
+
   return (
     <html
       lang="en"
@@ -92,6 +95,7 @@ export default function RootLayout({
     >
       <body className="antialiased bg-background text-foreground">
         <script
+          nonce={nonce}
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
