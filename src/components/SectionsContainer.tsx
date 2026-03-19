@@ -3,11 +3,15 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { SectionContext } from "@/contexts/SectionContext";
+import { useMacBookTransition } from "@/contexts/MacBookTransitionContext";
 import CircleProgress from "@/components/ui/CircleProgress";
 import Nav from "@/components/ui/Nav";
 import PersistentHeader from "@/components/ui/PersistentHeader";
 
 const ROUTES = ["/", "/about", "/experiences", "/education"];
+
+// Total scroll-pixels (deltaY accumulated) needed to complete Hero→About transition
+const MACBOOK_SCROLL_THRESHOLD = 2000
 
 interface SectionsContainerProps {
   children: React.ReactNode;
@@ -20,6 +24,8 @@ export default function SectionsContainer({
   const currentRef = useRef(0);
   const animating = useRef(false);
   const panelsRef = useRef<HTMLDivElement[]>([]);
+  const macbookProgressRef = useRef(0);
+  const { setProgress: setMacbookProgress } = useMacBookTransition();
 
   // On direct URL load, jump to the matching section without animation
   useEffect(() => {
@@ -36,6 +42,21 @@ export default function SectionsContainer({
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Instantly swap sections without GSAP — used after MacBook transition completes
+  const commitTransition = useCallback((index: number) => {
+    const panels = panelsRef.current;
+    const prev = currentRef.current;
+    panels.forEach((panel, i) => {
+      gsap.set(panel, { opacity: i === index ? 1 : 0, y: 0, zIndex: i === index ? 1 : 0 });
+    });
+    const targetSection = panels[index]?.querySelector("section") as HTMLElement | null;
+    if (targetSection) targetSection.scrollTop = 0;
+    window.history.replaceState(null, "", ROUTES[index]);
+    currentRef.current = index;
+    setCurrent(index);
+    void prev; // suppress unused-var lint
   }, []);
 
   const gotoSection = useCallback((index: number) => {
@@ -94,12 +115,46 @@ export default function SectionsContainer({
       );
     };
 
+    const advanceMacbook = (delta: number) => {
+      const next = Math.max(0, Math.min(1, macbookProgressRef.current + delta / MACBOOK_SCROLL_THRESHOLD));
+      macbookProgressRef.current = next;
+      setMacbookProgress(next);
+
+      if (next >= 1) {
+        // Transition complete → commit About section, reset progress
+        macbookProgressRef.current = 0;
+        setMacbookProgress(0);
+        commitTransition(1);
+      } else if (next <= 0) {
+        // Reversed back to Hero
+        macbookProgressRef.current = 0;
+        setMacbookProgress(0);
+        commitTransition(0);
+      }
+    };
+
     const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
       if (animating.current) return;
 
-      e.preventDefault();
-
       const section = getActiveSection();
+
+      // ── Hero → About: MacBook transition (scroll down) ──────────────────
+      if (currentRef.current === 0 && e.deltaY > 10) {
+        advanceMacbook(e.deltaY);
+        return;
+      }
+
+      // ── About → Hero: MacBook reverse (scroll up from top of About) ─────
+      if (currentRef.current === 1 && e.deltaY < -10) {
+        const atTop = !section || section.scrollTop <= 0;
+        if (atTop) {
+          advanceMacbook(e.deltaY); // delta is negative → decrements progress
+          return;
+        }
+      }
+
+      // ── Standard internal section scroll ────────────────────────────────
       if (section && section.scrollHeight > section.clientHeight + 2) {
         const atBottom =
           section.scrollTop + section.clientHeight >= section.scrollHeight - 4;
@@ -114,6 +169,7 @@ export default function SectionsContainer({
         }
       }
 
+      // ── Standard section jump (all other pairs) ──────────────────────────
       if (e.deltaY > 10) gotoSection((currentRef.current + 1) % ROUTES.length);
       else if (e.deltaY < -10)
         gotoSection((currentRef.current - 1 + ROUTES.length) % ROUTES.length);
@@ -131,6 +187,18 @@ export default function SectionsContainer({
         (getActiveSection()?.scrollTop ?? 0) - touchStartScrollTop,
       );
       if (scrolledBy > 5) return;
+
+      // MacBook touch transitions
+      if (currentRef.current === 0 && delta > 30) {
+        advanceMacbook(delta * 10); // scale touch delta to match wheel threshold
+        return;
+      }
+      const atTop = !getActiveSection() || (getActiveSection()?.scrollTop ?? 0) <= 0;
+      if (currentRef.current === 1 && delta < -30 && atTop) {
+        advanceMacbook(delta * 10);
+        return;
+      }
+
       if (delta > 30) gotoSection((currentRef.current + 1) % ROUTES.length);
       else if (delta < -30)
         gotoSection((currentRef.current - 1 + ROUTES.length) % ROUTES.length);
@@ -154,7 +222,7 @@ export default function SectionsContainer({
       window.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("keydown", onKey);
     };
-  }, [gotoSection]);
+  }, [gotoSection, commitTransition, setMacbookProgress]);
 
   const childArray = React.Children.toArray(children);
 
