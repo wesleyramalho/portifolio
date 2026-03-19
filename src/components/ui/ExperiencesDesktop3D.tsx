@@ -226,9 +226,9 @@ export default function ExperiencesDesktop3D() {
 
                   <div className="shrink-0 border-t border-white/5 pt-3">
                     <h3 className="font-sans font-semibold text-sm sm:text-base text-zinc-100 leading-snug">
-                      {"link" in staticData ? (
+                      {staticData.link ? (
                         <a
-                          href={(staticData as { link: string }).link}
+                          href={staticData.link}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="hover:underline"

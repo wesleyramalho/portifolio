@@ -1,15 +1,20 @@
-export const EXPERIENCE_STATIC = [
+export type ExperienceItem = {
+  company: string;
+  period: string;
+  location: string;
+  link?: string;
+};
+
+export const EXPERIENCE_STATIC: ExperienceItem[] = [
   {
     company: "Tecla (CredoAI)",
     period: "Apr 2025 – Present",
     location: "🇺🇸 United States (Remote)",
-    link: "",
   },
   {
     company: "Truelogic Software (Zappos)",
     period: "Oct 2024 – Jul 2025",
     location: "🇺🇸 United States (Remote)",
-    link: "",
   },
   {
     company: "Tecla (OnChain Studios)",
@@ -21,7 +26,6 @@ export const EXPERIENCE_STATIC = [
     company: "X-Team",
     period: "Sep 2021 – Sep 2023",
     location: "🇦🇺 Australia (Remote)",
-    link: "",
   },
   {
     company: "Popstand",
@@ -39,12 +43,10 @@ export const EXPERIENCE_STATIC = [
     company: "SENAI São Paulo",
     period: "Dec 2017 – Feb 2020",
     location: "🇧🇷 Brazil",
-    link: "",
   },
   {
     company: "SENAI São Paulo",
     period: "Mar 2017 – Nov 2017",
     location: "🇧🇷 Brazil",
-    link: "",
   },
-] as const;
+];
