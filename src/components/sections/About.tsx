@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useSectionContext } from '@/contexts/SectionContext'
 import GlassCard from '@/components/ui/GlassCard'
+import GlowBorderCanvas from '@/components/ui/GlowBorderCanvas'
 
 const CAREER_START = new Date(2017, 2, 1) // March 2017
 
@@ -59,13 +60,20 @@ export default function About() {
       <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center pt-20 pb-28 md:pt-0 md:pb-0">
         {/* Avatar — clip-path reveal */}
         <div className="flex justify-center md:justify-start">
-          <div ref={imgRef}>
-            <Image
-              src="/pixel-me.svg"
-              alt="Pixel art portrait of Wesley Ramalho"
-              width={400}
-              height={400}
-              className="grayscale opacity-90 w-48 h-48 md:w-[400px] md:h-[400px]"
+          <div className="relative inline-block">
+            <div ref={imgRef}>
+              <Image
+                src="/pixel-me.svg"
+                alt="Pixel art portrait of Wesley Ramalho"
+                width={400}
+                height={400}
+                unoptimized
+                className="grayscale opacity-90 w-48 h-48 md:w-[400px] md:h-[400px] rounded-2xl block"
+              />
+            </div>
+            <GlowBorderCanvas
+              borderRadius={16}
+              className="absolute inset-0 w-full h-full pointer-events-none"
             />
           </div>
         </div>
