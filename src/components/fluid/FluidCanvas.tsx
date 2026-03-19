@@ -90,6 +90,7 @@ export default function FluidCanvas() {
       <canvas
         ref={canvasRef}
         className="canvas-fluid"
+        style={{ pointerEvents: "none" }}
       />
     </FluidContext.Provider>
   )

@@ -184,47 +184,45 @@ export default function Hero() {
           ))}
         </h1>
 
-        <p
-          className="overflow-hidden font-mono text-white/80 tracking-widest uppercase mt-4 md:ml-3 lg:ml-3 text-label"
-          aria-label={t("jobTitle")}
-        >
-        <span className="hero-title inline-block">
-          {t("jobTitle")
-            .split(" ")
-            .map((word, wordIndex, wordArray) => (
-              <React.Fragment key={wordIndex}>
-                <span className="inline-block whitespace-nowrap">
-                  {word.split("").map((char, charIndex) => (
+        <p className="overflow-hidden font-mono text-white/80 tracking-widest uppercase mt-4 md:ml-3 lg:ml-3 text-label">
+          <span className="sr-only">{t("jobTitle")}</span>
+          <span className="hero-title inline-block" aria-hidden="true">
+            {t("jobTitle")
+              .split(" ")
+              .map((word, wordIndex, wordArray) => (
+                <React.Fragment key={wordIndex}>
+                  <span className="inline-block whitespace-nowrap">
+                    {word.split("").map((char, charIndex) => (
+                      <span
+                        key={charIndex}
+                        className="inline-block"
+                        ref={(el) => {
+                          if (el) titleCharRefs.current.push(el);
+                        }}
+                        aria-hidden="true"
+                      >
+                        {char}
+                      </span>
+                    ))}
+                  </span>
+                  {wordIndex < wordArray.length - 1 && (
                     <span
-                      key={charIndex}
                       className="inline-block"
                       ref={(el) => {
                         if (el) titleCharRefs.current.push(el);
                       }}
                       aria-hidden="true"
                     >
-                      {char}
+                      &nbsp;
                     </span>
-                  ))}
-                </span>
-                {wordIndex < wordArray.length - 1 && (
-                  <span
-                    className="inline-block"
-                    ref={(el) => {
-                      if (el) titleCharRefs.current.push(el);
-                    }}
-                    aria-hidden="true"
-                  >
-                    &nbsp;
-                  </span>
-                )}
-              </React.Fragment>
-            ))}
-        </span>
+                  )}
+                </React.Fragment>
+              ))}
+          </span>
         </p>
 
         <div className="mt-3">
-          <LanguageSwitcher className="-ml-3" />
+          <LanguageSwitcher className="-ml-3.5" />
         </div>
       </div>
     </section>
