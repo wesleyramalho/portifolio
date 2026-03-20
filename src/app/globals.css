@@ -7,10 +7,10 @@
   --foreground: #f0f0f0;
 
   /* Fluid typography — scales from mobile to 4K */
-  --text-hero:    clamp(3rem, 8vw, 14rem);
+  --text-hero: clamp(3rem, 8vw, 14rem);
   --text-heading: clamp(1.5rem, 2.5vw, 4rem);
-  --text-label:   clamp(0.7rem, 0.9vw, 1rem);
-  --text-body:    clamp(0.875rem, 0.85vw, 1.125rem);
+  --text-label: clamp(0.7rem, 0.9vw, 1rem);
+  --text-body: clamp(0.875rem, 0.85vw, 1.125rem);
 }
 
 body {
@@ -66,6 +66,17 @@ h1 {
   .scrollbar-none::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* Override browser autofill background — keeps dark theme on filled inputs */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+  -webkit-text-fill-color: rgb(244, 244, 245) !important;
+  caret-color: rgb(244, 244, 245);
+  transition: background-color 5000s ease-in-out 0s !important;
 }
 
 /* Respect reduced-motion preference */

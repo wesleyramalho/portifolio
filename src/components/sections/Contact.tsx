@@ -132,12 +132,45 @@ export default function Contact() {
     >
       <div className="max-w-2xl mx-auto w-full pt-24 pb-28 md:pt-28 md:pb-16">
         <SectionHeading>{t("title")}</SectionHeading>
+        <p className="contact-item font-sans text-body text-zinc-400 mb-8 -mt-6">
+          {t("subtitle")}
+        </p>
 
-        <GlassCard className="contact-item p-8">
+        <GlassCard className="contact-item relative overflow-hidden p-8">
           {status === "success" ? (
-            <p className="font-sans text-body text-zinc-100 text-center py-8">
-              {t("success")}
-            </p>
+            <div className="flex flex-col items-center gap-3 py-8 text-center">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="19"
+                  stroke="currentColor"
+                  strokeOpacity="0.3"
+                  strokeWidth="1.5"
+                  className="text-white"
+                />
+                <path
+                  d="M12 20.5l6 6 10-12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-white"
+                />
+              </svg>
+              <p className="font-sans font-semibold text-body text-zinc-100">
+                {t("successTitle")}
+              </p>
+              <p className="font-sans text-label text-zinc-400">
+                {t("successSubtitle")}
+              </p>
+            </div>
           ) : (
             <form
               onSubmit={handleSubmit}
@@ -147,7 +180,7 @@ export default function Contact() {
               <div className="flex flex-col gap-1.5">
                 <label
                   htmlFor="contact-name"
-                  className="font-mono tracking-widest uppercase text-label text-zinc-400"
+                  className="font-mono tracking-wide text-label text-zinc-400"
                 >
                   {t("name")}
                 </label>
@@ -156,6 +189,7 @@ export default function Contact() {
                   type="text"
                   required
                   maxLength={100}
+                  placeholder={t("namePlaceholder")}
                   value={name}
                   onChange={(e) => {
                     setName(e.target.value);
@@ -185,7 +219,7 @@ export default function Contact() {
               <div className="flex flex-col gap-1.5">
                 <label
                   htmlFor="contact-email"
-                  className="font-mono tracking-widest uppercase text-label text-zinc-400"
+                  className="font-mono tracking-wide text-label text-zinc-400"
                 >
                   {t("email")}
                 </label>
@@ -194,6 +228,7 @@ export default function Contact() {
                   type="email"
                   required
                   maxLength={254}
+                  placeholder={t("emailPlaceholder")}
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -225,7 +260,7 @@ export default function Contact() {
               <div className="flex flex-col gap-1.5">
                 <label
                   htmlFor="contact-message"
-                  className="font-mono tracking-widest uppercase text-label text-zinc-400"
+                  className="font-mono tracking-wide text-label text-zinc-400"
                 >
                   {t("message")}
                 </label>
@@ -234,6 +269,7 @@ export default function Contact() {
                   required
                   maxLength={2000}
                   rows={5}
+                  placeholder={t("messagePlaceholder")}
                   value={message}
                   onChange={(e) => {
                     setMessage(e.target.value);
@@ -276,7 +312,7 @@ export default function Contact() {
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="font-mono tracking-widest uppercase text-label text-zinc-400 hover:text-white transition-colors bg-transparent border-0 p-0 cursor-pointer"
+                    className="font-mono tracking-wide text-label text-zinc-400 hover:text-white transition-colors bg-transparent border-0 p-0 cursor-pointer"
                   >
                     {t("cancel")}
                   </button>
@@ -303,6 +339,14 @@ export default function Contact() {
                 </button>
               </div>
             </form>
+          )}
+
+          {status === "confirming" && (
+            <div
+              className="absolute bottom-0 left-0 h-0.5 bg-white/40 transition-[width] duration-300 ease-linear"
+              style={{ width: `${(countdown / COUNTDOWN_SECONDS) * 100}%` }}
+              aria-hidden="true"
+            />
           )}
         </GlassCard>
 
