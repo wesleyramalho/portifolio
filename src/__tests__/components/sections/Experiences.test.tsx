@@ -9,7 +9,7 @@ const COMPANIES = [
   'Tecla (OnChain Studios)',
   'X-Team',
   'Popstand',
-  'iCarros',
+  'iCarros (Itaú)',
   'SENAI São Paulo',
 ]
 

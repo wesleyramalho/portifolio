@@ -19,10 +19,10 @@ describe("Hero", () => {
 
   it("renders the job title", () => {
     const { container } = renderWithProviders(<Hero />);
-    // Title is split into char spans; query via aria-label on the <p>
+    // Title text lives in an sr-only span for accessibility
     expect(
-      container.querySelector('[aria-label="Senior Software Engineer"]'),
-    ).toBeInTheDocument();
+      container.querySelector(".sr-only"),
+    ).toHaveTextContent("Senior Software Engineer");
   });
 
   it("renders EN and PT language switcher", () => {
