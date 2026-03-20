@@ -222,7 +222,7 @@ export default function Hero() {
         </p>
 
         <div className="mt-3">
-          <LanguageSwitcher className="-ml-3" />
+          <LanguageSwitcher className="max-sm:-ml-4 -ml-3" />
         </div>
       </div>
     </section>
