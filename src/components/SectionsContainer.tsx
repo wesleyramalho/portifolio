@@ -7,7 +7,7 @@ import CircleProgress from "@/components/ui/CircleProgress";
 import Nav from "@/components/ui/Nav";
 import PersistentHeader from "@/components/ui/PersistentHeader";
 
-const ROUTES = ["/", "/about", "/experiences", "/education"];
+const ROUTES = ["/", "/about", "/experiences", "/education", "/contact"];
 
 interface SectionsContainerProps {
   children: React.ReactNode;
@@ -51,7 +51,9 @@ export default function SectionsContainer({
     panels[target].style.zIndex = "2";
     panels[previousIndex].style.zIndex = "1";
 
-    const targetSection = panels[target].querySelector("section") as HTMLElement | null;
+    const targetSection = panels[target].querySelector(
+      "section",
+    ) as HTMLElement | null;
     if (targetSection) targetSection.scrollTop = 0;
 
     gsap.set(panels[target], { opacity: 0, y: direction * 60 });
@@ -169,7 +171,7 @@ export default function SectionsContainer({
             ref={(sectionElement) => {
               if (sectionElement) panelsRef.current[index] = sectionElement;
             }}
-            className={`absolute inset-0 h-svh ${index === 0 ? 'opacity-100 z-[1]' : 'opacity-0 z-[0]'}`}
+            className={`absolute inset-0 h-svh ${index === 0 ? "opacity-100 z-[1]" : "opacity-0 z-[0]"}`}
             aria-hidden={index !== current}
           >
             {child}

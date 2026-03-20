@@ -26,6 +26,7 @@ const nextConfig = {
       { source: "/about", destination: "/" },
       { source: "/experiences", destination: "/" },
       { source: "/education", destination: "/" },
+      { source: "/contact", destination: "/" },
     ];
   },
   webpack(config) {

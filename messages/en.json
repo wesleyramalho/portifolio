@@ -2,7 +2,8 @@
   "nav": {
     "aboutMe": "about me",
     "experiences": "experiences",
-    "education": "education"
+    "education": "education",
+    "contact": "contact"
   },
   "header": {
     "jobTitle": "Senior Software Engineer",
@@ -109,5 +110,19 @@
       { "degree": "Technical Degree in Administration, Marketing" },
       { "degree": "High School" }
     ]
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send message",
+    "sending": "Sending...",
+    "sendingIn": "Sending in {seconds}...",
+    "cancel": "Cancel",
+    "success": "Message sent! I'll get back to you soon.",
+    "error": "Something went wrong. Please try again.",
+    "errorRequired": "This field is required.",
+    "errorEmail": "Please enter a valid email address."
   }
 }

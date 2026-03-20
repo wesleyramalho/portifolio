@@ -2,7 +2,8 @@
   "nav": {
     "aboutMe": "sobre mim",
     "experiences": "experiências",
-    "education": "formação"
+    "education": "formação",
+    "contact": "contato"
   },
   "header": {
     "jobTitle": "Engenheiro de Software Sênior",
@@ -109,5 +110,19 @@
       { "degree": "Técnico em Administração e Marketing" },
       { "degree": "Ensino Médio" }
     ]
+  },
+  "contact": {
+    "title": "Contato",
+    "name": "Nome",
+    "email": "E-mail",
+    "message": "Mensagem",
+    "send": "Enviar mensagem",
+    "sending": "Enviando...",
+    "sendingIn": "Enviando em {seconds}...",
+    "cancel": "Cancelar",
+    "success": "Mensagem enviada! Responderei em breve.",
+    "error": "Algo deu errado. Por favor, tente novamente.",
+    "errorRequired": "Este campo é obrigatório.",
+    "errorEmail": "Por favor, insira um e-mail válido."
   }
 }
