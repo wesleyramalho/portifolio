@@ -10,9 +10,9 @@ function renderNav(current = 0) {
 }
 
 describe('Nav', () => {
-  it('renders 3 navigation buttons', () => {
+  it('renders 4 navigation buttons', () => {
     renderNav()
-    expect(screen.getAllByRole('button')).toHaveLength(3)
+    expect(screen.getAllByRole('button')).toHaveLength(4)
   })
 
   it('renders translated nav labels', () => {
@@ -20,6 +20,7 @@ describe('Nav', () => {
     expect(screen.getByText('about me')).toBeInTheDocument()
     expect(screen.getByText('experiences')).toBeInTheDocument()
     expect(screen.getByText('education')).toBeInTheDocument()
+    expect(screen.getByText('contact')).toBeInTheDocument()
   })
 
   it('active section button has aria-current="page"', () => {

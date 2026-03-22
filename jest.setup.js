@@ -23,6 +23,7 @@ const MOCK_MESSAGES = {
     aboutMe: 'about me',
     experiences: 'experiences',
     education: 'education',
+    contact: 'contact',
   },
   header: {
     jobTitle: 'Senior Software Engineer',
