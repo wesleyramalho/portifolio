@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useSectionContext } from "@/contexts/SectionContext";
 import GlassCard from "@/components/ui/GlassCard";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { FormInput, FormTextarea } from "@/components/ui/FormInput";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 
 type FormStatus = "idle" | "confirming" | "loading" | "success" | "error";
@@ -213,7 +214,7 @@ export default function Contact() {
                 >
                   {t("name")}
                 </label>
-                <input
+                <FormInput
                   id="contact-name"
                   type="text"
                   required
@@ -226,14 +227,9 @@ export default function Contact() {
                       setFieldErrors((prev) => ({ ...prev, name: undefined }));
                   }}
                   disabled={isDisabled}
+                  hasError={!!fieldErrors.name}
                   aria-invalid={!!fieldErrors.name}
                   aria-describedby={fieldErrors.name ? "error-name" : undefined}
-                  className={[
-                    "bg-white/5 border rounded-md px-4 py-2.5 text-body text-zinc-100 placeholder-zinc-600 focus:outline-none transition-colors disabled:opacity-50",
-                    fieldErrors.name
-                      ? "border-red-500/60 focus:border-red-500/80"
-                      : "border-white/10 focus:border-white/30",
-                  ].join(" ")}
                 />
                 {fieldErrors.name && (
                   <p
@@ -252,7 +248,7 @@ export default function Contact() {
                 >
                   {t("email")}
                 </label>
-                <input
+                <FormInput
                   id="contact-email"
                   type="email"
                   required
@@ -265,16 +261,11 @@ export default function Contact() {
                       setFieldErrors((prev) => ({ ...prev, email: undefined }));
                   }}
                   disabled={isDisabled}
+                  hasError={!!fieldErrors.email}
                   aria-invalid={!!fieldErrors.email}
                   aria-describedby={
                     fieldErrors.email ? "error-email" : undefined
                   }
-                  className={[
-                    "bg-white/5 border rounded-md px-4 py-2.5 text-body text-zinc-100 placeholder-zinc-600 focus:outline-none transition-colors disabled:opacity-50",
-                    fieldErrors.email
-                      ? "border-red-500/60 focus:border-red-500/80"
-                      : "border-white/10 focus:border-white/30",
-                  ].join(" ")}
                 />
                 {fieldErrors.email && (
                   <p
@@ -293,7 +284,7 @@ export default function Contact() {
                 >
                   {t("message")}
                 </label>
-                <textarea
+                <FormTextarea
                   id="contact-message"
                   required
                   maxLength={2000}
@@ -309,16 +300,11 @@ export default function Contact() {
                       }));
                   }}
                   disabled={isDisabled}
+                  hasError={!!fieldErrors.message}
                   aria-invalid={!!fieldErrors.message}
                   aria-describedby={
                     fieldErrors.message ? "error-message" : undefined
                   }
-                  className={[
-                    "bg-white/5 border rounded-md px-4 py-2.5 text-body text-zinc-100 placeholder-zinc-600 focus:outline-none transition-colors resize-none disabled:opacity-50",
-                    fieldErrors.message
-                      ? "border-red-500/60 focus:border-red-500/80"
-                      : "border-white/10 focus:border-white/30",
-                  ].join(" ")}
                 />
                 {fieldErrors.message && (
                   <p
