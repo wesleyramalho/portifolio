@@ -91,6 +91,12 @@ jest.mock('next-intl', () => ({
   NextIntlClientProvider: ({ children }) => children,
 }))
 
+// ── react-google-recaptcha-v3 ────────────────────────────────────────────────
+jest.mock('react-google-recaptcha-v3', () => ({
+  GoogleReCaptchaProvider: ({ children }) => children,
+  useGoogleReCaptcha: () => ({ executeRecaptcha: jest.fn().mockResolvedValue('mock-token') }),
+}))
+
 // ── Browser APIs ───────────────────────────────────────────────────────────────
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

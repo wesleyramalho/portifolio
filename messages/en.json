@@ -140,6 +140,7 @@
     "successSubtitle": "Thanks for reaching out. I'll get back to you as soon as possible. 🙌",
     "error": "Something went wrong. Please try again.",
     "errorRequired": "This field is required.",
-    "errorEmail": "Please enter a valid email address."
+    "errorEmail": "Please enter a valid email address.",
+    "errorName": "Name can only contain letters, spaces, hyphens, and apostrophes."
   }
 }

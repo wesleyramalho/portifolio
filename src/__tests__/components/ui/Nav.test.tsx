@@ -27,10 +27,10 @@ describe('Nav', () => {
   it('active section button has aria-current="page"', () => {
     renderNav(2)
     const buttons = screen.getAllByRole('button')
-    // index 2 = 'experiences' (second item, index=2)
+    // index 2 = 'projects' (second item, index=2)
     const activeButton = buttons.find((b) => b.getAttribute('aria-current') === 'page')
     expect(activeButton).toBeInTheDocument()
-    expect(activeButton).toHaveTextContent('experiences')
+    expect(activeButton).toHaveTextContent('projects')
   })
 
   it('clicking a nav button calls gotoSection with the correct index', async () => {

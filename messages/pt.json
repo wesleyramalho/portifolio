@@ -140,6 +140,7 @@
     "successSubtitle": "Obrigado pelo contato. Responderei o mais breve possível. 🙌",
     "error": "Algo deu errado. Por favor, tente novamente.",
     "errorRequired": "Este campo é obrigatório.",
-    "errorEmail": "Por favor, insira um e-mail válido."
+    "errorEmail": "Por favor, insira um e-mail válido.",
+    "errorName": "O nome pode conter apenas letras, espaços, hífens e apóstrofos."
   }
 }

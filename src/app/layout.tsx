@@ -5,6 +5,7 @@ import "./globals.css";
 import FluidCanvas from "@/components/fluid/FluidCanvas";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import IntlProvider from "@/components/IntlProvider";
+import RecaptchaProvider from "@/components/ui/RecaptchaProvider";
 
 const montserratAlternates = localFont({
   src: [
@@ -129,8 +130,10 @@ export default async function RootLayout({
         />
         <LocaleProvider>
           <IntlProvider>
-            <FluidCanvas />
-            <main id="main-content">{children}</main>
+            <RecaptchaProvider>
+              <FluidCanvas />
+              <main id="main-content">{children}</main>
+            </RecaptchaProvider>
           </IntlProvider>
         </LocaleProvider>
       </body>

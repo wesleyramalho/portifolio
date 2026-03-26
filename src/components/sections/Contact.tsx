@@ -1,32 +1,37 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useSectionContext } from "@/contexts/SectionContext";
 import GlassCard from "@/components/ui/GlassCard";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { FormInput, FormTextarea } from "@/components/ui/FormInput";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
+import { contactSchema } from "@/lib/contact-schema";
 
 type FormStatus = "idle" | "confirming" | "loading" | "success" | "error";
+type FieldName = "name" | "email" | "message";
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const COUNTDOWN_SECONDS = 5;
 
 export default function Contact() {
   const { isActive } = useSectionContext();
   const t = useTranslations("contact");
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
-  const [fieldErrors, setFieldErrors] = useState<{
-    name?: string;
-    email?: string;
-    message?: string;
-  }>({});
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<FieldName, string>>
+  >({});
+  const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>(
+    {},
+  );
 
   const abortRef = useRef<AbortController | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -35,8 +40,51 @@ export default function Contact() {
 
   useEntranceAnimation(".contact-item", isActive);
 
-  // Only cleanup on unmount — no effect watching status
   useEffect(() => () => stopCountdown(), []);
+
+  function getFieldValue(field: FieldName): string {
+    if (field === "name") return name;
+    if (field === "email") return email;
+    return message;
+  }
+
+  function mapZodError(field: FieldName, code: string): string {
+    if (code === "too_small") return t("errorRequired");
+    if (field === "email" && code === "invalid_string") return t("errorEmail");
+    if (field === "name" && code === "invalid_string") return t("errorName");
+    return t("errorRequired");
+  }
+
+  const validateField = useCallback(
+    (field: FieldName) => {
+      const value = field === "name" ? name : field === "email" ? email : message;
+      const result = contactSchema.shape[field].safeParse(value);
+
+      if (!result.success) {
+        const code = result.error.issues[0].code;
+        setFieldErrors((prev) => ({ ...prev, [field]: mapZodError(field, code) }));
+      } else {
+        setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [name, email, message],
+  );
+
+  function handleBlur(field: FieldName) {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    validateField(field);
+  }
+
+  function handleChange(field: FieldName, value: string) {
+    if (field === "name") setName(value);
+    else if (field === "email") setEmail(value);
+    else setMessage(value);
+
+    if (fieldErrors[field]) {
+      setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  }
 
   function stopCountdown() {
     if (timerRef.current) {
@@ -73,10 +121,21 @@ export default function Contact() {
     abortRef.current = new AbortController();
 
     try {
+      let recaptchaToken = "";
+      if (executeRecaptcha) {
+        recaptchaToken = await executeRecaptcha("contact");
+      }
+
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          recaptchaToken,
+          ...(honeypot && { company: honeypot }),
+        }),
         signal: abortRef.current.signal,
       });
 
@@ -85,6 +144,8 @@ export default function Contact() {
         setName("");
         setEmail("");
         setMessage("");
+        setTouched({});
+        setFieldErrors({});
       } else {
         setStatus("error");
       }
@@ -96,17 +157,34 @@ export default function Contact() {
   }
 
   function validate(): boolean {
-    const errors: typeof fieldErrors = {};
-    if (!name.trim()) errors.name = t("errorRequired");
-    if (!email.trim() || !EMAIL_REGEX.test(email))
-      errors.email = t("errorEmail");
-    if (!message.trim()) errors.message = t("errorRequired");
+    setTouched({ name: true, email: true, message: true });
+
+    const result = contactSchema.safeParse({ name, email, message });
+    if (result.success) {
+      setFieldErrors({});
+      return true;
+    }
+
+    const errors: Partial<Record<FieldName, string>> = {};
+    for (const issue of result.error.issues) {
+      const field = issue.path[0] as FieldName;
+      if (!errors[field]) {
+        errors[field] = mapZodError(field, issue.code);
+      }
+    }
     setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
+    return false;
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    // Honeypot: silently fake success
+    if (honeypot) {
+      setStatus("success");
+      return;
+    }
+
     if (!validate()) return;
     setStatus("confirming");
     startCountdown();
@@ -207,6 +285,18 @@ export default function Contact() {
               noValidate
               className="flex flex-col gap-5"
             >
+              {/* Honeypot — hidden from real users, bots fill it */}
+              <input
+                type="text"
+                name="company"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                autoComplete="off"
+                tabIndex={-1}
+                aria-hidden="true"
+                className="absolute -left-[9999px] h-0 w-0 overflow-hidden opacity-0"
+              />
+
               <div className="flex flex-col gap-1.5">
                 <label
                   htmlFor="contact-name"
@@ -221,19 +311,17 @@ export default function Contact() {
                   maxLength={100}
                   placeholder={t("namePlaceholder")}
                   value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                    if (fieldErrors.name)
-                      setFieldErrors((prev) => ({ ...prev, name: undefined }));
-                  }}
+                  onChange={(e) => handleChange("name", e.target.value)}
+                  onBlur={() => handleBlur("name")}
                   disabled={isDisabled}
                   hasError={!!fieldErrors.name}
                   aria-invalid={!!fieldErrors.name}
-                  aria-describedby={fieldErrors.name ? "error-name" : undefined}
+                  aria-errormessage={fieldErrors.name ? "error-name" : undefined}
                 />
                 {fieldErrors.name && (
                   <p
                     id="error-name"
+                    role="alert"
                     className="font-mono text-label text-red-400"
                   >
                     {fieldErrors.name}
@@ -253,23 +341,22 @@ export default function Contact() {
                   type="email"
                   required
                   maxLength={254}
+                  pattern="^\S+@\S+$"
                   placeholder={t("emailPlaceholder")}
                   value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (fieldErrors.email)
-                      setFieldErrors((prev) => ({ ...prev, email: undefined }));
-                  }}
+                  onChange={(e) => handleChange("email", e.target.value)}
+                  onBlur={() => handleBlur("email")}
                   disabled={isDisabled}
                   hasError={!!fieldErrors.email}
                   aria-invalid={!!fieldErrors.email}
-                  aria-describedby={
+                  aria-errormessage={
                     fieldErrors.email ? "error-email" : undefined
                   }
                 />
                 {fieldErrors.email && (
                   <p
                     id="error-email"
+                    role="alert"
                     className="font-mono text-label text-red-400"
                   >
                     {fieldErrors.email}
@@ -291,24 +378,19 @@ export default function Contact() {
                   rows={5}
                   placeholder={t("messagePlaceholder")}
                   value={message}
-                  onChange={(e) => {
-                    setMessage(e.target.value);
-                    if (fieldErrors.message)
-                      setFieldErrors((prev) => ({
-                        ...prev,
-                        message: undefined,
-                      }));
-                  }}
+                  onChange={(e) => handleChange("message", e.target.value)}
+                  onBlur={() => handleBlur("message")}
                   disabled={isDisabled}
                   hasError={!!fieldErrors.message}
                   aria-invalid={!!fieldErrors.message}
-                  aria-describedby={
+                  aria-errormessage={
                     fieldErrors.message ? "error-message" : undefined
                   }
                 />
                 {fieldErrors.message && (
                   <p
                     id="error-message"
+                    role="alert"
                     className="font-mono text-label text-red-400"
                   >
                     {fieldErrors.message}
@@ -317,7 +399,7 @@ export default function Contact() {
               </div>
 
               {status === "error" && (
-                <p className="font-mono text-label text-red-400">
+                <p className="font-mono text-label text-red-400" role="alert">
                   {t("error")}
                 </p>
               )}

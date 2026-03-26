@@ -1,12 +1,17 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import { contactSchema } from "@/lib/contact-schema";
+
+async function sanitize(value: string): Promise<string> {
+  const { default: DOMPurify } = await import("isomorphic-dompurify");
+  return DOMPurify.sanitize(value);
+}
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 const rateLimitMap = new Map<string, number>();
 const RATE_LIMIT_MS = 60_000;
+const RECAPTCHA_THRESHOLD = 0.5;
 
 function escapeHtml(str: string): string {
   return str
@@ -236,6 +241,24 @@ function buildConfirmationHtml(name: string, message: string): string {
 </html>`;
 }
 
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  if (!secret) return true; // Skip verification if not configured
+
+  try {
+    const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`,
+    });
+
+    const data = (await res.json()) as { success: boolean; score?: number };
+    return data.success && (data.score ?? 1) >= RECAPTCHA_THRESHOLD;
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
@@ -254,20 +277,32 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { name, email, message } = body as Record<string, unknown>;
+  const parsed = body as Record<string, unknown>;
 
-  if (
-    typeof name !== "string" ||
-    name.trim().length === 0 ||
-    name.length > 100 ||
-    typeof email !== "string" ||
-    !EMAIL_REGEX.test(email) ||
-    email.length > 254 ||
-    typeof message !== "string" ||
-    message.trim().length === 0 ||
-    message.length > 2000
-  ) {
-    return NextResponse.json({ error: "Invalid fields" }, { status: 422 });
+  // Honeypot check — silently reject bots
+  if (parsed.company) {
+    return NextResponse.json({ success: true });
+  }
+
+  // Zod validation
+  const result = contactSchema.safeParse(parsed);
+  if (!result.success) {
+    return NextResponse.json(
+      { error: "Invalid fields", details: result.error.flatten().fieldErrors },
+      { status: 422 },
+    );
+  }
+
+  // reCAPTCHA verification
+  const recaptchaToken = typeof parsed.recaptchaToken === "string" ? parsed.recaptchaToken : "";
+  if (recaptchaToken) {
+    const isHuman = await verifyRecaptcha(recaptchaToken);
+    if (!isHuman) {
+      return NextResponse.json(
+        { error: "reCAPTCHA verification failed" },
+        { status: 403 },
+      );
+    }
   }
 
   const toEmail = process.env.RESEND_TO_EMAIL;
@@ -278,9 +313,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const trimmedName = name.trim();
-  const trimmedEmail = email.trim();
-  const trimmedMessage = message.trim();
+  // Sanitize with DOMPurify + trim (Zod already trims via .trim())
+  const trimmedName = await sanitize(result.data.name);
+  const trimmedEmail = await sanitize(result.data.email);
+  const trimmedMessage = await sanitize(result.data.message);
 
   const { error } = await resend.batch.send([
     {
