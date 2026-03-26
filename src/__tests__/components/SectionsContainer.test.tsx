@@ -14,8 +14,8 @@ function renderContainer() {
       <SectionsContainer>
         <Section label="Hero" />
         <Section label="About" />
-        <Section label="Experiences" />
         <Section label="Projects" />
+        <Section label="Experiences" />
         <Section label="Education" />
       </SectionsContainer>
     </LocaleProvider>,

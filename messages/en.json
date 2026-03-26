@@ -1,8 +1,8 @@
 {
   "nav": {
     "aboutMe": "about me",
-    "experiences": "experiences",
     "projects": "projects",
+    "experiences": "experiences",
     "education": "education",
     "contact": "contact"
   },

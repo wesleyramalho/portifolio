@@ -11,8 +11,8 @@ export default function Home() {
     <SectionsContainer>
       <Hero />
       <About />
-      <Experiences />
       <Projects />
+      <Experiences />
       <Education />
       <Contact />
     </SectionsContainer>

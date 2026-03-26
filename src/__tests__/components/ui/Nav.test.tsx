@@ -18,8 +18,8 @@ describe('Nav', () => {
   it('renders translated nav labels', () => {
     renderNav()
     expect(screen.getByText('about me')).toBeInTheDocument()
-    expect(screen.getByText('experiences')).toBeInTheDocument()
     expect(screen.getByText('projects')).toBeInTheDocument()
+    expect(screen.getByText('experiences')).toBeInTheDocument()
     expect(screen.getByText('education')).toBeInTheDocument()
     expect(screen.getByText('contact')).toBeInTheDocument()
   })

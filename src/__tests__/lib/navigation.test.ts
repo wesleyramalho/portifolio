@@ -6,7 +6,7 @@ describe('NAV_ITEMS', () => {
   })
 
   it('has correct translation keys', () => {
-    expect(NAV_ITEMS.map((item) => item.key)).toEqual(['aboutMe', 'experiences', 'projects', 'education', 'contact'])
+    expect(NAV_ITEMS.map((item) => item.key)).toEqual(['aboutMe', 'projects', 'experiences', 'education', 'contact'])
   })
 
   it('has sequential indices starting from 1', () => {
