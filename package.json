@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "gsap": "^3.14.2",
-    "isomorphic-dompurify": "^3.7.1",
     "next": "^15.5.13",
     "next-intl": "^4.8.3",
     "ogl": "^1.0.11",
@@ -21,6 +20,7 @@
     "react-dom": "^18",
     "react-google-recaptcha-v3": "^1.11.0",
     "resend": "^6.9.4",
+    "sanitize-html": "^2.17.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -31,6 +31,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/sanitize-html": "^2.16.1",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "postcss": "^8",

@@ -1,10 +1,10 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import sanitizeHtml from "sanitize-html";
 import { contactSchema } from "@/lib/contact-schema";
 
-async function sanitize(value: string): Promise<string> {
-  const { default: DOMPurify } = await import("isomorphic-dompurify");
-  return DOMPurify.sanitize(value);
+function sanitize(value: string): string {
+  return sanitizeHtml(value, { allowedTags: [], allowedAttributes: {} });
 }
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -313,10 +313,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Sanitize with DOMPurify + trim (Zod already trims via .trim())
-  const trimmedName = await sanitize(result.data.name);
-  const trimmedEmail = await sanitize(result.data.email);
-  const trimmedMessage = await sanitize(result.data.message);
+  // Sanitize inputs — strip all HTML tags (Zod already trims via .trim())
+  const trimmedName = sanitize(result.data.name);
+  const trimmedEmail = sanitize(result.data.email);
+  const trimmedMessage = sanitize(result.data.message);
 
   const { error } = await resend.batch.send([
     {
