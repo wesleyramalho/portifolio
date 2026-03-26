@@ -25,6 +25,7 @@ const nextConfig = {
     return [
       { source: "/about", destination: "/" },
       { source: "/experiences", destination: "/" },
+      { source: "/projects", destination: "/" },
       { source: "/education", destination: "/" },
       { source: "/contact", destination: "/" },
     ];

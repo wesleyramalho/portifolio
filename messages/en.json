@@ -2,6 +2,7 @@
   "nav": {
     "aboutMe": "about me",
     "experiences": "experiences",
+    "projects": "projects",
     "education": "education",
     "contact": "contact"
   },
@@ -96,6 +97,17 @@
           "Modelled relational databases and implemented RESTful APIs with ASP.NET and SQL Server.",
           "Implemented features in mobile apps using React Native."
         ]
+      }
+    ]
+  },
+  "projects": {
+    "title": "Projects",
+    "live": "Live",
+    "archived": "Archived",
+    "items": [
+      {
+        "title": "MYPDFCV",
+        "description": "A resume builder with multiple ATS-friendly templates, real-time live preview, dark mode, and PDF export. Uses Transformers.js with text2text-generation to improve professional summaries directly in the browser. Curate your career narrative with editorial-grade tools."
       }
     ]
   },

@@ -12,13 +12,14 @@ function renderNav(current = 0) {
 describe('Nav', () => {
   it('renders 4 navigation buttons', () => {
     renderNav()
-    expect(screen.getAllByRole('button')).toHaveLength(4)
+    expect(screen.getAllByRole('button')).toHaveLength(5)
   })
 
   it('renders translated nav labels', () => {
     renderNav()
     expect(screen.getByText('about me')).toBeInTheDocument()
     expect(screen.getByText('experiences')).toBeInTheDocument()
+    expect(screen.getByText('projects')).toBeInTheDocument()
     expect(screen.getByText('education')).toBeInTheDocument()
     expect(screen.getByText('contact')).toBeInTheDocument()
   })
@@ -36,6 +37,6 @@ describe('Nav', () => {
     const user = userEvent.setup()
     const { gotoSection } = renderNav()
     await user.click(screen.getByText('education'))
-    expect(gotoSection).toHaveBeenCalledWith(3)
+    expect(gotoSection).toHaveBeenCalledWith(4)
   })
 })

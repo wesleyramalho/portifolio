@@ -15,6 +15,7 @@ function renderContainer() {
         <Section label="Hero" />
         <Section label="About" />
         <Section label="Experiences" />
+        <Section label="Projects" />
         <Section label="Education" />
       </SectionsContainer>
     </LocaleProvider>,
@@ -27,6 +28,7 @@ describe('SectionsContainer', () => {
     expect(screen.getByText('Hero')).toBeInTheDocument()
     expect(screen.getByText('About')).toBeInTheDocument()
     expect(screen.getByText('Experiences')).toBeInTheDocument()
+    expect(screen.getByText('Projects')).toBeInTheDocument()
     expect(screen.getByText('Education')).toBeInTheDocument()
   })
 

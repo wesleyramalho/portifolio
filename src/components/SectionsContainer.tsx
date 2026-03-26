@@ -7,7 +7,7 @@ import CircleProgress from "@/components/ui/CircleProgress";
 import Nav from "@/components/ui/Nav";
 import PersistentHeader from "@/components/ui/PersistentHeader";
 
-const ROUTES = ["/", "/about", "/experiences", "/education", "/contact"];
+const ROUTES = ["/", "/about", "/experiences", "/projects", "/education", "/contact"];
 
 interface SectionsContainerProps {
   children: React.ReactNode;

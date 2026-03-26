@@ -22,6 +22,7 @@ const MOCK_MESSAGES = {
   nav: {
     aboutMe: 'about me',
     experiences: 'experiences',
+    projects: 'projects',
     education: 'education',
     contact: 'contact',
   },
@@ -52,6 +53,14 @@ const MOCK_MESSAGES = {
       { role: 'Front-end Developer', description: ['Implemented micro front-end components.'] },
       { role: 'Front-end Developer', description: ['Implemented 3 projects.'] },
       { role: 'Software Development Intern', description: ['Worked with front-end development.'] },
+    ],
+  },
+  projects: {
+    title: 'Projects',
+    live: 'Live',
+    archived: 'Archived',
+    items: [
+      { title: 'MYPDFCV', description: 'A resume builder with multiple ATS-friendly templates.' },
     ],
   },
   education: {
