@@ -17,6 +17,9 @@ My personal website and portfolio, live at **[wesleyramalho.com](https://wesleyr
 | WebGL       | OGL + custom GLSL shaders              |
 | i18n        | next-intl (EN / PT)                    |
 | Email       | Resend                                 |
+| Validation  | Zod (shared client/server schemas)     |
+| Sanitization| sanitize-html                          |
+| Bot defense | Google reCAPTCHA v3 + honeypot field   |
 | Fonts       | Montserrat Alternates, Orbitron        |
 | Security    | Nonce-based CSP via Next.js middleware |
 | Deployment  | Vercel + GitHub Actions                |
@@ -28,7 +31,8 @@ My personal website and portfolio, live at **[wesleyramalho.com](https://wesleyr
 - Interactive WebGL fluid simulation reacting to mouse and touch
 - GSAP entrance animations with magnetic text repel on the hero
 - Fullscreen section-based navigation with smooth fade transitions
-- Contact form with client-side validation, 5s undo countdown, and branded email via Resend
+- Personal projects section with autoplay image carousel and technology tags
+- Contact form with on-blur Zod validation, 5s undo countdown, honeypot, reCAPTCHA v3, and branded email via Resend
 - Persistent animated header with circular scroll-progress indicator
 - Bilingual support (EN / PT) with live language switching
 - Video background on the hero section
@@ -58,10 +62,12 @@ Copy `.env.example` to `.env.local` and fill in the values:
 cp .env.example .env.local
 ```
 
-| Variable          | Description                                      |
-| ----------------- | ------------------------------------------------ |
-| `RESEND_API_KEY`  | API key from [resend.com](https://resend.com)    |
-| `RESEND_TO_EMAIL` | Email address that receives contact form messages |
+| Variable                         | Description                                                        |
+| -------------------------------- | ------------------------------------------------------------------ |
+| `RESEND_API_KEY`                 | API key from [resend.com](https://resend.com)                      |
+| `RESEND_TO_EMAIL`                | Email address that receives contact form messages                  |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Google reCAPTCHA v3 site key (from [reCAPTCHA admin](https://www.google.com/recaptcha/admin)) |
+| `RECAPTCHA_SECRET_KEY`           | Google reCAPTCHA v3 secret key                                     |
 
 ---
 
