@@ -20,7 +20,7 @@ export default function ProjectCarousel({ images, alt }: ProjectCarouselProps) {
           src={src}
           alt={`${alt} – screenshot ${i + 1}`}
           fill
-          className="object-cover"
+          className="object-contain"
           style={{
             animation: `carousel-fade ${duration}s infinite`,
             animationDelay: `${i * SECONDS_PER_IMAGE}s`,
