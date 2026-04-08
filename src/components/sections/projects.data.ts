@@ -19,4 +19,14 @@ export const PROJECTS_STATIC: ProjectItem[] = [
     links: [{ url: "https://mypdfcv.com", label: "mypdfcv.com" }],
     status: "live",
   },
+  {
+    slug: "icarros",
+    images: [
+      "/projects/icarros/1.png",
+      "/projects/icarros/2.png",
+    ],
+    technologies: ["React", "JavaScript", "Java"],
+    links: [{ url: "https://icarros.com.br", label: "icarros.com.br" }],
+    status: "live",
+  },
 ];

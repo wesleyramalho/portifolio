@@ -108,6 +108,10 @@
       {
         "title": "MYPDFCV",
         "description": "Um criador de currículos com diversos templates compatíveis com ATS, pré-visualização em tempo real, modo escuro e exportação em PDF. Utiliza Transformers.js com text2text-generation para aprimorar resumos profissionais diretamente no navegador. Crie sua narrativa profissional com ferramentas de nível editorial."
+      },
+      {
+        "title": "iCarros",
+        "description": "Uma das maiores plataformas de e-commerce de veículos do Brasil, com mais de 12 milhões de acessos mensais. Um marketplace para compra e venda de carros, motos e caminhões, com anúncios de veículos, comparação de preços e integração com concessionárias em todo o país."
       }
     ]
   },
