@@ -108,6 +108,10 @@
       {
         "title": "MYPDFCV",
         "description": "A resume builder with multiple ATS-friendly templates, real-time live preview, dark mode, and PDF export. Uses Transformers.js with text2text-generation to improve professional summaries directly in the browser. Curate your career narrative with editorial-grade tools."
+      },
+      {
+        "title": "iCarros",
+        "description": "One of Brazil's largest vehicle e-commerce platforms with 12M+ monthly visits. A marketplace for buying and selling cars, motorcycles, and trucks, featuring vehicle listings, price comparisons, and dealer integrations across the country."
       }
     ]
   },
