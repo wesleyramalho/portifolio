@@ -18,17 +18,21 @@ describe('Projects', () => {
   it('renders project titles', () => {
     renderWithProviders(<Projects />)
     expect(screen.getByText('MYPDFCV')).toBeInTheDocument()
+    expect(screen.getByText('iCarros')).toBeInTheDocument()
+    expect(screen.getByText('Zappos (Marty Initiative)')).toBeInTheDocument()
   })
 
   it('renders technology tags', () => {
     renderWithProviders(<Projects />)
     expect(screen.getAllByText('Next.js').length).toBeGreaterThan(0)
     expect(screen.getAllByText('TypeScript').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Tailwind CSS').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('React').length).toBeGreaterThan(0)
   })
 
   it('renders external links', () => {
     renderWithProviders(<Projects />)
     expect(screen.getByText('mypdfcv.com')).toBeInTheDocument()
+    expect(screen.getByText('icarros.com.br')).toBeInTheDocument()
+    expect(screen.getByText('zappos.com')).toBeInTheDocument()
   })
 })

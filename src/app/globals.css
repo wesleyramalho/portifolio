@@ -57,13 +57,13 @@ h1 {
     padding-top: max(0.5rem, env(safe-area-inset-top));
   }
 
-  /* Project carousel — crossfade loop for 3 images (each gets ~33% of cycle) */
+  /* Project carousel — crossfade loop (percentages tuned for 4 images at 25% each) */
   @keyframes carousel-fade {
-    0%    { opacity: 0 }
-    3%    { opacity: 1 }
-    30%   { opacity: 1 }
-    33.3% { opacity: 0 }
-    100%  { opacity: 0 }
+    0%   { opacity: 0 }
+    2%   { opacity: 1 }
+    23%  { opacity: 1 }
+    25%  { opacity: 0 }
+    100% { opacity: 0 }
   }
 
   /* Hide scrollbar while keeping scroll functionality */

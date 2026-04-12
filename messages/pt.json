@@ -112,6 +112,10 @@
       {
         "title": "iCarros",
         "description": "Uma das maiores plataformas de e-commerce de veículos do Brasil, com mais de 12 milhões de acessos mensais. Um marketplace para compra e venda de carros, motos e caminhões, com anúncios de veículos, comparação de preços e integração com concessionárias em todo o país."
+      },
+      {
+        "title": "Zappos (Iniciativa Marty)",
+        "description": "Liderei melhorias de funcionalidades para a iniciativa Marty no Zappos, aumentando o engajamento de mais de 18 milhões de visitantes mensais. Construí recomendações personalizadas de produtos, um dashboard de analytics em tempo real e conduzi testes A/B que geraram +8-12% de aumento na duração das sessões."
       }
     ]
   },
