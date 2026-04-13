@@ -29,4 +29,16 @@ export const PROJECTS_STATIC: ProjectItem[] = [
     links: [{ url: "https://icarros.com.br", label: "icarros.com.br" }],
     status: "live",
   },
+  {
+    slug: "zappos",
+    images: [
+      "/projects/zappos/1.png",
+      "/projects/zappos/2.png",
+      "/projects/zappos/3.png",
+      "/projects/zappos/4.png",
+    ],
+    technologies: ["React", "Node.js", "AWS Lambda", "TypeScript", "CloudFront"],
+    links: [{ url: "https://www.zappos.com", label: "zappos.com" }],
+    status: "live",
+  },
 ];

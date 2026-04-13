@@ -13,18 +13,20 @@ export default function ProjectCarousel({ images, alt }: ProjectCarouselProps) {
   const duration = images.length * SECONDS_PER_IMAGE;
 
   return (
-    <div className="relative w-full aspect-[16/10] md:aspect-auto md:h-full md:min-h-[400px] overflow-hidden rounded-t-xl md:rounded-t-none md:rounded-l-xl bg-black/20">
+    <div className="relative w-full overflow-hidden rounded-t-xl md:rounded-t-none md:rounded-l-xl max-h-[280px] md:max-h-[360px]">
       {images.map((src, i) => (
         <Image
           key={src}
           src={src}
           alt={`${alt} – screenshot ${i + 1}`}
-          fill
-          className="object-contain"
+          width={1920}
+          height={1080}
+          className="w-full h-auto absolute inset-0"
           style={{
             animation: `carousel-fade ${duration}s infinite`,
             animationDelay: `${i * SECONDS_PER_IMAGE}s`,
             opacity: 0,
+            position: i === 0 ? "relative" : "absolute",
           }}
           sizes="(max-width: 768px) 100vw, 60vw"
         />

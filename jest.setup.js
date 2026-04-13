@@ -61,6 +61,8 @@ const MOCK_MESSAGES = {
     archived: 'Archived',
     items: [
       { title: 'MYPDFCV', description: 'A resume builder with multiple ATS-friendly templates.' },
+      { title: 'iCarros (Itaú\'s company)', description: 'One of Brazil\'s largest vehicle e-commerce platforms.' },
+      { title: 'Zappos (Amazon\'s company)', description: 'Led feature enhancements for the Marty initiative at Zappos.' },
     ],
   },
   education: {

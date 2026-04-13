@@ -29,7 +29,7 @@ export default function Projects() {
       aria-label="Projects"
       aria-roledescription="slide"
     >
-      <div className="max-w-5xl mx-auto w-full pt-24 pb-48 md:pt-28 md:pb-40">
+      <div className="max-w-5xl mx-auto w-full pt-24 pb-64 md:pt-28 md:pb-56">
         <SectionHeading>{t("title")}</SectionHeading>
 
         <div className="grid grid-cols-1 gap-6" role="list">
