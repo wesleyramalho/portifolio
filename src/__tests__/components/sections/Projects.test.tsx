@@ -18,8 +18,8 @@ describe('Projects', () => {
   it('renders project titles', () => {
     renderWithProviders(<Projects />)
     expect(screen.getByText('MYPDFCV')).toBeInTheDocument()
-    expect(screen.getByText('iCarros')).toBeInTheDocument()
-    expect(screen.getByText('Zappos (Marty Initiative)')).toBeInTheDocument()
+    expect(screen.getByText("iCarros (Itaú's company)")).toBeInTheDocument()
+    expect(screen.getByText("Zappos (Amazon's company)")).toBeInTheDocument()
   })
 
   it('renders technology tags', () => {

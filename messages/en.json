@@ -110,11 +110,11 @@
         "description": "A resume builder with multiple ATS-friendly templates, real-time live preview, dark mode, and PDF export. Uses Transformers.js with text2text-generation to improve professional summaries directly in the browser. Curate your career narrative with editorial-grade tools."
       },
       {
-        "title": "iCarros",
+        "title": "iCarros (Itaú's company)",
         "description": "One of Brazil's largest vehicle e-commerce platforms with 12M+ monthly visits. A marketplace for buying and selling cars, motorcycles, and trucks, featuring vehicle listings, price comparisons, and dealer integrations across the country."
       },
       {
-        "title": "Zappos (Marty Initiative)",
+        "title": "Zappos (Amazon's company)",
         "description": "Led feature enhancements for the Marty initiative at Zappos, improving user engagement across 18M+ monthly visitors. Built personalized product recommendations, a real-time analytics dashboard, and ran A/B tests that drove +8-12% uplift in session duration."
       }
     ]
