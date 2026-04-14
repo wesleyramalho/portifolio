@@ -24,7 +24,7 @@ export default function Projects() {
     <section
       id="projects"
       ref={sectionRef}
-      className="h-svh bg-background px-8 md:px-16 overflow-y-auto"
+      className="h-svh px-8 md:px-16 overflow-y-auto"
       role="region"
       aria-label="Projects"
       aria-roledescription="slide"
@@ -43,7 +43,7 @@ export default function Projects() {
                 href={project.links[0]?.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="md:w-3/5 shrink-0 cursor-pointer block"
+                className="md:w-3/5 shrink-0 cursor-pointer block [&_img]:cursor-pointer"
               >
                 <ProjectCarousel
                   images={project.images}
