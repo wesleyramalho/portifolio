@@ -12,7 +12,7 @@ export default function LanguageSwitcher({ className }: { className?: string }) 
         aria-pressed={locale === "en"}
         aria-label="EN"
         className={[
-          "font-mono tracking-widest uppercase cursor-pointer bg-transparent border-0 p-3 transition-colors text-xl md:text-2xl",
+          "font-mono tracking-widest uppercase !cursor-pointer bg-transparent border-0 p-3 transition-colors text-xl md:text-2xl",
           locale === "en" ? "text-white" : "text-white/40 hover:text-white/70",
         ].join(" ")}
       >
@@ -24,7 +24,7 @@ export default function LanguageSwitcher({ className }: { className?: string }) 
         aria-pressed={locale === "pt"}
         aria-label="PT"
         className={[
-          "font-mono tracking-widest uppercase cursor-pointer bg-transparent border-0 p-3 transition-colors text-xl md:text-2xl",
+          "font-mono tracking-widest uppercase !cursor-pointer bg-transparent border-0 p-3 transition-colors text-xl md:text-2xl",
           locale === "pt" ? "text-white" : "text-white/40 hover:text-white/70",
         ].join(" ")}
       >
