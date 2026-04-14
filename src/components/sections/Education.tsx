@@ -27,7 +27,7 @@ export default function Education() {
     <section
       id="education"
       ref={sectionRef}
-      className="h-svh bg-background px-8 md:px-16 overflow-y-auto"
+      className="h-svh px-8 md:px-16 overflow-y-auto"
       role="region"
       aria-label="Education"
       aria-roledescription="slide"

@@ -204,7 +204,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="h-svh bg-background px-8 md:px-16 overflow-y-auto"
+      className="h-svh px-8 md:px-16 overflow-y-auto"
       role="region"
       aria-label="Contact"
       aria-roledescription="slide"

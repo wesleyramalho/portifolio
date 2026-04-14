@@ -8,6 +8,13 @@ import Nav from "@/components/ui/Nav";
 import PersistentHeader from "@/components/ui/PersistentHeader";
 
 const ROUTES = ["/", "/about", "/projects", "/experiences", "/education", "/contact"];
+const HERO_INDEX = 0;
+
+function panelZ(index: number, level: 0 | 1 | 2): string {
+  if (level === 0) return "0";
+  if (index === HERO_INDEX) return String(level);
+  return String(50 + level);
+}
 
 interface SectionsContainerProps {
   children: React.ReactNode;
@@ -31,7 +38,7 @@ export default function SectionsContainer({
         panelsRef.current.forEach((panel, panelIndex) => {
           if (!panel) return;
           panel.style.opacity = panelIndex === index ? "1" : "0";
-          panel.style.zIndex = panelIndex === index ? "1" : "0";
+          panel.style.zIndex = panelIndex === index ? panelZ(index, 1) : "0";
         });
       });
     }
@@ -48,8 +55,8 @@ export default function SectionsContainer({
     const direction = target > previousIndex ? 1 : -1;
     const panels = panelsRef.current;
 
-    panels[target].style.zIndex = "2";
-    panels[previousIndex].style.zIndex = "1";
+    panels[target].style.zIndex = panelZ(target, 2);
+    panels[previousIndex].style.zIndex = panelZ(previousIndex, 1);
 
     const targetSection = panels[target].querySelector(
       "section",
@@ -60,8 +67,8 @@ export default function SectionsContainer({
 
     const timeline = gsap.timeline({
       onComplete: () => {
-        panels[previousIndex].style.zIndex = "0";
-        panels[target].style.zIndex = "1";
+        panels[previousIndex].style.zIndex = panelZ(previousIndex, 0);
+        panels[target].style.zIndex = panelZ(target, 1);
         animating.current = false;
       },
     });

@@ -147,7 +147,7 @@ export default function ExperiencesDesktop3D() {
     <section
       id="experiences"
       ref={sectionRef}
-      className="relative h-svh bg-background overflow-hidden"
+      className="relative h-svh overflow-hidden"
       role="region"
       aria-label="Experiences"
       aria-roledescription="slide"
