@@ -76,7 +76,7 @@ export default function About() {
       <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center pt-20 pb-28 md:pt-0 md:pb-0">
         {/* Avatar — clip-path reveal + localized ripple distortion */}
         <div className="flex justify-center md:justify-start">
-          <div ref={imgRef} className="relative">
+          <div ref={imgRef} className="relative bg-background rounded-lg">
             {/* SVG filter definition */}
             <svg width="0" height="0" className="absolute" aria-hidden="true">
               <filter id={filterId} x="-5%" y="-5%" width="110%" height="110%">
