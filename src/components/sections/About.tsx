@@ -68,7 +68,7 @@ export default function About() {
   return (
     <section
       ref={sectionRef}
-      className="h-svh overflow-y-auto bg-background px-8 md:px-16 md:flex md:items-center"
+      className="h-svh overflow-y-auto px-8 md:px-16 md:flex md:items-center"
       role="region"
       aria-label="About"
       aria-roledescription="slide"

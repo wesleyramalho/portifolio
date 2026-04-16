@@ -8,7 +8,7 @@ import Nav from "@/components/ui/Nav";
 import PersistentHeader from "@/components/ui/PersistentHeader";
 
 const ROUTES = ["/", "/about", "/projects", "/experiences", "/education", "/contact"];
-const BELOW_FLUID = new Set([0, 1]); // Hero, About — fluid renders on top via mix-blend-mode
+const BELOW_FLUID = new Set([0]); // Hero — fluid renders on top via mix-blend-mode
 
 function panelZ(index: number, level: 0 | 1 | 2): string {
   if (level === 0) return "0";
