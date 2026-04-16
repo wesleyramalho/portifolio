@@ -68,113 +68,117 @@ export default function About() {
   return (
     <section
       ref={sectionRef}
-      className="h-svh overflow-y-auto bg-background px-8 md:px-16 md:flex md:items-center"
+      className="h-svh relative"
       role="region"
       aria-label="About"
       aria-roledescription="slide"
     >
-      <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center pt-20 pb-28 md:pt-0 md:pb-0">
-        {/* Avatar — clip-path reveal + localized ripple distortion */}
-        <div className="flex justify-center md:justify-start">
-          <div ref={imgRef} className="relative">
-            {/* SVG filter definition */}
-            <svg width="0" height="0" className="absolute" aria-hidden="true">
-              <filter id={filterId} x="-5%" y="-5%" width="110%" height="110%">
-                <feColorMatrix type="saturate" values="0" in="SourceGraphic" result="gray" />
-                <feTurbulence
-                  ref={turbulenceRef}
-                  type="turbulence"
-                  baseFrequency="0.02 0.025"
-                  numOctaves={2}
-                  seed={1}
-                  result="turbulence"
-                />
-                <feDisplacementMap
-                  ref={displacementRef}
-                  in="gray"
-                  in2="turbulence"
-                  scale={25}
-                  xChannelSelector="R"
-                  yChannelSelector="G"
-                />
-              </filter>
-            </svg>
+      {/* Image layer — below fluid canvas (z-1), fluid renders on top via screen blend */}
+      <div className="absolute inset-0 bg-background overflow-y-auto px-8 md:px-16 md:flex md:items-center" style={{ zIndex: 1 }}>
+        <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center pt-20 pb-28 md:pt-0 md:pb-0">
+          <div className="flex justify-center md:justify-start">
+            <div ref={imgRef} className="relative">
+              {/* SVG filter definition */}
+              <svg width="0" height="0" className="absolute" aria-hidden="true">
+                <filter id={filterId} x="-5%" y="-5%" width="110%" height="110%">
+                  <feColorMatrix type="saturate" values="0" in="SourceGraphic" result="gray" />
+                  <feTurbulence
+                    ref={turbulenceRef}
+                    type="turbulence"
+                    baseFrequency="0.02 0.025"
+                    numOctaves={2}
+                    seed={1}
+                    result="turbulence"
+                  />
+                  <feDisplacementMap
+                    ref={displacementRef}
+                    in="gray"
+                    in2="turbulence"
+                    scale={25}
+                    xChannelSelector="R"
+                    yChannelSelector="G"
+                  />
+                </filter>
+              </svg>
 
-            {/* Original image — clean, no filter */}
-            <Image
-              src="/pixel-me.svg"
-              alt="Pixel art portrait of Wesley Ramalho"
-              width={400}
-              height={400}
-              className="grayscale opacity-90 w-48 h-48 md:w-[400px] md:h-[400px]"
-            />
-
-            {/* Distorted layer — same image with filter, clipped to circle around cursor */}
-            <div
-              ref={distortedImgRef}
-              className="absolute inset-0 opacity-0 pointer-events-none"
-              style={{ clipPath: 'circle(0px at 50% 50%)' }}
-            >
               <Image
                 src="/pixel-me.svg"
-                alt=""
+                alt="Pixel art portrait of Wesley Ramalho"
                 width={400}
                 height={400}
+                className="grayscale opacity-90 w-48 h-48 md:w-[400px] md:h-[400px]"
+              />
+
+              <div
+                ref={distortedImgRef}
+                className="absolute inset-0 opacity-0 pointer-events-none"
+                style={{ clipPath: 'circle(0px at 50% 50%)' }}
+              >
+                <Image
+                  src="/pixel-me.svg"
+                  alt=""
+                  width={400}
+                  height={400}
+                  aria-hidden="true"
+                  className="opacity-90 w-48 h-48 md:w-[400px] md:h-[400px]"
+                  style={{ filter: `url(#${filterId})` }}
+                />
+              </div>
+
+              <div
+                ref={darkOverlayRef}
+                className="absolute inset-0 pointer-events-none opacity-0"
+                style={{
+                  background: 'radial-gradient(circle 100px at var(--mx, 50%) var(--my, 50%), rgba(0,0,0,0.6), transparent)',
+                }}
                 aria-hidden="true"
-                className="opacity-90 w-48 h-48 md:w-[400px] md:h-[400px]"
-                style={{ filter: `url(#${filterId})` }}
               />
             </div>
+          </div>
+          {/* Spacer to keep grid alignment */}
+          <div />
+        </div>
+      </div>
 
-            {/* Darkening overlay — follows cursor */}
-            <div
-              ref={darkOverlayRef}
-              className="absolute inset-0 pointer-events-none opacity-0"
-              style={{
-                background: 'radial-gradient(circle 100px at var(--mx, 50%) var(--my, 50%), rgba(0,0,0,0.6), transparent)',
-              }}
-              aria-hidden="true"
-            />
+      {/* Text layer — above fluid canvas (z-51), fluid shows behind via backdrop */}
+      <div className="absolute inset-0 overflow-y-auto px-8 md:px-16 md:flex md:items-center pointer-events-none" style={{ zIndex: 51 }}>
+        <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center pt-20 pb-28 md:pt-0 md:pb-0">
+          {/* Spacer for image column */}
+          <div />
+          {/* Text content */}
+          <div className="pointer-events-auto">
+            <GlassCard className="p-6">
+            <div className="about-content flex flex-col gap-5">
+              <h2 className="font-sans font-bold text-heading text-zinc-100">
+                {t('jobTitle')}
+              </h2>
+
+              <p className="font-mono tracking-widest uppercase flex items-center gap-2 text-label text-zinc-500">
+                <span>📍</span> {t('location')}
+              </p>
+
+              <div className="flex flex-wrap gap-3" role="list" aria-label="Specialisations">
+                <span
+                  role="listitem"
+                  className="font-mono tracking-widest uppercase px-3 py-1 border text-label text-zinc-400 border-zinc-800"
+                >
+                  {t('aiSpecialist')}
+                </span>
+                <span
+                  role="listitem"
+                  className="font-mono tracking-widest uppercase px-3 py-1 border text-label text-zinc-400 border-zinc-800"
+                >
+                  {t('frontend')}
+                </span>
+              </div>
+
+              <p className="leading-relaxed font-sans text-body text-gray-400">
+                {t('bio', { years: yearsOfExperience })}
+              </p>
+            </div>
+            </GlassCard>
           </div>
         </div>
-
-        {/* Text content */}
-        <GlassCard className="p-6">
-        <div className="about-content flex flex-col gap-5">
-          <h2
-            className="font-sans font-bold text-heading text-zinc-100"
-          >
-            {t('jobTitle')}
-          </h2>
-
-          <p
-            className="font-mono tracking-widest uppercase flex items-center gap-2 text-label text-zinc-500"
-          >
-            <span>📍</span> {t('location')}
-          </p>
-
-          <div className="flex flex-wrap gap-3" role="list" aria-label="Specialisations">
-            <span
-              role="listitem"
-              className="font-mono tracking-widest uppercase px-3 py-1 border text-label text-zinc-400 border-zinc-800"
-            >
-              {t('aiSpecialist')}
-            </span>
-            <span
-              role="listitem"
-              className="font-mono tracking-widest uppercase px-3 py-1 border text-label text-zinc-400 border-zinc-800"
-            >
-              {t('frontend')}
-            </span>
-          </div>
-
-          <p
-            className="leading-relaxed font-sans text-body text-gray-400"
-          >
-            {t('bio', { years: yearsOfExperience })}
-          </p>
-        </div>
-        </GlassCard>
       </div>
     </section>
   )
