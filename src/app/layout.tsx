@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { headers } from "next/headers";
 import "./globals.css";
@@ -54,7 +54,10 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
-  alternates: { canonical: SITE_URL },
+  alternates: {
+    canonical: SITE_URL,
+    languages: { "en-US": SITE_URL, "pt-BR": SITE_URL, "x-default": SITE_URL },
+  },
   openGraph: {
     type: "website",
     url: SITE_URL,
@@ -79,6 +82,11 @@ export const metadata: Metadata = {
       "Frontend specialist with 9+ years building scalable web applications.",
     images: ["/opengraph-image"],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+  colorScheme: "dark",
 };
 
 export default async function RootLayout({
