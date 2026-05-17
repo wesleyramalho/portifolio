@@ -19,8 +19,9 @@ export default function ProjectCarousel({ images, alt }: ProjectCarouselProps) {
           key={src}
           src={src}
           alt={`${alt} – screenshot ${i + 1}`}
-          width={1920}
-          height={1080}
+          width={1600}
+          height={900}
+          loading={i === 0 ? "eager" : "lazy"}
           className="w-full h-auto absolute inset-0"
           style={{
             animation: `carousel-fade ${duration}s infinite`,

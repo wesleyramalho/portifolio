@@ -1,24 +1,46 @@
-import React from 'react'
+import React, { act } from 'react'
 import { render } from '@testing-library/react'
 import VideoBackground from '@/components/ui/VideoBackground'
 
 describe('VideoBackground', () => {
-  it('renders a video element', () => {
-    const { container } = render(<VideoBackground />)
-    const video = container.querySelector('video')
-    expect(video).toBeInTheDocument()
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(() => {
+    jest.useRealTimers()
   })
 
-  it('video has autoPlay, muted and loop', () => {
+  function renderAndAdvance() {
+    const result = render(<VideoBackground />)
+    // Component defers mount via setTimeout/requestIdleCallback to avoid blocking FCP
+    act(() => {
+      jest.advanceTimersByTime(500)
+    })
+    return result
+  }
+
+  it('renders a placeholder before the video mounts', () => {
     const { container } = render(<VideoBackground />)
+    expect(container.querySelector('video')).not.toBeInTheDocument()
+    expect(container.querySelector('[aria-hidden="true"]')).toBeInTheDocument()
+  })
+
+  it('renders a video element after the deferred mount', () => {
+    const { container } = renderAndAdvance()
+    expect(container.querySelector('video')).toBeInTheDocument()
+  })
+
+  it('video has autoPlay, muted, loop, and preload="none"', () => {
+    const { container } = renderAndAdvance()
     const video = container.querySelector('video')!
     expect(video.autoplay).toBe(true)
     expect(video.muted).toBe(true)
     expect(video.loop).toBe(true)
+    expect(video.preload).toBe('none')
   })
 
   it('has two source elements (webm + mp4)', () => {
-    const { container } = render(<VideoBackground />)
+    const { container } = renderAndAdvance()
     const sources = container.querySelectorAll('source')
     expect(sources).toHaveLength(2)
     expect(sources[0].type).toBe('video/webm')
