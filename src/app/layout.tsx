@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { headers } from "next/headers";
 import "./globals.css";
-import FluidCanvas from "@/components/fluid/FluidCanvas";
+import FluidCanvas from "@/components/fluid/FluidCanvasLazy";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import IntlProvider from "@/components/IntlProvider";
-import RecaptchaProvider from "@/components/ui/RecaptchaProvider";
 
 const montserratAlternates = localFont({
   src: [
@@ -94,6 +93,13 @@ export default async function RootLayout({
       lang="en"
       className={`${montserratAlternates.variable} ${orbitron.variable}`}
     >
+      <head>
+        {/* Preconnect for reCAPTCHA assets loaded on Contact section */}
+        <link rel="preconnect" href="https://www.google.com" crossOrigin="" />
+        <link rel="preconnect" href="https://www.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://www.google.com" />
+        <link rel="dns-prefetch" href="https://www.gstatic.com" />
+      </head>
       <body className="antialiased bg-background text-foreground">
         <script
           nonce={nonce}
@@ -130,10 +136,8 @@ export default async function RootLayout({
         />
         <LocaleProvider>
           <IntlProvider>
-            <RecaptchaProvider>
-              <FluidCanvas />
-              <main id="main-content">{children}</main>
-            </RecaptchaProvider>
+            <FluidCanvas />
+            <main id="main-content">{children}</main>
           </IntlProvider>
         </LocaleProvider>
       </body>

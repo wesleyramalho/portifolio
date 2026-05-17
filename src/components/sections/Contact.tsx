@@ -7,6 +7,7 @@ import { useSectionContext } from "@/contexts/SectionContext";
 import GlassCard from "@/components/ui/GlassCard";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { FormInput, FormTextarea } from "@/components/ui/FormInput";
+import RecaptchaProvider from "@/components/ui/RecaptchaProvider";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { contactSchema } from "@/lib/contact-schema";
 
@@ -16,6 +17,26 @@ type FieldName = "name" | "email" | "message";
 const COUNTDOWN_SECONDS = 5;
 
 export default function Contact() {
+  const { isActive } = useSectionContext();
+  // Only load reCAPTCHA script after Contact becomes active for the first time
+  const [enableRecaptcha, setEnableRecaptcha] = useState(false);
+
+  useEffect(() => {
+    if (isActive) setEnableRecaptcha(true);
+  }, [isActive]);
+
+  if (enableRecaptcha) {
+    return (
+      <RecaptchaProvider>
+        <ContactInner />
+      </RecaptchaProvider>
+    );
+  }
+
+  return <ContactInner />;
+}
+
+function ContactInner() {
   const { isActive } = useSectionContext();
   const t = useTranslations("contact");
   const { executeRecaptcha } = useGoogleReCaptcha();
