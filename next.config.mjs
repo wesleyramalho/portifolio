@@ -21,15 +21,6 @@ const nextConfig = {
       },
     ];
   },
-  async rewrites() {
-    return [
-      { source: "/about", destination: "/" },
-      { source: "/experiences", destination: "/" },
-      { source: "/projects", destination: "/" },
-      { source: "/education", destination: "/" },
-      { source: "/contact", destination: "/" },
-    ];
-  },
   webpack(config) {
     config.module.rules.push({
       test: /\.(glsl|vert|frag)$/,
