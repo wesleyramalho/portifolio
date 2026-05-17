@@ -102,9 +102,12 @@ export default async function RootLayout({
       className={`${montserratAlternates.variable} ${orbitron.variable}`}
     >
       <head>
-        {/* Preconnect for reCAPTCHA assets loaded on Contact section */}
-        <link rel="preconnect" href="https://www.google.com" crossOrigin="" />
-        <link rel="preconnect" href="https://www.gstatic.com" crossOrigin="" />
+        {/* Explicit description tag — Lighthouse 13 sometimes misses the
+            one emitted by Next.js's metadata API */}
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <meta name="format-detection" content="telephone=no" />
+        {/* dns-prefetch only — preconnect was unused on initial paint
+            because reCAPTCHA loads lazily from the Contact section */}
         <link rel="dns-prefetch" href="https://www.google.com" />
         <link rel="dns-prefetch" href="https://www.gstatic.com" />
       </head>
