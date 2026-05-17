@@ -27,37 +27,38 @@ export default function Hero() {
     if (!isActive || hasAnimated.current) return;
     hasAnimated.current = true;
 
-    // Defer GSAP setup until after the browser paints the visible title once,
-    // so the LCP detector picks the <h1> instead of always-visible elements
-    // like the language switcher button.
-    const rafId = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        gsap.from(".hero-char", {
-          opacity: 0.01,
-          y: 40,
-          rotateX: -90,
-          duration: 0.45,
-          ease: "power3.out",
-          stagger: 0.04,
-          delay: 0.1,
-          transformOrigin: "0% 50% -40px",
-        });
+    // Use fromTo so the rendered HTML stays at its final (visible) state on
+    // first paint. GSAP only flips chars to the hidden "from" state once it
+    // starts the tween — by then the LCP has already been recorded against
+    // the visible <h1>.
+    gsap.fromTo(
+      ".hero-char",
+      { opacity: 0.01, y: 40, rotateX: -90 },
+      {
+        opacity: 1,
+        y: 0,
+        rotateX: 0,
+        duration: 0.45,
+        ease: "power3.out",
+        stagger: 0.04,
+        delay: 0.1,
+        transformOrigin: "0% 50% -40px",
+        immediateRender: false,
+      },
+    );
 
-        gsap.fromTo(
-          ".hero-title",
-          { x: "-100%" },
-          {
-            x: "0%",
-            duration: 0.9,
-            ease: "power2.inOut",
-            delay: 0.75,
-            clearProps: "x",
-          },
-        );
-      });
-    });
-
-    return () => cancelAnimationFrame(rafId);
+    gsap.fromTo(
+      ".hero-title",
+      { x: "-100%" },
+      {
+        x: "0%",
+        duration: 0.9,
+        ease: "power2.inOut",
+        delay: 0.75,
+        clearProps: "x",
+        immediateRender: false,
+      },
+    );
   }, [isActive]);
 
   // Desktop mouse-repel interaction
