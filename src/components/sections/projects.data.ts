@@ -41,4 +41,17 @@ export const PROJECTS_STATIC: ProjectItem[] = [
     links: [{ url: "https://www.zappos.com", label: "zappos.com" }],
     status: "live",
   },
+  {
+    slug: "digitoys",
+    images: [
+      "/projects/digitoys/1.png",
+      "/projects/digitoys/2.png",
+      "/projects/digitoys/3.png",
+      "/projects/digitoys/4.png",
+      "/projects/digitoys/5.png",
+    ],
+    technologies: ["Next.js", "React", "TypeScript", "Magic Link", "Amazon API", "Storybook", "Cypress"],
+    links: [{ url: "https://digitoys.io", label: "digitoys.io" }],
+    status: "live",
+  },
 ];

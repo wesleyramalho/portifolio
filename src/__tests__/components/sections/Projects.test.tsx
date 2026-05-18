@@ -20,6 +20,7 @@ describe('Projects', () => {
     expect(screen.getByText('MYPDFCV')).toBeInTheDocument()
     expect(screen.getByText("iCarros (Itaú's company)")).toBeInTheDocument()
     expect(screen.getByText("Zappos (Amazon's company)")).toBeInTheDocument()
+    expect(screen.getByText('Digitoys (formerly Cryptoys)')).toBeInTheDocument()
   })
 
   it('renders technology tags', () => {
@@ -34,5 +35,6 @@ describe('Projects', () => {
     expect(screen.getByText('mypdfcv.com')).toBeInTheDocument()
     expect(screen.getByText('icarros.com.br')).toBeInTheDocument()
     expect(screen.getByText('zappos.com')).toBeInTheDocument()
+    expect(screen.getByText('digitoys.io')).toBeInTheDocument()
   })
 })
