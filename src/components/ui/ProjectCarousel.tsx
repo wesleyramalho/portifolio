@@ -13,7 +13,7 @@ export default function ProjectCarousel({ images, alt }: ProjectCarouselProps) {
   const duration = images.length * SECONDS_PER_IMAGE;
 
   return (
-    <div className="relative w-full overflow-hidden rounded-t-xl md:rounded-t-none md:rounded-l-xl max-h-[280px] md:max-h-[360px]">
+    <div className="relative w-full h-full min-h-[280px] md:min-h-[360px] overflow-hidden rounded-t-xl md:rounded-t-none md:rounded-l-xl">
       {images.map((src, i) => (
         <Image
           key={src}
@@ -22,12 +22,11 @@ export default function ProjectCarousel({ images, alt }: ProjectCarouselProps) {
           width={1600}
           height={900}
           loading={i === 0 ? "eager" : "lazy"}
-          className="w-full h-auto absolute inset-0"
+          className="absolute inset-0 w-full h-full object-cover object-top"
           style={{
             animation: `carousel-fade ${duration}s infinite`,
             animationDelay: `${i * SECONDS_PER_IMAGE}s`,
             opacity: 0,
-            position: i === 0 ? "relative" : "absolute",
           }}
           sizes="(max-width: 768px) 100vw, 60vw"
         />
