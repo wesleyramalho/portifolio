@@ -116,6 +116,10 @@
       {
         "title": "Zappos (Amazon's company)",
         "description": "Led feature enhancements for the Marty initiative at Zappos, improving user engagement across 18M+ monthly visitors. Built personalized product recommendations, a real-time analytics dashboard, and ran A/B tests to optimize session duration."
+      },
+      {
+        "title": "Digitoys (formerly Cryptoys)",
+        "description": "Digital collectibles platform featuring Disney and Star Wars characters with blind-box mechanics and gameplay rewards. Integrated NFTs with the Amazon API to enable commercial transactions, built thematic pages for Disney and Mattel partnerships, and implemented passwordless authentication with Magic Link."
       }
     ]
   },

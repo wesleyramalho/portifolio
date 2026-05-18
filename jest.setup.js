@@ -63,6 +63,7 @@ const MOCK_MESSAGES = {
       { title: 'MYPDFCV', description: 'A resume builder with multiple ATS-friendly templates.' },
       { title: 'iCarros (Itaú\'s company)', description: 'One of Brazil\'s largest vehicle e-commerce platforms.' },
       { title: 'Zappos (Amazon\'s company)', description: 'Led feature enhancements for the Marty initiative at Zappos.' },
+      { title: 'Digitoys (formerly Cryptoys)', description: 'Digital collectibles platform featuring Disney and Star Wars characters.' },
     ],
   },
   education: {
