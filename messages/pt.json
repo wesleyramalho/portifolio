@@ -107,7 +107,7 @@
     "items": [
       {
         "title": "MYPDFCV",
-        "description": "Um criador de currículos com diversos templates compatíveis com ATS, pré-visualização em tempo real, modo escuro e exportação em PDF. Utiliza Transformers.js com text2text-generation para aprimorar resumos profissionais diretamente no navegador. Crie sua narrativa profissional com ferramentas de nível editorial."
+        "description": "Um criador de currículos e cartas de apresentação utilizado em mais de 90 países, com diversos templates compatíveis com ATS, pré-visualização em tempo real, modo escuro e exportação em PDF. Utiliza Transformers.js com text2text-generation para aprimorar resumos profissionais diretamente no navegador. Crie sua narrativa profissional com ferramentas de nível editorial."
       },
       {
         "title": "iCarros (empresa do Itaú)",
