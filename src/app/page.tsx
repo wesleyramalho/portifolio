@@ -5,6 +5,7 @@ import Experiences from "@/components/sections/Experiences";
 import Projects from "@/components/sections/Projects";
 import Education from "@/components/sections/Education";
 import Contact from "@/components/sections/Contact";
+import { experiencesEnabled } from "@/lib/featureFlags";
 
 export default function Home() {
   return (
@@ -12,7 +13,7 @@ export default function Home() {
       <Hero />
       <About />
       <Projects />
-      <Experiences />
+      {experiencesEnabled && <Experiences />}
       <Education />
       <Contact />
     </SectionsContainer>

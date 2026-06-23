@@ -1,9 +1,9 @@
-export const NAV_ITEMS = [
-  { key: "aboutMe", index: 1 },
-  { key: "projects", index: 2 },
-  { key: "experiences", index: 3 },
-  { key: "education", index: 4 },
-  { key: "contact", index: 5 },
-] as const;
+import { experiencesEnabled } from "./featureFlags";
 
-export type NavKey = (typeof NAV_ITEMS)[number]["key"];
+const BASE_KEYS = ["aboutMe", "projects", "experiences", "education", "contact"] as const;
+
+export type NavKey = (typeof BASE_KEYS)[number];
+
+export const NAV_ITEMS: ReadonlyArray<{ key: NavKey; index: number }> = BASE_KEYS
+  .filter((key) => key !== "experiences" || experiencesEnabled)
+  .map((key, i) => ({ key, index: i + 1 }));

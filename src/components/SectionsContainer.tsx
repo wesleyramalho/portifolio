@@ -6,8 +6,16 @@ import { SectionContext } from "@/contexts/SectionContext";
 import CircleProgress from "@/components/ui/CircleProgress";
 import Nav from "@/components/ui/Nav";
 import PersistentHeader from "@/components/ui/PersistentHeader";
+import { experiencesEnabled } from "@/lib/featureFlags";
 
-const ROUTES = ["/", "/about", "/projects", "/experiences", "/education", "/contact"];
+const ROUTES = [
+  "/",
+  "/about",
+  "/projects",
+  ...(experiencesEnabled ? ["/experiences"] : []),
+  "/education",
+  "/contact",
+];
 const BELOW_FLUID = new Set([0, 1]); // Hero, About — fluid renders on top via mix-blend-mode
 
 function panelZ(index: number, level: 0 | 1 | 2): string {
