@@ -23,6 +23,7 @@ const MOCK_MESSAGES = {
     aboutMe: 'about me',
     experiences: 'experiences',
     projects: 'projects',
+    talks: 'talks',
     education: 'education',
     contact: 'contact',
   },
@@ -74,6 +75,19 @@ const MOCK_MESSAGES = {
       { degree: 'Multi-platform Development (Web and Mobile)' },
       { degree: 'Technical Degree in Administration, Marketing' },
       { degree: 'High School' },
+    ],
+  },
+  talks: {
+    title: 'Talks',
+    role: 'Speaker',
+    items: [
+      {
+        eventName: 'Demo Night São Paulo',
+        place: 'São Paulo, BR',
+        dateLabel: 'Jun 2026',
+        organizers: 'PostHog + Tractian BR',
+        description: 'I presented mypdfcv as a real example of building products with AI agents.',
+      },
     ],
   },
   notFound: {

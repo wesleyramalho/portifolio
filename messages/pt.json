@@ -2,6 +2,7 @@
   "nav": {
     "aboutMe": "sobre mim",
     "projects": "projetos",
+    "talks": "palestras",
     "experiences": "experiências",
     "education": "formação",
     "contact": "contato"
@@ -120,6 +121,19 @@
       {
         "title": "Digitoys (antigo Cryptoys)",
         "description": "Plataforma de colecionáveis digitais com personagens da Disney e Star Wars, sistema de blind-box e recompensas de gameplay. Integrei NFTs com a API da Amazon para viabilizar transações comerciais, desenvolvi páginas temáticas para parcerias com Disney e Mattel, e implementei autenticação sem senha com Magic Link."
+      }
+    ]
+  },
+  "talks": {
+    "title": "Palestras",
+    "role": "Palestrante",
+    "items": [
+      {
+        "eventName": "Demo Night São Paulo",
+        "place": "São Paulo, BR",
+        "dateLabel": "Jun 2026",
+        "organizers": "PostHog + Tractian BR",
+        "description": "Apresentei o mypdfcv como exemplo real de produto construído com agentes de IA e MCPs ao longo de todo o ciclo de desenvolvimento e produção. A palestra abordou implementação de RAG, controle de custos de IA, e como parear agentes com analytics de produto para que decisões venham de dados, não de achismos. Destaques do mypdfcv: 650+ currículos exportados em um único mês, alcance em 67+ países, e recomendações do ChatGPT trazendo 2.637 visitas, quase empatando com acesso direto. Um lembrete de que IA pode ser tanto a ferramenta de construção quanto o canal de distribuição."
       }
     ]
   },
