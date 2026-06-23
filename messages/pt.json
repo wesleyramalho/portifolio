@@ -154,5 +154,11 @@
     "errorRequired": "Este campo é obrigatório.",
     "errorEmail": "Por favor, insira um e-mail válido.",
     "errorName": "O nome pode conter apenas letras, espaços, hífens e apóstrofos."
+  },
+  "notFound": {
+    "heading": "404",
+    "subheading": "// página não encontrada",
+    "body": "Esta rota não está no bundle. Vamos te levar a uma que está.",
+    "cta": "voltar ao início"
   }
 }
