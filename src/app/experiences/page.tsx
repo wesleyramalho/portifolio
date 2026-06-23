@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Home from "../page";
+import { experiencesEnabled } from "@/lib/featureFlags";
 
 export const metadata: Metadata = {
   title: "Experiences",
@@ -8,4 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://wesleyramalho.com/experiences" },
 };
 
-export default Home;
+export default function ExperiencesPage() {
+  if (!experiencesEnabled) notFound();
+  return <Home />;
+}
