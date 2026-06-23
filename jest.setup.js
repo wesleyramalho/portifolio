@@ -76,6 +76,12 @@ const MOCK_MESSAGES = {
       { degree: 'High School' },
     ],
   },
+  notFound: {
+    heading: '404',
+    subheading: '// page not found',
+    body: "This route isn't in the bundle. Let's get you back to one that is.",
+    cta: 'back to home',
+  },
 }
 
 jest.mock('next-intl', () => ({

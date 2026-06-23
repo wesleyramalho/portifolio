@@ -154,5 +154,11 @@
     "errorRequired": "This field is required.",
     "errorEmail": "Please enter a valid email address.",
     "errorName": "Name can only contain letters, spaces, hyphens, and apostrophes."
+  },
+  "notFound": {
+    "heading": "404",
+    "subheading": "// page not found",
+    "body": "This route isn't in the bundle. Let's get you back to one that is.",
+    "cta": "back to home"
   }
 }
