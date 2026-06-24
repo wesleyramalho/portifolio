@@ -7,6 +7,7 @@ const ROUTES = [
   "",
   "/about",
   "/projects",
+  "/talks",
   ...(experiencesEnabled ? ["/experiences"] : []),
   "/education",
   "/contact",

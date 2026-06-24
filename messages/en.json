@@ -2,6 +2,7 @@
   "nav": {
     "aboutMe": "about me",
     "projects": "projects",
+    "talks": "talks",
     "experiences": "experiences",
     "education": "education",
     "contact": "contact"
@@ -120,6 +121,19 @@
       {
         "title": "Digitoys (formerly Cryptoys)",
         "description": "Digital collectibles platform featuring Disney and Star Wars characters with blind-box mechanics and gameplay rewards. Integrated NFTs with the Amazon API to enable commercial transactions, built thematic pages for Disney and Mattel partnerships, and implemented passwordless authentication with Magic Link."
+      }
+    ]
+  },
+  "talks": {
+    "title": "Talks",
+    "role": "Speaker",
+    "items": [
+      {
+        "eventName": "Demo Night São Paulo",
+        "place": "São Paulo, BR",
+        "dateLabel": "Jun 2026",
+        "organizers": "PostHog + Tractian BR",
+        "description": "I presented mypdfcv as a real example of building products with AI agents and MCPs across the entire development and production cycle. The talk covered RAG implementation, keeping AI costs under control, and pairing agents with product analytics so feature decisions come from data, not guesswork. Highlights from mypdfcv: 650+ resumes exported in a single month, reach across 67+ countries, and ChatGPT recommendations driving 2,637 visits, almost matching direct access. A reminder that AI can be both the build tool and the distribution channel."
       }
     ]
   },

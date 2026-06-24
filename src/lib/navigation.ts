@@ -1,6 +1,6 @@
 import { experiencesEnabled } from "./featureFlags";
 
-const BASE_KEYS = ["aboutMe", "projects", "experiences", "education", "contact"] as const;
+const BASE_KEYS = ["aboutMe", "projects", "talks", "experiences", "education", "contact"] as const;
 
 export type NavKey = (typeof BASE_KEYS)[number];
 

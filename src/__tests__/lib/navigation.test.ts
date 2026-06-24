@@ -19,16 +19,16 @@ describe('NAV_ITEMS', () => {
       })
     })
 
-    it('has 4 items', () => {
-      expect(NAV_ITEMS).toHaveLength(4)
+    it('has 5 items', () => {
+      expect(NAV_ITEMS).toHaveLength(5)
     })
 
     it('omits experiences', () => {
-      expect(NAV_ITEMS.map((item) => item.key)).toEqual(['aboutMe', 'projects', 'education', 'contact'])
+      expect(NAV_ITEMS.map((item) => item.key)).toEqual(['aboutMe', 'projects', 'talks', 'education', 'contact'])
     })
 
     it('has sequential indices starting from 1', () => {
-      expect(NAV_ITEMS.map((item) => item.index)).toEqual([1, 2, 3, 4])
+      expect(NAV_ITEMS.map((item) => item.index)).toEqual([1, 2, 3, 4, 5])
     })
   })
 
@@ -42,16 +42,16 @@ describe('NAV_ITEMS', () => {
       })
     })
 
-    it('has 5 items', () => {
-      expect(NAV_ITEMS).toHaveLength(5)
+    it('has 6 items', () => {
+      expect(NAV_ITEMS).toHaveLength(6)
     })
 
     it('includes experiences in original order', () => {
-      expect(NAV_ITEMS.map((item) => item.key)).toEqual(['aboutMe', 'projects', 'experiences', 'education', 'contact'])
+      expect(NAV_ITEMS.map((item) => item.key)).toEqual(['aboutMe', 'projects', 'talks', 'experiences', 'education', 'contact'])
     })
 
     it('has sequential indices starting from 1', () => {
-      expect(NAV_ITEMS.map((item) => item.index)).toEqual([1, 2, 3, 4, 5])
+      expect(NAV_ITEMS.map((item) => item.index)).toEqual([1, 2, 3, 4, 5, 6])
     })
   })
 })
