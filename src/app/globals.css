@@ -7,7 +7,7 @@
   --foreground: #f0f0f0;
 
   /* Fluid typography — scales from mobile to 4K */
-  --text-hero: clamp(3rem, 8vw, 14rem);
+  --text-hero: clamp(4.5rem, 8vw, 14rem);
   --text-heading: clamp(1.5rem, 2.5vw, 4rem);
   --text-label: clamp(0.7rem, 0.9vw, 1rem);
   --text-body: clamp(0.875rem, 0.85vw, 1.125rem);
@@ -22,7 +22,7 @@ body {
 /* Explicit h1 font-size — concrete value (not a var()) so Chrome's UA-deprecation
    checker can see it directly. Must match --text-hero. */
 h1 {
-  font-size: clamp(3rem, 8vw, 14rem);
+  font-size: clamp(4.5rem, 8vw, 14rem);
 }
 
 * {
