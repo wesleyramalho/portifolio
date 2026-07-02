@@ -32,7 +32,7 @@ export default function ProjectCarousel({ images, alt, fit = "cover" }: ProjectC
     : "";
 
   return (
-    <div className="relative w-full h-full min-h-[280px] md:min-h-[360px] overflow-hidden rounded-t-xl md:rounded-t-none md:rounded-l-xl">
+    <div className="relative w-full h-full min-h-[280px] md:min-h-[360px] overflow-hidden">
       {animated && <style dangerouslySetInnerHTML={{ __html: keyframes }} />}
       {images.map((src, i) => {
         const slideStyle = animated
